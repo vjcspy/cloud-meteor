@@ -1,8 +1,8 @@
 import {User} from "../models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {Role} from "../api/role";
-import {License} from "../../licenses/models/license";
 import {UserLicense} from "../models/userlicense";
+import {License} from "../../retails/models/license";
 
 new ValidatedMethod({
   name: 'user.create_cashier_by_shop_owner',

@@ -1,7 +1,7 @@
 import {User} from "../models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {Role} from "../api/role";
-import {License} from "../../licenses/models/license";
+import {License} from "../../retails/models/license";
 
 new ValidatedMethod({
   name: 'user.get_my_license',
