@@ -16212,6 +16212,7 @@
       <root url="file://$USER_HOME$/.meteor/packages/email/1.2.1/npm/node_modules/stream-buffers/lib/constants.js" />
       <root url="file://$USER_HOME$/.meteor/packages/reywood_publish-composite/1.5.2/npm/node_modules/eslint/bin/eslint.js" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>

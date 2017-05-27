@@ -378,6 +378,7 @@
       <root url="file://$USER_HOME$/.meteor/packages/html-tools/1.0.11/web.browser/utils.js" />
       <root url="file://$USER_HOME$/.meteor/packages/blaze-tools/1.0.10/web.browser/preamble.js" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>
