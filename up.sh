@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/congnv/sites/cloud
+cd /home/congnv/sites/xcloud-meteor
 
 #export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:465
 #export MONGO_URL=mongodb://localhost:27017/cloud
