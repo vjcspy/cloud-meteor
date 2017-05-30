@@ -30,7 +30,7 @@ Meteor.publishComposite('users', function (): PublishCompositeConfig<UserInterfa
       return {
         find: () => {
           return Users.collection.find({_id: {$in: _.concat(licenseModel.getUserIds(), [this.userId])}},
-                                       {fields: {_id: 1, emails: 1, has_license: 1, roles: 1, username: 1}});
+                                       {fields: {_id: 1, emails: 1, has_license: 1, roles: 1, username: 1, profile: 1}});
         }
       }
     } else {
