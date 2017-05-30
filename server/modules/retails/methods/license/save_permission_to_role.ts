@@ -11,7 +11,7 @@ new ValidatedMethod({
       throw new Meteor.Error("user.get_roles", "Access denied");
     }
     let userModel: User = OM.create<User>(User).loadById(this.userId);
-    if (!userModel.isShopOwner() && !userModel.isInRoles([Role.USER], Role.GROUP_SHOP))
+    if (!userModel.isInRoles([Role.USER], Role.GROUP_CLOUD))
       throw new Meteor.Error("user.save_permission", "You are not shop owner");
   },
   run: function (data) {
