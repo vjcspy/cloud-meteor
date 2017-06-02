@@ -18,8 +18,8 @@ new ValidatedMethod({
   run: function (data) {
     let user = OM.create<User>(User).load(data['username'], "username");
     if (!user){
-      Accounts.createUser(data);
-      //Accounts.sendEnrollmentEmail(user_id);
+      let user_id = Accounts.createUser(data);
+      Accounts.sendEnrollmentEmail(user_id);
       user = OM.create<User>(User).load(data['username'], "username");
       if(!!data['license_id']){
         const license = OM.create<License>(License).load(data['license_id']);
