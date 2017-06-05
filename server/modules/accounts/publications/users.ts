@@ -4,6 +4,7 @@ import {OM} from "../../../code/Framework/ObjectManager";
 import {Role} from "../api/role";
 import {Users} from "../collections/users";
 import {License} from "../../retails/models/license";
+import * as _ from "lodash";
 
 Meteor.publishComposite('users', function (): PublishCompositeConfig<UserInterface> {
   if (!this.userId) {
@@ -29,7 +30,7 @@ Meteor.publishComposite('users', function (): PublishCompositeConfig<UserInterfa
       return {
         find: () => {
           return Users.collection.find({_id: {$in: _.concat(licenseModel.getUserIds(), [this.userId])}},
-                                       {fields: {_id: 1, emails: 1, has_license: 1, roles: 1, username: 1}});
+                                       {fields: {_id: 1, emails: 1, has_license: 1, roles: 1, username: 1, profile: 1}});
         }
       }
     } else {
