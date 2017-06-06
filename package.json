@@ -6,7 +6,7 @@
     "start": "export MONGO_URL=mongodb://localhost:27017/cloud && meteor run",
     "debug": "export MONGO_URL=mongodb://localhost:27017/cloud && meteor debug",
     "meteor-client:bundle": "meteor-client bundle -c bundler.config.json",
-    "meteor": "export MONGO_URL=mongodb://localhost:27017/xcloud && export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:465 && export ROOT_URL='http://accounts.connectpos.com/' && export PORT=2005 && meteor run --settings server/settings.json --port 2005"
+    "meteor": "export MONGO_URL=mongodb://localhost:27017/xcloud && export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:465 && exportROOT_URL='http://accounts.connectpos.com/' && export PORT=2005 && meteor run --settings server/settings.json --port 2005 && export DISABLE_WEBSOCKETS=true"
   },
   "dependencies": {
     "@types/meteor-publish-composite": "^0.0.32",
