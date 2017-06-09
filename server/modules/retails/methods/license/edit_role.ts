@@ -3,6 +3,7 @@ import {User} from "../../../accounts/models/user";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {Role} from "../../../accounts/api/role";
 import {License} from "../../models/license";
+import * as _ from "lodash";
 
 new ValidatedMethod({
   name: 'license.edit_role',
@@ -21,6 +22,9 @@ new ValidatedMethod({
       let findRole = _.find(license.getData('has_roles'), (rol) => {
         return rol['code'] == data['code'];
       });
+      if (!!_.find(license.getData('has_roles'), (rol) => {return _.toLower(data['name']) == _.toLower(rol['name']);})) {
+        throw new Meteor.Error("save_role_error", "Role existed");
+      }
       if (!!findRole) {
         let has_roles = _.map(license.getData('has_roles'), (rol) => {
           if (rol['code'] == data['code']) {

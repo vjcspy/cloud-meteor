@@ -40,6 +40,7 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                    start_version: String,
                                                                    status: SimpleSchema.Integer,
                                                                    purchase_date: Date,
+                                                                   active_date: Date,
                                                                    expired_date: Date
                                                                  }),
                                                                  has_roles: {

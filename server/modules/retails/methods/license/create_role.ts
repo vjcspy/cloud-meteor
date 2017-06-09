@@ -4,6 +4,7 @@ import {OM} from "../../../../code/Framework/ObjectManager";
 import {Role} from "../../../accounts/api/role";
 import {License} from "../../models/license";
 import {StringHelper} from "../../../../code/Framework/StringHelper";
+import * as _ from "lodash";
 
 
 new ValidatedMethod({
@@ -23,11 +24,15 @@ new ValidatedMethod({
       name: data['name']
     };
     role['code'] = StringHelper.getUnique();
-
     if (!!license.getData('has_roles') && _.isArray(license.getData('has_roles'))){
       let has_roles = license.getData('has_roles');
-      has_roles.push(role);
-      license.setData('has_roles', has_roles);
+      if (!!_.find(has_roles, (rol) => {return _.toLower(data['name']) == _.toLower(rol['name']);})) {
+        throw new Meteor.Error("save_role_error", "Role existed");
+      } else{
+        has_roles.push(role);
+        license.setData('has_roles', has_roles);
+      }
+
     }else{
       license.setData('has_roles', [role]);
     }
