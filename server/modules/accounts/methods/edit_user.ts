@@ -19,6 +19,9 @@ new ValidatedMethod({
     let currentUser: User = OM.create<User>(User).loadById(this.userId);
     let userModel: User = OM.create<User>(User).loadById(data._id);
     if (userModel) {
+      if (data.hasOwnProperty('role_cloud') && data['role_cloud']) {
+        userModel.setRoles(data['role_cloud'], Role.GROUP_CLOUD);
+      }
       if (data.hasOwnProperty('role') && data.role) {
         userModel.setRoles(data.role, Role.GROUP_SHOP);
       } else {

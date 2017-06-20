@@ -30,6 +30,8 @@ new ValidatedMethod({
           return UserLicense.attach(user, license, User.LICENSE_PERMISSION_CASHIER, data['products']);
         }else
           throw new Meteor.Error("user.create_cashier_by_shop_owner", "Can't create cashier account");
+      }else{
+        user.setRoles(data['role_cloud'], Role.GROUP_CLOUD);
       }
     }
 
