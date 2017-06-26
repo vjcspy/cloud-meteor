@@ -1,9 +1,9 @@
 new ValidatedMethod({
   name: 'user.update_profile',
   validate: function () {
-    if (!this.userId) {
+    /*if (!this.userId) {
       throw new Meteor.Error("user.get_roles", "Access denied");
-    }
+    }*/
   },
   run: function (data) {
     const user = Meteor.users.findOne({_id: data['_id']});

@@ -24,24 +24,27 @@ Accounts.urls.enrollAccount = function (token) {
 function textEmail(status) {
   if(status == "resetpwd"){
     greetVar = "Hello ";
-    welcomeMsgVar = "We got a request to reset you password, if it was you click the button above.";
-    btnTextVar = "Reset";
-    beforeMsgVar = "If you do not want to change the password, ignore this message.";
-    regardVar = "Thanks, SmartOSC.";
-    followMsgVar = "Follow us on social networks";
+    welcomeMsgVar = "You've just requested to reset your password for your ConnectPOS account. Please click the button below to reset it";
+    btnTextVar = "Password Reset for ConnectPOS";
+    beforeMsgVar = "To protect the security of your account, this link will expire in 48 hours.<br>If you did not request this, please let us" +
+                   " know immediately by replying to this email.";
+    regardVar = "Thank you so much!<br>ConnectPOS Team.";
+    followMsgVar = "ConnectPOS Team.";
   }else if(status == "verify"){
     greetVar = "Hello ";
-    welcomeMsgVar = "You have just registered account on x-cloud, if it was you click the button above.";
-    btnTextVar = "Verify";
-    beforeMsgVar = "Please verify email before sign in on x-cloud";
-    regardVar = "Thanks, SmartOSC";
-    followMsgVar = "Follow us on social networks";
+    welcomeMsgVar = "Welcome to ConnectPOS!<br>Your account has just been created.<br>Please click the link below to varify your account.";
+    btnTextVar = "Verify your account";
+    beforeMsgVar = "To protect the security of your account, this link will expire in 48 hours.<br>If you did not request this, please let us" +
+                   " know immediately by replying to this email.";
+    regardVar = "Thank you so much!<br>ConnectPOS Team.";
+    followMsgVar = "ConnectPOS Team.";
   }else if(status == "enroll"){
     greetVar = "Hello ";
     welcomeMsgVar = "We have just created an account for you, if it was you click the button above.";
     btnTextVar = "Enroll";
-    beforeMsgVar = "Please enroll on x-cloud";
-    regardVar = "Thanks, SmartOSC";
+    beforeMsgVar = "To protect the security of your account, this link will expire in 48 hours.<br>If you did not request this, please let us" +
+                   " know immediately by replying to this email.";
+    regardVar = "Thanks, SmartOSC.<br>ConnectPOS Team.";
     followMsgVar = "Follow us on social networks";
   }
 }
@@ -61,8 +64,38 @@ function greet(status) {
     var greeting = (user.profile && user.profile.first_name) ? (greetVar + user.profile.first_name + ",") : greetVar;
 
     return `
-               <table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5"><tbody><tr><td 
-               style="padding: 20px 0 30px 0;"><table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="60%" cellspacing="0" cellpadding="0" align="center"><tbody><tr><td style="padding: 10px 0 10px 0;" align="center" bgcolor="#E53935"><h3 style="color:#fff;">${subject}</h3></td></tr><tr><td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff"><table border="0" width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td style="padding: 15px 0 0 0; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold;">${greeting}</td></tr><tr><td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;">${welcomeMsgVar}</td></tr><tr><td style="padding: 20px 0 20px 0; font-family: Arial, sans-serif;"><div align="center"><a style="background-color: #e53935; color: white; text-align: center; padding: 15px 30px; text-decoration: none;" href="${url}">${btnTextVar}</a></div></td></tr><tr><td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p>${beforeMsgVar} <br /> ${regardVar}</p></td></tr></tbody></table></td></tr><tr><td style="padding: 0px 30px 10px 30px;" bgcolor="#ffffff"><hr /><table border="0" width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td style="font-family: Arial, sans-serif;">${followMsgVar}</td><td align="right"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td><a href="http://www.facebook.com/"> <img style="display: block;" src="https://s24.postimg.org/ddsjhe0id/facebook.png" alt="Facebook" /> </a></td><td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td><td><a href="http://www.twitter.com/"> <img style="display: block;" src="https://s30.postimg.org/68qpc9wox/twitter.png" alt="Twitter" /> </a></td><td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td><td><a href="http://www.google.com/"> <img style="display: block;" src="https://s28.postimg.org/wmdctg1cd/google.png" alt="Facebook" /> </a></td></tr></tbody></table></td></tr><tr><td style="font-family: Arial, sans-serif; padding: 10px 0 10px 0;"><a style="font-family: Arial, sans-serif; text-decoration: none; float: left;" href="https://www.smartosc.com/">https://www.smartosc.com</a></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>
+               <table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+               <tbody>
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                    <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="60%" cellspacing="0" cellpadding="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px 0 10px 0;" align="center" bgcolor="#11b4a8"><h3 style="color:#fff;">${subject}</h3></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
+                                  <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                                      <tbody>
+                                          <tr>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold;">${greeting}</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;">${welcomeMsgVar}</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 20px 0 20px 0; font-family: Arial, sans-serif;"><div align="center"><a style="background-color: #11b4a8; color: white; text-align: center; padding: 15px 30px; text-decoration: none;" href="${url}">${btnTextVar}</a></div></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p>${beforeMsgVar} <br /> ${regardVar}</p></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+              </td></tr></tbody></table>
                `;
   };
 }
