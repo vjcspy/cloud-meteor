@@ -14,7 +14,7 @@ new ValidatedMethod({
   run: function (data: string) {
     const user = Meteor.users.findOne({_id: data});
     if (this.userId == data){
-      throw new Meteor.Error("user.error_remove", "You can not delete yourself");
+      throw new Meteor.Error("user.error_remove", "You cannot delete yourself");
     }
     if(!user){
       throw new Meteor.Error("user.error_remove", "User Not Found");
