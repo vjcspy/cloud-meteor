@@ -18,6 +18,27 @@ Meteor.startup(() => {
   
   //dummyUser();
 });
+SyncedCron.add({
+  name: "Remove old clientstorages(larger than 5 days)",
+  schedule: function(parser) {
+    return parser.text('every 1 hours');
+  },
+  job: function() {
+    const allClientStorages = ClientStorages.find().fetch();
+    if (allClientStorages.length > 0) {
+      _.forEach(allClientStorages, (clientStorage) => {
+        let createTime = moment(clientStorage['created_at'], 'YYYY-MM-DD');
+        let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
+        let diff = currentTime.diff(createTime, 'days');
+        if (diff > 5){
+          ClientStorages.remove(clientStorage);
+          console.log(`Removed ${clientStorage}`);
+        }
+      });
+    }
+  }
+});
+SyncedCron.start();
 
 let initSupperAdminAccount = () => {
   let su = OM.create<User>(User).load("superadmin", "username");

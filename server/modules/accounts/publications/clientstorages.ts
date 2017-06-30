@@ -8,17 +8,6 @@ import * as moment from "moment";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
 Meteor.publish('client_storages', function () {
-  const allClientStorages = ClientStorages.find().fetch();
-  if (allClientStorages.length > 0) {
-    _.forEach(allClientStorages, (clientStorage) => {
-      let createTime = moment(clientStorage['created_at'], 'YYYY-MM-DD');
-      let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
-      let diff = createTime.diff(currentTime, 'days');
-      if (diff > 5){
-        ClientStorages.remove(clientStorage);
-      }
-    });
-  }
   if (!this.userId)
     return;
   const user: User = OM.create<User>(User).loadById(this.userId);
