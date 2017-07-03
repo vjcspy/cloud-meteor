@@ -21,7 +21,7 @@ Meteor.startup(() => {
 SyncedCron.add({
   name: "Remove old clientstorages(larger than 5 days)",
   schedule: function(parser) {
-    return parser.text('every 1 hours');
+    return parser.text('every 1 day');
   },
   job: function() {
     const allClientStorages = ClientStorages.find().fetch();
