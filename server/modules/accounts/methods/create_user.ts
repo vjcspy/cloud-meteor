@@ -22,6 +22,7 @@ new ValidatedMethod({
       Accounts.sendEnrollmentEmail(user_id);
       user = OM.create<User>(User).load(data['username'], "username");
       if(!!data['license_id']){
+        Accounts.setPassword(user_id, 'smartosc123');
         const license = OM.create<License>(License).load(data['license_id']);
         if (user) {
           if (data.hasOwnProperty('role')){
