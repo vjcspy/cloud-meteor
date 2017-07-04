@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /var/www/clients/client1/web3/web
+cd /var/www/clients/client1/web3/web/x-cloud-0407
 
 export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587
 export MONGO_URL=mongodb://localhost:27017/cloud
