@@ -1,8 +1,8 @@
 import {User} from "../models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {Role} from "../api/role";
-import {UserLicense} from "../../accounts/models/userlicense";
 import {License} from "../../retails/models/license";
+import {UserLicense} from "../models/userlicense";
 
 new ValidatedMethod({
   name: 'user.create_user',

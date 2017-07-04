@@ -7,4 +7,4 @@ Meteor.publish(null, function() {
   } else {
     return null;
   }
-}, /*suppress autopublish warning*/{is_auto: true});
+});
