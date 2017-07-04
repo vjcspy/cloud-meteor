@@ -1,7 +1,7 @@
-import {User} from "../models/user";
+import {User} from "../../accounts/models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
-import {Role} from "../api/role";
-import {License} from "../../retails/models/license";
+import {Role} from "../../accounts/api/role";
+import {License} from "../models/license";
 import {ClientStorages} from "../collections/clientstorages";
 import * as _ from "lodash";
 import * as moment from "moment";
