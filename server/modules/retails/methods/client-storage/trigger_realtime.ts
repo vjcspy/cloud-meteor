@@ -1,26 +1,30 @@
 import * as _ from "lodash";
-import {ClientStorage} from "../../models/clientstorage";
 import {OM} from "../../../../code/Framework/ObjectManager";
+import {ClientStorage} from "../../models/clientstorage";
 
 new ValidatedMethod({
                         name: "client.trigger_realtime",
                         validate: function (data) {
-                            return data.hasOwnProperty('license');
                         },
                         run: function (data) {
                             let getClientStorageModel = (): ClientStorage => OM.create<ClientStorage>(ClientStorage);
         
-                            let clientStorageModel: ClientStorage = getClientStorageModel();
+                            const clientStorageModel: ClientStorage = getClientStorageModel();
+        
+                            const addToClientStorage = (_d) => {
+                                if (!_d.hasOwnProperty('license')) {
+                                    throw new Meteor.Error("client.trigger_realtime", "can_not_find_license");
+                                }
+                                clientStorageModel.addData(_d)
+                                                  .save();
+                            };
         
                             if (data.hasOwnProperty('batch')) {
                                 _.forEach(data['batch'], datum => {
-                                    let clientStorageModel: ClientStorage = getClientStorageModel();
-                                    clientStorageModel.addData(datum)
-                                                      .save();
+                                    addToClientStorage(datum);
                                 });
                             } else {
-                                clientStorageModel.addData(data)
-                                                  .save();
+                                addToClientStorage(data);
                             }
                         }
                     });
@@ -31,3 +35,4 @@ DDPRateLimiter.addRule({
                            type: "method",
                            name: "client.trigger_realtime",
                        }, 3, 1000);
+
