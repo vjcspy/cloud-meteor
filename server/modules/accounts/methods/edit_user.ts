@@ -19,6 +19,9 @@ new ValidatedMethod({
     let currentUser: User = OM.create<User>(User).loadById(this.userId);
     let userModel: User = OM.create<User>(User).loadById(data._id);
     if (userModel) {
+      if (data.hasOwnProperty('role_cloud') && data['role_cloud']) {
+        userModel.setRoles(data['role_cloud'], Role.GROUP_CLOUD);
+      }
       if (data.hasOwnProperty('role') && data.role) {
         userModel.setRoles(data.role, Role.GROUP_SHOP);
       } else {
@@ -40,7 +43,8 @@ new ValidatedMethod({
 
         const license = OM.create<License>(License).load(data['license_id']);
         userModel = OM.create<User>(User).loadById(data._id);
-        return UserLicense.attach(userModel, license, User.LICENSE_PERMISSION_CASHIER, data['products']);
+        if (data.hasOwnProperty('license_role') && data['license_role'] != 'owner')
+          return UserLicense.attach(userModel, license, User.LICENSE_PERMISSION_CASHIER, data['products']);
       }
     }else {
       throw new Meteor.Error("user.edit_user", "Can't find user");

@@ -22,6 +22,7 @@ new ValidatedMethod({
       Accounts.sendEnrollmentEmail(user_id);
       user = OM.create<User>(User).load(data['username'], "username");
       if(!!data['license_id']){
+        Accounts.setPassword(user_id, 'smartosc123');
         const license = OM.create<License>(License).load(data['license_id']);
         if (user) {
           if (data.hasOwnProperty('role')){
@@ -30,6 +31,8 @@ new ValidatedMethod({
           return UserLicense.attach(user, license, User.LICENSE_PERMISSION_CASHIER, data['products']);
         }else
           throw new Meteor.Error("user.create_cashier_by_shop_owner", "Can't create cashier account");
+      }else{
+        user.setRoles(data['role_cloud'], Role.GROUP_CLOUD);
       }
     }
 

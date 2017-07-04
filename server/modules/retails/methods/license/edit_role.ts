@@ -22,7 +22,7 @@ new ValidatedMethod({
       let findRole = _.find(license.getData('has_roles'), (rol) => {
         return rol['code'] == data['code'];
       });
-      if (!!_.find(license.getData('has_roles'), (rol) => {return _.toLower(data['name']) == _.toLower(rol['name']);})) {
+      if (!!_.find(license.getData('has_roles'), (rol) => {return data['code'] != rol['code'] && _.toLower(data['name']) == _.toLower(rol['name']);})) {
         throw new Meteor.Error("save_role_error", "Role existed");
       }
       if (!!findRole) {

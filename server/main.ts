@@ -3,9 +3,14 @@ import {Users} from "./modules/accounts/collections/users";
 import {OM} from "./code/Framework/ObjectManager";
 import {User} from "./modules/accounts/models/user";
 import {Role} from "./modules/accounts/api/role";
+import {ClientStorages} from "./modules/accounts/collections/clientstorages";
+import * as _ from "lodash";
+import * as moment from 'moment';
+import {DateTimeHelper} from "./code/Framework/DateTimeHelper";
 
 Meteor.startup(() => {
   initSupperAdminAccount();
+  deleteClientStorage();
   /*if (Meteor.settings) {
     Object.assign(Accounts._options, Meteor.settings['accounts-phone']);
     SMS.twilio = Meteor.settings['twilio'];
@@ -13,6 +18,27 @@ Meteor.startup(() => {
   
   //dummyUser();
 });
+SyncedCron.add({
+  name: "Remove old clientstorages(larger than 5 days)",
+  schedule: function(parser) {
+    return parser.text('every 1 day');
+  },
+  job: function() {
+    const allClientStorages = ClientStorages.find().fetch();
+    if (allClientStorages.length > 0) {
+      _.forEach(allClientStorages, (clientStorage) => {
+        let createTime = moment(clientStorage['created_at'], 'YYYY-MM-DD');
+        let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
+        let diff = currentTime.diff(createTime, 'days');
+        if (diff > 5){
+          ClientStorages.remove(clientStorage);
+          console.log(`Removed ${clientStorage}`);
+        }
+      });
+    }
+  }
+});
+SyncedCron.start();
 
 let initSupperAdminAccount = () => {
   let su = OM.create<User>(User).load("superadmin", "username");
@@ -25,6 +51,20 @@ let initSupperAdminAccount = () => {
         password: "admin123"
       });
     OM.create<User>(User).load("superadmin", "username").setRoles([Role.SUPERADMIN], Role.GROUP_CLOUD);
+  }
+};
+
+let deleteClientStorage = () => {
+  const allClientStorages = ClientStorages.find().fetch();
+  if (allClientStorages.length > 0) {
+    _.forEach(allClientStorages, (clientStorage) => {
+      let createTime = moment(clientStorage['created_at'], 'YYYY-MM-DD');
+      let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
+      let diff = createTime.diff(currentTime, 'days');
+      if (diff > 5){
+        ClientStorages.remove(clientStorage);
+      }
+    });
   }
 };
 
