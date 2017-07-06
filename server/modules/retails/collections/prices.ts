@@ -12,6 +12,10 @@ export const Prices = CollectionMaker.make<PriceInterface>("prices",
                                                              name: String,
                                                              display_name: String,
                                                              type: SimpleSchema.Integer,
+                                                             nousers: {
+                                                               type: Number,
+                                                               optional: true
+                                                             },
                                                              cost_monthly: {
                                                                type: String,
                                                                optional: true
