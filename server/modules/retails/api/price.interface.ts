@@ -4,6 +4,7 @@ export interface PriceInterface {
   name?: string;
   display_name?: string;
   type?: number;
+  nousers?: number;
   cost_monthly?: string;
   cost_annually?: string;
   cost_adding?: string;
