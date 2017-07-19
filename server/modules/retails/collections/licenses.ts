@@ -7,6 +7,10 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                new SimpleSchema({
                                                                  key: String,
                                                                  status: SimpleSchema.Integer,
+                                                                 current_cashier_increment: {
+                                                                   type: Number,
+                                                                   optional: true
+                                                                 },
                                                                  shop_owner_id: {
                                                                    type: String,
                                                                    optional: true

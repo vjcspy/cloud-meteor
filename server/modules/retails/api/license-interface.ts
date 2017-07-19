@@ -4,6 +4,7 @@ export interface LicenseInterface {
   status?: number;
   shop_owner_id?: string;
   shop_owner_username?: string;
+  current_cashier_increment?: number;
   has_product?: LicenseHasProductInterface[];
   has_roles?: LicenseHasRoleInterface[];
   is_auto_generate?: boolean;
@@ -11,6 +12,10 @@ export interface LicenseInterface {
   created_at?: Date;
   updated_at?: Date
 }
+/*
+* invoices (license_id, shop_owner_id,
+* id, description, total_amount, purchased_date, status, payment_method)
+* */
 export interface LicenseHasRoleInterface{
   code: string;
   name:string;
