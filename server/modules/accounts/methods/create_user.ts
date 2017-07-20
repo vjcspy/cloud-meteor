@@ -28,12 +28,14 @@ new ValidatedMethod({
         //count current number of cashiers
         let license_cashier = 0;
         let has_product = license.getData('has_product')[0];
-        _.forEach(has_product['has_user'], (us) => {
-          let find_us = OM.create<User>(User).loadById(us['user_id']);
-          if (!!find_us) {
-            license_cashier++;
-          }
-        });
+        if (has_product.hasOwnProperty('has_user')) {
+          _.forEach(has_product['has_user'], (us) => {
+            let find_us = OM.create<User>(User).loadById(us['user_id']);
+            if (!!find_us) {
+              license_cashier++;
+            }
+          });
+        }
 
         if (user) {
           license_cashier++;
