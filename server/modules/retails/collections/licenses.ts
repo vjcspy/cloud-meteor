@@ -20,7 +20,8 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                    optional: true
                                                                  },
                                                                  has_product: {
-                                                                   type: Array
+                                                                   type: Array,
+                                                                   optional: true
                                                                  },
                                                                  "has_product.$": new SimpleSchema({
                                                                    product_id: String,
@@ -40,12 +41,30 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                      user_id: String,
                                                                      username: String
                                                                    }),
-                                                                   pricing_id: String,
-                                                                   start_version: String,
-                                                                   status: SimpleSchema.Integer,
-                                                                   purchase_date: Date,
-                                                                   active_date: Date,
-                                                                   expired_date: Date
+                                                                   pricing_id: {
+                                                                     type: String,
+                                                                     optional: true
+                                                                   },
+                                                                   start_version: {
+                                                                     type: String,
+                                                                     optional: true
+                                                                   },
+                                                                   status: {
+                                                                     type: Number,
+                                                                     optional: true
+                                                                   },
+                                                                   purchase_date: {
+                                                                     type: Date,
+                                                                     optional: true
+                                                                   },
+                                                                   active_date: {
+                                                                     type: Date,
+                                                                     optional: true
+                                                                   },
+                                                                   expired_date: {
+                                                                     type: Date,
+                                                                     optional: true
+                                                                   }
                                                                  }),
                                                                  has_roles: {
                                                                    type: Array,
@@ -68,7 +87,10 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                    type: Boolean,
                                                                    defaultValue: true
                                                                  },
-                                                                 created_by: String,
+                                                                 created_by: {
+                                                                   type: String,
+                                                                   optional: true
+                                                                 },
                                                                  created_at: {
                                                                    type: Date,
                                                                    defaultValue: DateTimeHelper.getCurrentDate()
