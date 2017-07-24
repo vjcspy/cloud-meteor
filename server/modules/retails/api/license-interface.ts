@@ -34,6 +34,7 @@ export interface LicenseHasProductInterface {
   base_url?: BaseUrl[];
   pricing_id?: string;
   has_user: LicenseHasProductHasUser[];
+  has_invoice: LicenseHasProductHasInvoice[];
   start_version?: string;
   purchase_date?: Date;
   expired_date?: Date;
@@ -47,4 +48,13 @@ export interface BaseUrl{
 export interface LicenseHasProductHasUser {
   user_id: string;
   username: string;
+}
+
+export interface LicenseHasProductHasInvoice {
+  description: string;
+  transaction_id: string;
+  amount: number;
+  payment_method: string;
+  status: number;
+  purchased_date: Date;
 }
