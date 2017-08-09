@@ -17,29 +17,36 @@ new ValidatedMethod(
             }
         },
         run: function (data) {
-            let user = OM.create<User>(User).load(data['username'], "username");
-            if (!user) {
-                let user_id = Accounts.createUser(data);
-                Accounts.sendEnrollmentEmail(user_id);
-                user = OM.create<User>(User).load(data['username'], "username");
-                if (!!data['license_id']) {
-                    Accounts.setPassword(user_id, User.DEFAULT_PASSWORD_USER);
-                    const license = OM.create<License>(License).load(data['license_id']);
-                    
-                    if (user) {
-                        if (data.hasOwnProperty('role')) {
-                            user.setRoles(data['role'], Role.GROUP_SHOP);
-                        }
-                        license.setData('current_cashier_increment', ++license.current_cashier_increment);
+            return new Promise(async (resolve, reject) => {
+                let user = OM.create<User>(User).load(data['username'], "username");
+                if (!user) {
+                    let user_id = Accounts.createUser(data);
+                    Accounts.sendEnrollmentEmail(user_id);
+                    user = OM.create<User>(User).load(data['username'], "username");
+                    if (!!data['license_id']) {
+                        Accounts.setPassword(user_id, User.DEFAULT_PASSWORD_USER);
+                        const license = OM.create<License>(License).load(data['license_id']);
                         
-                        return UserLicense.attach(user, license, User.LICENSE_PERMISSION_CASHIER, data['products']);
-                    } else
-                        throw new Meteor.Error("user.create_cashier_by_shop_owner", "Can't create cashier account");
-                } else {
-                    user.setRoles(data['role_cloud'], Role.GROUP_CLOUD);
+                        if (user) {
+                            if (data.hasOwnProperty('role')) {
+                                user.setRoles(data['role'], Role.GROUP_SHOP);
+                            }
+                            license.setData('current_cashier_increment', ++license.current_cashier_increment);
+                            
+                            UserLicense.attach(user, license, User.LICENSE_PERMISSION_CASHIER, data['products'])
+                                       .then(async () => {
+                                           user                           = OM.create<User>(User).load(data['username'], "username");
+                                           user.profile.cashier_increment = license.current_cashier_increment;
+                                           await user.save();
+                                           return resolve();
+                                       });
+                        } else
+                            throw new Meteor.Error("user.create_cashier_by_shop_owner", "Can't create cashier account");
+                    } else {
+                        user.setRoles(data['role_cloud'], Role.GROUP_CLOUD);
+                    }
                 }
-            }
-            
+            });
         }
     }
 );
