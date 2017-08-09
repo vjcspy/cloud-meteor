@@ -11,7 +11,8 @@ export interface Profile {
   last_name?: String;
   country?: String,
   picture?: String,
-  phone?: String
+  phone?: String,
+  cashier_increment: number
 }
 
 /*
