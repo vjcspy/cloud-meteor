@@ -1,5 +1,5 @@
-import { Accounts } from 'meteor/accounts-base';
-import { Meteor } from 'meteor/meteor';
+import {Accounts} from 'meteor/accounts-base';
+import {Meteor} from 'meteor/meteor';
 
 var greetVar;
 var welcomeMsgVar;
@@ -9,61 +9,58 @@ var regardVar;
 var followMsgVar;
 
 Accounts.urls.resetPassword = function (token) {
-  return Meteor.absoluteUrl('#/reset_password/' + token);
+    return Meteor.absoluteUrl('#/account/reset/' + token);
 };
 
 Accounts.urls.verifyEmail = function (token) {
-  return Meteor.absoluteUrl('#/verify_email/' + token);
+    return Meteor.absoluteUrl('#/account/verify_email/' + token);
 };
 
 Accounts.urls.enrollAccount = function (token) {
-  return Meteor.absoluteUrl('#/reset_password/' + token);
+    return Meteor.absoluteUrl('#/account/reset/' + token);
 };
 
 
-function textEmail(status) {
-  if(status == "resetpwd"){
-    greetVar = "Hello ";
-    welcomeMsgVar = "You've just requested to reset your password for your ConnectPOS account. Please click the button below to reset it";
-    btnTextVar = "Password Reset for ConnectPOS";
-    beforeMsgVar = "To protect the security of your account, this link will expire in 48 hours.<br>If you did not request this, please let us" +
-                   " know immediately by replying to this email.";
-    regardVar = "Thank you so much!<br>ConnectPOS Team.";
-    followMsgVar = "ConnectPOS Team.";
-  }else if(status == "verify"){
-    greetVar = "Hello ";
-    welcomeMsgVar = "Welcome to ConnectPOS!<br>Your account has just been created.<br>Please click the link below to varify your account.";
-    btnTextVar = "Verify your account";
-    beforeMsgVar = "To protect the security of your account, this link will expire in 48 hours.<br>If you did not request this, please let us" +
-                   " know immediately by replying to this email.";
-    regardVar = "Thank you so much!<br>ConnectPOS Team.";
-    followMsgVar = "ConnectPOS Team.";
-  }else if(status == "enroll"){
-    greetVar = "Hello ";
-    welcomeMsgVar = "We have just created an account for you, if it was you click the button above.";
-    btnTextVar = "Enroll";
-    beforeMsgVar = "To protect the security of your account, this link will expire in 48 hours.<br>If you did not request this, please let us" +
-                   " know immediately by replying to this email.";
-    regardVar = "Thanks, SmartOSC.<br>ConnectPOS Team.";
-    followMsgVar = "Follow us on social networks";
-  }
+function prepareTextEmail(user, status) {
+    if (status == "resetpwd") {
+        greetVar      = `Hi ${getUserName(user)},`;
+        welcomeMsgVar = "Someone recently requested a password change for your Connect-POS account. If this was you, you can set a new password here: ";
+        btnTextVar    = "Reset Password";
+        beforeMsgVar  = "If you don't want to change your password or didn't request this, just ignore and delete this message.";
+        regardVar     = "Thank you so much!<br>ConnectPOS Team.";
+        followMsgVar  = "ConnectPOS Team.";
+    } else if (status == "verify") {
+        greetVar      = "Hello ";
+        welcomeMsgVar = "Welcome to ConnectPOS!<br>Your account has just been created.<br>Please click the link below to varify your account.";
+        btnTextVar    = "Verify your account";
+        beforeMsgVar  = "To protect the security of your account, this link will expire in 48 hours.<br>If you did not request this, please let us" +
+                        " know immediately by replying to this email.";
+        regardVar     = "Thank you so much!<br>ConnectPOS Team.";
+        followMsgVar  = "ConnectPOS Team.";
+    } else if (status == "enroll") {
+        greetVar      = `Hi ${user['username']},`;
+        welcomeMsgVar = "We have just created an account for you, if it was you click the button above.";
+        btnTextVar    = "Enroll";
+        beforeMsgVar  = "If you don't want to change your password or didn't request this, just ignore and delete this message.";
+        regardVar     = "Thanks, SmartOSC.<br>ConnectPOS Team.";
+        followMsgVar  = "Follow us on social networks";
+    }
 }
 
-function greet(status) {
-  return function (user, url) {
-
-    textEmail(status);
-    var subject;
-    if(status == "resetpwd"){
-      subject = "Reset Password";
-    }else if(status == "verify"){
-      subject = "Verify Email";
-    }else if(status == "enroll"){
-      subject = "Enroll Account";
-    }
-    var greeting = (user.profile && user.profile.first_name) ? (greetVar + user.profile.first_name + ",") : greetVar;
-
-    return `
+function buildEmailHtml(status) {
+    return function (user, url) {
+        
+        prepareTextEmail(user, status);
+        var subject;
+        if (status == "resetpwd") {
+            subject = "Reset Password";
+        } else if (status == "verify") {
+            subject = "Verify Email";
+        } else if (status == "enroll") {
+            subject = "Enroll Account";
+        }
+        
+        return `
                <table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
                <tbody>
                 <tr>
@@ -78,7 +75,7 @@ function greet(status) {
                                   <table border="0" width="100%" cellspacing="0" cellpadding="0">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold;">${greeting}</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold;">${greetVar}</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;">${welcomeMsgVar}</td>
@@ -97,47 +94,48 @@ function greet(status) {
                 </table>
               </td></tr></tbody></table>
                `;
-  };
+    };
 }
 
-function greetText() {
-  return function (user, url) {
+function getUserName(user) {
+    return (user.profile && user.profile.first_name) ? (greetVar + user.profile.first_name + ",") : ( user['username'] ? user['username'] : "");
+}
 
-    textEmail(user);
-    var greeting = (user.profile && user.profile.first_name) ? (greetVar + user.profile.first_name + ",") : greetVar;
-
-    return `    ${greeting}
+function buildEmailText(status) {
+    return function (user, url) {
+        prepareTextEmail(user, status);
+        return `    ${greetVar}
                     ${welcomeMsgVar}
                     ${url}
                     ${beforeMsgVar}
                     ${regardVar}
                `;
-  }
+    }
 }
 
 Accounts.emailTemplates = {
-  from: "Superadmin <bot@smartosc.com>",
-  siteName: Meteor.absoluteUrl().replace(/^https?:\/\//, '').replace(/\/$/, ''),
-  resetPassword: {
-    subject: function (user) {
-        return "Reset your password on " + Accounts.emailTemplates.siteName;
+    from: "no-reply@connectpos.com",
+    siteName: Meteor.absoluteUrl().replace(/^https?:\/\//, '').replace(/\/$/, ''),
+    resetPassword: {
+        subject: function (user) {
+            return "[Connect-POS] Reset your Connect-POS password";
+        },
+        html: buildEmailHtml("resetpwd"),
+        text: buildEmailText("resetpwd"),
     },
-    html: greet("resetpwd"),
-    text: greetText(),
-  },
-  verifyEmail: {
-    subject: function (user) {
-      return "How to verify email address on " + Accounts.emailTemplates.siteName;
+    verifyEmail: {
+        subject: function (user) {
+            return "How to verify email address on " + Accounts.emailTemplates.siteName;
+        },
+        html: buildEmailHtml("verify"),
+        text: buildEmailText("verify")
     },
-    html: greet("verify"),
-    text: greetText()
-  },
-  enrollAccount: {
-    subject: function (user) {
-      return "An account has been created for you on " + Accounts.emailTemplates.siteName;
-    },
-    html: greet("enroll"),
-    text: greetText()
-  }
+    enrollAccount: {
+        subject: function (user) {
+            return "An account has been created for you on " + Accounts.emailTemplates.siteName;
+        },
+        html: buildEmailHtml("enroll"),
+        text: buildEmailText("enroll")
+    }
 };
 
