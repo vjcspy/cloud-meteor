@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
-import {CollectionMaker} from "../../MeteorBase/CollectionMaker";
-import {CoreConfigInterface} from "../api/core-config-interface";
+import {CollectionMaker} from "../../../code/MeteorBase/CollectionMaker";
+import {CoreConfigInterface} from "../../../code/core/api/core-config-interface";
 
 export const CoreConfigCollection = CollectionMaker.make<CoreConfigInterface>("core_config",
                                                                               new SimpleSchema({

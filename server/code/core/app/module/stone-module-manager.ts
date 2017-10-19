@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import {Stone} from "../../stone";
 import {DatabaseManager} from "./entity/database-manager";
 import {ProviderManager} from "./entity/provider-manager";
+import {StoneModule} from "./collections/stone-modules";
 
 export class StoneModuleManager {
     private static $modules: ModuleConfigInterface[]   = [];
@@ -30,6 +31,14 @@ export class StoneModuleManager {
         
         $providerManager.boot();
         $databaseManager.boot();
+        
+        this._afterConfigModule();
+    }
+    
+    protected _afterConfigModule() {
+        _.forEach(this.$moduleResolved, (m: ModuleConfigInterface) => {
+            StoneModule.upsert({name: m.name}, {$set: {name: m.name, version: m.version}});
+        });
     }
     
     protected _prepareModuleDepend(modules: ModuleConfigInterface[]) {
@@ -59,8 +68,6 @@ export class StoneModuleManager {
         };
         
         _.forEach(modules, (m) => depResolve(m));
-        
-        console.log(this.$moduleResolved);
         
         return this.$moduleResolved;
     }
