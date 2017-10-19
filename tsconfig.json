@@ -18,7 +18,8 @@
     "types": [
       "meteor-typings",
       "@types/meteor-publish-composite",
-      "@types/meteor-accounts-phone"
+      "@types/meteor-accounts-phone",
+      "@types/lodash"
     ]
   },
   "exclude": [

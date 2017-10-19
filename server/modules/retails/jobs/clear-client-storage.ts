@@ -9,20 +9,20 @@ SyncedCron.add({
                        return parser.text('every 1 day');
                    },
                    job: function () {
-                       deleteClientStorage();
+                       // deleteClientStorage();
                    }
                });
 
-export const deleteClientStorage = () => {
-    const allClientStorages = ClientStorages.find().fetch();
-    if (allClientStorages.length > 0) {
-        _.forEach(allClientStorages, (clientStorage) => {
-            let createTime  = moment(clientStorage['created_at'], 'YYYY-MM-DD');
-            let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
-            let diff        = createTime.diff(currentTime, 'days');
-            if (diff > 5) {
-                ClientStorages.remove(clientStorage);
-            }
-        });
-    }
-};
+// const deleteClientStorage = () => {
+//     const allClientStorages = ClientStorages.find().fetch();
+//     if (allClientStorages.length > 0) {
+//         _.forEach(allClientStorages, (clientStorage) => {
+//             let createTime  = moment(clientStorage['created_at'], 'YYYY-MM-DD');
+//             let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
+//             let diff        = createTime.diff(currentTime, 'days');
+//             if (diff > 5) {
+//                 ClientStorages.remove(clientStorage);
+//             }
+//         });
+//     }
+// };

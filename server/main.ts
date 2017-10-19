@@ -2,14 +2,14 @@ import {Meteor} from 'meteor/meteor';
 import {OM} from "./code/Framework/ObjectManager";
 import {User} from "./modules/accounts/models/user";
 import {Role} from "./modules/accounts/api/role";
+import {Stone} from "./code/core/stone";
 
 Meteor.startup(() => {
+    Stone.getInstance().bootstrap();
+    
     initSupperAdminAccount();
-    SyncedCron.start();
-    /*if (Meteor.settings) {
-     Object.assign(Accounts._options, Meteor.settings['accounts-phone']);
-     SMS.twilio = Meteor.settings['twilio'];
-     }*/
+    
+    // SyncedCron.start();
 });
 
 const initSupperAdminAccount = () => {
