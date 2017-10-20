@@ -1,18 +1,23 @@
-import {ProviderInterface} from "../../contract/module-declare/provider-interface";
 import * as _ from 'lodash';
 import {Stone} from "../../../stone";
+import {StoneLogger} from "../../../logger/logger";
+import {StoneModuleManager} from "../stone-module-manager";
+import {ModuleConfigInterface} from "../../contract/module-declare/module-config-interface";
+import {ProviderInterface} from "../../contract/module-declare/provider-interface";
 
 export class ProviderManager {
-    private static $providers: ProviderInterface[] = [];
-    
     boot() {
-        _.forEach(ProviderManager.$providers, (provider: ProviderInterface) => {
-            provider.boot();
+        StoneLogger.info("Provider: Booting");
+        
+        const $stoneModuleManager = Stone.getInstance().s('$stoneModuleManager') as StoneModuleManager;
+        
+        _.forEach($stoneModuleManager.$moduleResolved, (m: ModuleConfigInterface) => {
+            _.forEach(m.providers, (p: ProviderInterface) => {
+                p.boot();
+            });
         });
-    }
-    
-    addProvider(...provider: ProviderInterface[]): void {
-        ProviderManager.$providers.push(...provider);
+        
+        StoneLogger.info("Provider: Done!!");
     }
 }
 
