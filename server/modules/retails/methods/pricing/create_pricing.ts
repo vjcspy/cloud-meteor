@@ -14,11 +14,12 @@ new ValidatedMethod({
     }
   },
   run: function (data: Object) {
+      console.log(data);
     let defer = $q.defer();
 
     let pricingModel = OM.create<Price>(Price);
 
-    pricingModel.addData(data)
+    pricingModel.addData(data['pricing'])
                 .save()
                 .then(() => defer.resolve(), (err) => defer.reject(err));
     return defer.promise;
