@@ -31,3 +31,5 @@ simple:json-routes
 simple:rest-accounts-password
 percolate:synced-cron
 dynamic-import@0.1.3
+ostrio:logger
+ostrio:loggerconsole

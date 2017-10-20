@@ -3,11 +3,11 @@ import * as _ from 'lodash';
 import {Stone} from "../../stone";
 import {DatabaseManager} from "./entity/database-manager";
 import {ProviderManager} from "./entity/provider-manager";
-import {StoneModule} from "./collections/stone-modules";
+import {StoneModuleCollection} from "./collections/stone-modules";
 
 export class StoneModuleManager {
-    private static $modules: ModuleConfigInterface[]   = [];
-    protected $moduleResolved: ModuleConfigInterface[] = [];
+    private static $modules: ModuleConfigInterface[]  = [];
+    private _$moduleResolved: ModuleConfigInterface[] = [];
     
     public static config(module: ModuleConfigInterface) {
         const existed = _.find(StoneModuleManager.$modules, (m) => m.name === module.name);
@@ -18,16 +18,15 @@ export class StoneModuleManager {
         StoneModuleManager.$modules.push(module);
     }
     
+    get $moduleResolved(): ModuleConfigInterface[] {
+        return this._$moduleResolved;
+    }
+    
     boot() {
         this._prepareModuleDepend(StoneModuleManager.$modules);
         
         const $providerManager = Stone.getInstance().s('$providerManager') as ProviderManager;
         const $databaseManager = Stone.getInstance().s('$databaseManager') as DatabaseManager;
-        
-        _.forEach(this.$moduleResolved, (m: ModuleConfigInterface) => {
-            $providerManager.addProvider(...m.providers);
-            $databaseManager.addSchemal(m.db);
-        });
         
         $providerManager.boot();
         $databaseManager.boot();
@@ -36,8 +35,8 @@ export class StoneModuleManager {
     }
     
     protected _afterConfigModule() {
-        _.forEach(this.$moduleResolved, (m: ModuleConfigInterface) => {
-            StoneModule.upsert({name: m.name}, {$set: {name: m.name, version: m.version}});
+        _.forEach(this._$moduleResolved, (m: ModuleConfigInterface) => {
+            StoneModuleCollection.upsert({name: m.name}, {$set: {name: m.name, version: m.version}});
         });
     }
     
@@ -45,7 +44,7 @@ export class StoneModuleManager {
         let _unresolved = [];
         
         let depResolve = (module: ModuleConfigInterface) => {
-            const moduleHasResolved = _.find(this.$moduleResolved, (_m) => _m.name === module.name);
+            const moduleHasResolved = _.find(this._$moduleResolved, (_m) => _m.name === module.name);
             if (moduleHasResolved)
                 return;
             
@@ -64,12 +63,12 @@ export class StoneModuleManager {
                 depResolve(depModule);
             });
             
-            this.$moduleResolved.push(module);
+            this._$moduleResolved.push(module);
         };
         
         _.forEach(modules, (m) => depResolve(m));
         
-        return this.$moduleResolved;
+        return this._$moduleResolved;
     }
 }
 

@@ -1,10 +1,10 @@
 import {StoneModuleManager} from "../../../code/core/app/module/stone-module-manager";
-import {AccountSchemal} from "../db/account-schemal";
+import {AccountSchema} from "../db/account-schemal";
 
 StoneModuleManager.config({
                               name: 'accounts',
                               version: "0.0.1",
                               providers: [],
-                              db: new AccountSchemal(),
+                              db: new AccountSchema(),
                               dependencies: []
                           });

@@ -1,13 +1,14 @@
-import {DbSchemalInterface} from "../../../code/core/app/contract/module-declare/db-schemal-interface";
+import {DbSchemaInterface} from "../../../code/core/app/contract/module-declare/db-schema-interface";
+import {StoneModulesInterface} from "../../../code/core/app/module/collections/stone-modules";
+import {ModuleConfigInterface} from "../../../code/core/app/contract/module-declare/module-config-interface";
 
-export class AccountSchemal implements DbSchemalInterface {
-    
+export class AccountSchema implements DbSchemaInterface {
     install() {
     }
     
-    up() {
+    up(currentModule: StoneModulesInterface, moduleConfig: ModuleConfigInterface) {
     }
     
-    down() {
+    down(currentModule: StoneModulesInterface, moduleConfig: ModuleConfigInterface) {
     }
 }

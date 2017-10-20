@@ -1,15 +1,35 @@
 import {Stone} from "../../../stone";
-import {DbSchemalInterface} from "../../contract/module-declare/db-schemal-interface";
+import {DbSchemaInterface} from "../../contract/module-declare/db-schema-interface";
+import * as _ from 'lodash';
+import {StoneModuleCollection, StoneModulesInterface} from "../collections/stone-modules";
+import {StoneModuleManager} from "../stone-module-manager";
+import {ModuleConfigInterface} from "../../contract/module-declare/module-config-interface";
 
 export class DatabaseManager {
-    private static $schemal: DbSchemalInterface[] = [];
+    private static $schema = {};
     
     boot() {
-    
+        const $stoneModuleManager = Stone.getInstance().s('$stoneModuleManager') as StoneModuleManager;
+        _.forEach($stoneModuleManager.$moduleResolved, (m: ModuleConfigInterface) => {
+            const currentModule: StoneModulesInterface = StoneModuleCollection.findOne({name: m.name});
+            
+            if (!currentModule.version) {
+                
+                m.db.install();
+            }
+            
+            if (currentModule.version < m.version) {
+                m.db.up(currentModule, m);
+            }
+            
+            if (currentModule.version > m.version) {
+                m.db.down(currentModule, m);
+            }
+        });
     }
     
-    addSchemal(...s: DbSchemalInterface[]): void {
-        DatabaseManager.$schemal.push(...s);
+    addSchemal(moduleName: string, s: DbSchemaInterface): void {
+        DatabaseManager.$schema[moduleName] = s;
     }
 }
 
