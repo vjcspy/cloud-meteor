@@ -1,37 +1,38 @@
 import {Stone} from "../../../stone";
-import {DbSchemaInterface} from "../../contract/module-declare/db-schema-interface";
 import * as _ from 'lodash';
 import {StoneModuleCollection, StoneModulesInterface} from "../collections/stone-modules";
 import {StoneModuleManager} from "../stone-module-manager";
 import {ModuleConfigInterface} from "../../contract/module-declare/module-config-interface";
+import {StoneLogger} from "../../../logger/logger";
 
 export class DatabaseManager {
-    private static $schema = {};
-    
     boot() {
+        StoneLogger.info("DB: Booting");
+        
         const $stoneModuleManager = Stone.getInstance().s('$stoneModuleManager') as StoneModuleManager;
+        
         _.forEach($stoneModuleManager.$moduleResolved, (m: ModuleConfigInterface) => {
             const currentModule: StoneModulesInterface = StoneModuleCollection.findOne({name: m.name});
             
             if (!currentModule.version) {
-                
+                StoneLogger.info('installing module ' + m.name);
                 m.db.install();
             }
             
             if (currentModule.version < m.version) {
+                StoneLogger.info('upgrading module ' + m.name);
                 m.db.up(currentModule, m);
             }
             
             if (currentModule.version > m.version) {
+                StoneLogger.info('downgrading module ' + m.name);
                 m.db.down(currentModule, m);
             }
         });
-    }
     
-    addSchemal(moduleName: string, s: DbSchemaInterface): void {
-        DatabaseManager.$schema[moduleName] = s;
+        StoneLogger.info("DB: Done!!");
     }
 }
 
-export const $databaseManager = new DatabaseManager();
+const $databaseManager = new DatabaseManager();
 Stone.getInstance().singleton('$databaseManager', $databaseManager);
