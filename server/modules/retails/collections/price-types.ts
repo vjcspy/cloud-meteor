@@ -10,6 +10,7 @@ export const PriceTypesCollection = CollectionMaker.make<PriceTypeInterface>("pr
                                                                                                       optional: true
                                                                                                   },
                                                                                                   name: String,
+                                                                                                  label: String,
                                                                                                   data: {
                                                                                                       type: Object,
                                                                                                       optional: true
