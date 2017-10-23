@@ -98,7 +98,7 @@ function buildEmailHtml(status) {
 }
 
 function getUserName(user) {
-    return (user.profile && user.profile.first_name) ? (greetVar + user.profile.first_name + ",") : ( user['username'] ? user['username'] : "");
+    return (user.profile && !!user.profile.first_name) ? (user.profile.first_name) : ( user['username'] ? user['username'] : "");
 }
 
 function buildEmailText(status) {
