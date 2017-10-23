@@ -4,7 +4,6 @@ export interface ProductInterface {
     name?: string;
     additional_data?: Object;
     pricings: string[];
-    trial_days: number;
     nousers: number;
     versions?: ProductVersion[];
     description?: string;

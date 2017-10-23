@@ -22,10 +22,6 @@ export const Products = CollectionMaker.make<ProductInterface>("products",
                                                                                     pricings: {
                                                                                         type: Array
                                                                                     },
-                                                                                    trial_days: {
-                                                                                        type: Number,
-                                                                                        optional: true
-                                                                                    },
                                                                                     'pricings.$': String,
                                                                                     versions: [new SimpleSchema({
                                                                                                                     name: String,
