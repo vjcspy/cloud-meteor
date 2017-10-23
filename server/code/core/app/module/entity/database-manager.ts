@@ -7,7 +7,7 @@ import {StoneLogger} from "../../../logger/logger";
 
 export class DatabaseManager {
     boot() {
-        StoneLogger.info("DB: Booting");
+        // StoneLogger.info("DB: Booting");
         
         const $stoneModuleManager = Stone.getInstance().s('$stoneModuleManager') as StoneModuleManager;
         
@@ -30,7 +30,7 @@ export class DatabaseManager {
             }
         });
     
-        StoneLogger.info("DB: Done!!");
+        // StoneLogger.info("DB: Done!!");
     }
 }
 

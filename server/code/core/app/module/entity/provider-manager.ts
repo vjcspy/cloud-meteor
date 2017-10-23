@@ -7,7 +7,7 @@ import {ProviderInterface} from "../../contract/module-declare/provider-interfac
 
 export class ProviderManager {
     boot() {
-        StoneLogger.info("Provider: Booting");
+        // StoneLogger.info("Provider: Booting");
         
         const $stoneModuleManager = Stone.getInstance().s('$stoneModuleManager') as StoneModuleManager;
         
@@ -17,7 +17,7 @@ export class ProviderManager {
             });
         });
         
-        StoneLogger.info("Provider: Done!!");
+        // StoneLogger.info("Provider: Done!!");
     }
 }
 
