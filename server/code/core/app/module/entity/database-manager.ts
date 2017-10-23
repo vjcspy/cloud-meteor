@@ -14,22 +14,22 @@ export class DatabaseManager {
         _.forEach($stoneModuleManager.$moduleResolved, (m: ModuleConfigInterface) => {
             const currentModule: StoneModulesInterface = StoneModuleCollection.findOne({name: m.name});
             
-            if (!currentModule.version) {
+            if (!currentModule || !currentModule.version) {
                 StoneLogger.info('installing module ' + m.name);
                 m.db.install();
             }
             
-            if (currentModule.version < m.version) {
+            if (!currentModule || !currentModule.version || currentModule.version < m.version) {
                 StoneLogger.info('upgrading module ' + m.name);
                 m.db.up(currentModule, m);
             }
             
-            if (currentModule.version > m.version) {
+            if (!!currentModule && currentModule.version > m.version) {
                 StoneLogger.info('downgrading module ' + m.name);
                 m.db.down(currentModule, m);
             }
         });
-    
+        
         // StoneLogger.info("DB: Done!!");
     }
 }
