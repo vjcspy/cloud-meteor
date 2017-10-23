@@ -9,19 +9,23 @@ export class RetailSchema implements DbSchemaInterface {
     
     up(currentModule: StoneModulesInterface, moduleConfig: ModuleConfigInterface) {
         if (!currentModule || currentModule.version < "0.0.4") {
-            PriceTypesCollection.remove({});
-            PriceTypesCollection.insert({
-                                            name: 'subscription',
-                                            label: 'Subscription'
-                                        });
-            PriceTypesCollection.insert({
-                                            name: 'life_time',
-                                            label: 'Life time'
-                                        });
+            this.initDefaultPriceTypes();
         }
     }
     
     down(currentModule: StoneModulesInterface, moduleConfig: ModuleConfigInterface) {
     }
     
+    
+    protected initDefaultPriceTypes() {
+        PriceTypesCollection.remove({});
+        PriceTypesCollection.insert({
+                                        name: 'subscription',
+                                        label: 'Subscription'
+                                    });
+        PriceTypesCollection.insert({
+                                        name: 'life_time',
+                                        label: 'Life time'
+                                    });
+    }
 }
