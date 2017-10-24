@@ -22,22 +22,21 @@ export class StoneEventManager {
             if (!events) {
                 events = List.of();
             }
-            events = <any>events.filter((o) => o['registerId'] !== registerId);
-            events = <any>events.push({
-                                          registerId,
-                                          priority,
-                                          observer
-                                      })
-                                .sort((a, b) => {
-                                    if (a['priority'] < b['priority']) {
-                                        return -1;
-                                    } else if (a['priority'] > b['priority']) {
-                                        return 1
-                                    } else {
-                                        return 0;
-                                    }
-                                });
-            return events;
+            return <any>(events.filter((o) => o['registerId'] !== registerId) as List<any>)
+                .push({
+                          registerId,
+                          priority,
+                          observer
+                      })
+                .sort((a, b) => {
+                    if (a['priority'] < b['priority']) {
+                        return -1;
+                    } else if (a['priority'] > b['priority']) {
+                        return 1
+                    } else {
+                        return 0;
+                    }
+                });
         });
     }
 }
