@@ -8,7 +8,7 @@ export class RetailSchema implements DbSchemaInterface {
     }
     
     up(currentModule: StoneModulesInterface, moduleConfig: ModuleConfigInterface) {
-        if (!currentModule || currentModule.version < "0.0.4") {
+        if (!currentModule || currentModule.version < "0.0.1") {
             this.initDefaultPriceTypes();
         }
     }
@@ -19,6 +19,10 @@ export class RetailSchema implements DbSchemaInterface {
     
     protected initDefaultPriceTypes() {
         PriceTypesCollection.remove({});
+        PriceTypesCollection.insert({
+                                        name: 'trial',
+                                        label: 'Trial'
+                                    });
         PriceTypesCollection.insert({
                                         name: 'subscription',
                                         label: 'Subscription'
