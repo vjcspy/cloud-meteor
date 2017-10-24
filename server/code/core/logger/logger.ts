@@ -2,27 +2,27 @@ import {$log} from "./initialization";
 import {Stone} from "../stone";
 
 export class StoneLogger {
-    static info(message: string, data?: any, userId?: string): void {
+    static info(message: string, data?: Object, userId?: string): void {
         $log.info(message, data, userId);
     }
     
-    static debug(message: string, data?: any, userId?: string): void {
+    static debug(message: string, data?: Object, userId?: string): void {
         $log.debug(message, data, userId);
     }
     
-    static fatal(message: string, data?: any, userId?: string): void {
+    static fatal(message: string, data?: Object, userId?: string): void {
         $log.fatal(message, data, userId);
     }
     
-    static error(message: string, data?: any, userId?: string): void {
+    static error(message: string, data?: Object, userId?: string): void {
         $log.error(message, data, userId);
     }
     
-    static warn(message: string, data?: any, userId?: string): void {
+    static warn(message: string, data?: Object, userId?: string): void {
         $log.warn(message, data, userId);
     }
     
-    static trace(message: string, data?: any, userId?: string): void {
+    static trace(message: string, data?: Object, userId?: string): void {
         $log.trace(message, data, userId);
     }
     
