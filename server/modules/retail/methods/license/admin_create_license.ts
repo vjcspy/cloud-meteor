@@ -4,7 +4,7 @@ import {User} from "../../../accounts/models/user";
 import {Role} from "../../../accounts/api/role";
 import {StringHelper} from "../../../../code/Framework/StringHelper";
 import {License} from "../../models/license";
-import {UserLicense} from "../../../retail-license/models/userlicense";
+import {UserLicense} from "../../models/userlicense";
 
 new ValidatedMethod({
   name: "license.admin_create_license",

@@ -3,7 +3,7 @@ import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../accounts/models/user";
 import {StringHelper} from "../../../../code/Framework/StringHelper";
 import {License} from "../../models/license";
-import {UserLicense} from "../../../retail-license/models/userlicense";
+import {UserLicense} from "../../models/userlicense";
 
 new ValidatedMethod({
   name: "license.create_license_after_register",
