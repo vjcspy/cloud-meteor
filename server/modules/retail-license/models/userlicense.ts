@@ -1,8 +1,8 @@
 
 import * as _ from "lodash";
-import {User} from "./user";
-import {Role} from "../api/role";
-import {License} from "../../retails/models/license";
+import {User} from "../../accounts/models/user";
+import {Role} from "../../accounts/api/role";
+import {License} from "../../retail/models/license";
 
 export class UserLicense {
   /*

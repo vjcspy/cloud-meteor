@@ -1,8 +1,8 @@
-import {User} from "../models/user";
+import {User} from "../../accounts/models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
-import {Role} from "../api/role";
+import {Role} from "../../accounts/api/role";
 import {UserLicense} from "../models/userlicense";
-import {License} from "../../retails/models/license";
+import {License} from "../../retail/models/license";
 
 new ValidatedMethod({
   name: 'user.edit_user',

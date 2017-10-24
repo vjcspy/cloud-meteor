@@ -4,7 +4,7 @@ import {User} from "../../../accounts/models/user";
 import {Role} from "../../../accounts/api/role";
 import {ZValidator} from "../../../../code/Framework/ZValidator";
 import {License} from "../../models/license";
-import {UserLicense} from "../../../accounts/models/userlicense";
+import {UserLicense} from "../../../retail-license/models/userlicense";
 
 new ValidatedMethod({
   name    : "license.assign_to_user",

@@ -1,9 +1,9 @@
-import {User} from "../models/user";
+import {User} from "../../accounts/models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
-import {Role} from "../api/role";
-import {License} from "../../retails/models/license";
+import {Role} from "../../accounts/api/role";
+import {License} from "../../retail/models/license";
 import {UserLicense} from "../models/userlicense";
-import {Users, userSchema} from "../collections/users";
+import {Users, userSchema} from "../../accounts/collections/users";
 import * as _ from "lodash"
 
 const METHOD_NAME = 'accounts.save_user';

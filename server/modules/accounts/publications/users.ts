@@ -3,7 +3,7 @@ import {User} from "../models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {Role} from "../api/role";
 import {Users} from "../collections/users";
-import {License} from "../../retails/models/license";
+import {License} from "../../retail/models/license";
 import * as _ from "lodash";
 
 Meteor.publishComposite('users', function (): PublishCompositeConfig<UserInterface> {
