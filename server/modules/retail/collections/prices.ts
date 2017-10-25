@@ -8,7 +8,6 @@ export const Prices = CollectionMaker.make<PriceInterface>("prices",
                                                                                     type: String,
                                                                                     optional: true
                                                                                 },
-                                                                                name: String,
                                                                                 display_name: String,
                                                                                 type: String,
                                                                                 nouser: {
@@ -27,7 +26,6 @@ export const Prices = CollectionMaker.make<PriceInterface>("prices",
                                                                                     type: String,
                                                                                     optional: true
                                                                                 },
-                                                                                visibility: SimpleSchema.Integer,
                                                                                 description: {
                                                                                     type: String,
                                                                                     optional: true
