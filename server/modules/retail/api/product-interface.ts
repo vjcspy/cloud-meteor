@@ -3,12 +3,17 @@ export interface ProductInterface {
     code: string;
     name?: string;
     additional_data?: Object;
-    pricings: string[];
+    has_pricing: ProductHasPricingInterface[];
     nousers: number;
     versions?: ProductVersion[];
     description?: string;
     created_at?: Date;
     updated_at?: Date;
+}
+
+export interface ProductHasPricingInterface {
+    pricing_id: string;
+    addition_data?: Object
 }
 
 export interface ProductVersion {

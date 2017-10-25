@@ -19,10 +19,16 @@ export const Products = CollectionMaker.make<ProductInterface>("products",
                                                                                         type: String,
                                                                                         optional: true
                                                                                     },
-                                                                                    pricings: {
+                                                                                    has_pricing: {
                                                                                         type: Array
                                                                                     },
-                                                                                    'pricings.$': String,
+                                                                                    'has_pricing.$': new SimpleSchema({
+                                                                                                                       pricing_id: String,
+                                                                                                                       addition_data: {
+                                                                                                                           type: Object,
+                                                                                                                           optional: true
+                                                                                                                       },
+                                                                                                                   }),
                                                                                     versions: [new SimpleSchema({
                                                                                                                     name: String,
                                                                                                                     version: String,
