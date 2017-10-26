@@ -2,7 +2,7 @@ import {StoneModuleManager} from "../../../code/core/app/module/stone-module-man
 import {AccountSchema} from "../db/account-schemal";
 
 StoneModuleManager.config({
-                              name: 'accounts',
+                              name: 'account',
                               version: "0.0.1",
                               providers: [],
                               db: new AccountSchema(),
