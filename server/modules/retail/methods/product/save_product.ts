@@ -1,7 +1,7 @@
 import * as $q from "q";
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {User} from "../../../accounts/models/user";
-import {Role} from "../../../accounts/api/role";
+import {User} from "../../../account/models/user";
+import {Role} from "../../../account/api/role";
 import {Product} from "../../models/product";
 import * as _ from 'lodash';
 

@@ -1,10 +1,10 @@
 import * as _ from "lodash";
-import {User} from "../../accounts/models/user";
+import {User} from "../../account/models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {LicenseInterface} from "../api/license-interface";
-import {Role} from "../../accounts/api/role";
+import {Role} from "../../account/api/role";
 import {Licenses} from "../collections/licenses";
-import {Users} from "../../accounts/collections/users";
+import {Users} from "../../account/collections/users";
 
 Meteor.publishComposite("licenses", function (): PublishCompositeConfig<LicenseInterface> {
   if (!this.userId) {

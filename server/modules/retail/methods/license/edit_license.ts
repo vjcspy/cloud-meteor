@@ -1,8 +1,8 @@
 import * as $q from "q";
 import * as _ from "lodash";
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {User} from "../../../accounts/models/user";
-import {Role} from "../../../accounts/api/role";
+import {User} from "../../../account/models/user";
+import {Role} from "../../../account/api/role";
 import {License} from "../../models/license";
 new ValidatedMethod({
   name: "license.edit_license",

@@ -1,6 +1,6 @@
 import * as $q from 'q';
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {User} from "../../../accounts/models/user";
+import {User} from "../../../account/models/user";
 import {StringHelper} from "../../../../code/Framework/StringHelper";
 import {License} from "../../models/license";
 import {UserLicense} from "../../models/userlicense";

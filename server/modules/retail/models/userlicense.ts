@@ -1,7 +1,7 @@
 
 import * as _ from "lodash";
-import {User} from "../../accounts/models/user";
-import {Role} from "../../accounts/api/role";
+import {User} from "../../account/models/user";
+import {Role} from "../../account/api/role";
 import {License} from "./license";
 
 export class UserLicense {

@@ -1,6 +1,6 @@
 import * as $q from "q";
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {User} from "../../../accounts/models/user";
+import {User} from "../../../account/models/user";
 import {License} from "../../models/license";
 new ValidatedMethod({
   name: "license.edit_license_user",
