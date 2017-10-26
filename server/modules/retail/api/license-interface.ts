@@ -7,16 +7,11 @@ export interface LicenseInterface {
     current_cashier_increment?: number;
     has_product?: LicenseHasProductInterface[];
     has_roles?: LicenseHasRoleInterface[];
-    is_auto_generate?: boolean;
     created_by?: string;
     created_at?: Date;
     updated_at?: Date
 }
 
-/*
-* invoices (license_id, shop_owner_id,
-* id, description, total_amount, purchased_date, status, payment_method)
-* */
 export interface LicenseHasRoleInterface {
     code: string;
     name: string;
@@ -31,16 +26,15 @@ export interface LicenseHasRoleHasPermissionInterface {
 }
 
 export interface LicenseHasProductInterface {
-    product_id?: string;
-    base_url?: BaseUrl[];
-    pricing_id?: string;
-    pricing_type?: string;
+    product_id: string;
+    base_url: BaseUrl[];
+    pricing_id: string;
+    pricing_type: string;
     isFresh: boolean; // has already activated trial
     has_user: LicenseHasProductHasUser[];
     has_invoice: LicenseHasProductHasInvoice[];
-    start_version?: string;
-    purchase_date?: Date;
-    expired_date?: Date;
+    purchase_date: Date;
+    expired_date: Date;
 }
 
 export interface BaseUrl {

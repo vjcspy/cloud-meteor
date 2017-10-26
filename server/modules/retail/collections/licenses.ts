@@ -36,10 +36,7 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                                                     status: SimpleSchema.Integer,
                                                                                                     url: String
                                                                                                 }),
-                                                                                            has_user: {
-                                                                                                type: Array,
-                                                                                                optional: true
-                                                                                            },
+                                                                                            has_user: Array,
                                                                                             "has_user.$": new SimpleSchema(
                                                                                                 {
                                                                                                     user_id: String,
@@ -54,34 +51,11 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                                                     status: SimpleSchema.Integer,
                                                                                                     purchased_date: Date
                                                                                                 }),
-                                                                                            pricing_id: {
-                                                                                                type: String,
-                                                                                                optional: true
-                                                                                            },
-                                                                                            pricing_type: {
-                                                                                                type: String,
-                                                                                                optional: true
-                                                                                            },
-                                                                                            start_version: {
-                                                                                                type: String,
-                                                                                                optional: true
-                                                                                            },
-                                                                                            status: {
-                                                                                                type: Number,
-                                                                                                optional: true
-                                                                                            },
-                                                                                            purchase_date: {
-                                                                                                type: Date,
-                                                                                                optional: true
-                                                                                            },
-                                                                                            active_date: {
-                                                                                                type: Date,
-                                                                                                optional: true
-                                                                                            },
-                                                                                            expired_date: {
-                                                                                                type: Date,
-                                                                                                optional: true
-                                                                                            }
+                                                                                            pricing_id: String,
+                                                                                            pricing_type: String,
+                                                                                            status: Number,
+                                                                                            purchase_date: Date,
+                                                                                            expired_date: Date
                                                                                         }),
                                                                                     has_roles: {
                                                                                         type: Array,
@@ -100,10 +74,6 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                                                                                           permission: String,
                                                                                                                                           is_active: Boolean
                                                                                                                                       }),
-                                                                                    is_auto_generate: {
-                                                                                        type: Boolean,
-                                                                                        defaultValue: true
-                                                                                    },
                                                                                     created_by: {
                                                                                         type: String,
                                                                                         optional: true
