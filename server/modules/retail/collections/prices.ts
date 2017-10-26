@@ -10,6 +10,10 @@ export const Prices = CollectionMaker.make<PriceInterface>("prices",
                                                                                 },
                                                                                 display_name: String,
                                                                                 type: String,
+                                                                                trialDay: {
+                                                                                    type: SimpleSchema.Integer,
+                                                                                    optional: true
+                                                                                },
                                                                                 nouser: {
                                                                                     type: Number,
                                                                                     optional: true

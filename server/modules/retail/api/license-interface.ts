@@ -31,6 +31,7 @@ export interface LicenseHasProductInterface {
     pricing_id: string;
     pricing_type: string;
     isFresh: boolean; // has already activated trial
+    numOfExtraUser: number;
     has_user: LicenseHasProductHasUser[];
     has_invoice: LicenseHasProductHasInvoice[];
     purchase_date: Date;

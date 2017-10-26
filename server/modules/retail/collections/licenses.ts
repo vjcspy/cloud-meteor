@@ -36,6 +36,7 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                                                     status: SimpleSchema.Integer,
                                                                                                     url: String
                                                                                                 }),
+                                                                                            numOfExtraUser: SimpleSchema.Integer,
                                                                                             has_user: Array,
                                                                                             "has_user.$": new SimpleSchema(
                                                                                                 {
