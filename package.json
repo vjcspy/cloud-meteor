@@ -13,6 +13,7 @@
     "@types/lodash": "^4.14.77",
     "@types/meteor-publish-composite": "^0.0.32",
     "babel-runtime": "^6.23.0",
+    "immutable": "^3.8.2",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "^0.2.6",
     "meteor-rxjs": "^0.4.7",

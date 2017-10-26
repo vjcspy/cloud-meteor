@@ -13,8 +13,10 @@ export const $log = new Logger();
     server: true,
     format(opts) {
         let output = `[${opts['level']}] - ${moment(opts['time']).format("YYYY/MM/DD HH:mm:ss")}: ${opts['message']}`;
-        if (opts['data'] && !_.isEmpty(opts['data'])) {
+        if (_.isObject(opts['data'])) {
             output += ` ~> ${JSON.stringify(opts['data'])}`;
+        } else if (_.isString(opts['data'])) {
+            output += ` ~> ${opts['data']}`;
         }
         return output;
     }
