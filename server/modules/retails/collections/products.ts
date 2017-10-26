@@ -30,6 +30,19 @@ export const Products = CollectionMaker.make<ProductInterface>("products",
                                                                                     versions: [new SimpleSchema({
                                                                                                                     name: String,
                                                                                                                     version: String,
+                                                                                                                    api: {
+                                                                                                                        type: Array
+                                                                                                                    },
+                                                                                                                    'api.$': String,
+                                                                                                                    customers: new SimpleSchema({
+                                                                                                                        type: String,
+                                                                                                                        users: {
+                                                                                                                            type: Array
+                                                                                                                        },
+                                                                                                                        'users.$': String,
+                                                                                                                    }),
+                                                                                                                    path: String,
+                                                                                                                    descriptions: String,
                                                                                                                     changelog: {
                                                                                                                         type: String,
                                                                                                                         optional: true
