@@ -4,8 +4,8 @@ export interface PriceInterface {
     type: string;
     nousers?: number;
     trialDay: number;
-    cost_monthly?: string;
-    cost_annually?: string;
-    cost_adding?: string;
+    cost_monthly?: number;
+    cost_annually?: number;
+    cost_adding?: number;
     description?: string;
 }

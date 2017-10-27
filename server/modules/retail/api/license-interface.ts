@@ -1,3 +1,8 @@
+export enum ProductLicenseBillingCycle {
+    MONTHLY  = 1,
+    ANNUALLY = 2,
+}
+
 export interface LicenseInterface {
     _id?: string;
     key?: string;
@@ -30,12 +35,15 @@ export interface LicenseHasProductInterface {
     base_url: BaseUrl[];
     pricing_id: string;
     pricing_type: string;
+    billing_cycle: ProductLicenseBillingCycle;
     isFresh: boolean; // has already activated trial
     numOfExtraUser: number;
     has_user: LicenseHasProductHasUser[];
     has_invoice: LicenseHasProductHasInvoice[];
     purchase_date: Date;
     expired_date: Date;
+    extra_user_purchase_date: Date;
+    extra_user_expired_date: Date;
 }
 
 export interface BaseUrl {

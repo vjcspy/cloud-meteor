@@ -18,7 +18,7 @@ Meteor.publishComposite('user_credit', function (): PublishCompositeConfig<UserC
     } else if (userModel.isInRoles(Role.USER)) {
         return {
             find: () => {
-                return UserCreditCollection.collection.find({_id: this.userId});
+                return UserCreditCollection.collection.find({user_id: this.userId});
             }
         }
     }
