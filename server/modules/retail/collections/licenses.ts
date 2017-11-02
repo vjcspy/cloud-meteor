@@ -43,15 +43,6 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                              user_id: String,
                                                                                                              username: String
                                                                                                          }),
-                                                                                                     "has_invoice.$": new SimpleSchema(
-                                                                                                         {
-                                                                                                             description: String,
-                                                                                                             transaction_id: String,
-                                                                                                             amount: Number,
-                                                                                                             payment_method: String,
-                                                                                                             status: SimpleSchema.Integer,
-                                                                                                             purchased_date: Date
-                                                                                                         }),
                                                                                                      pricing_id: String,
                                                                                                      pricing_type: String,
                                                                                                      status: Number,
