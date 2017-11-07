@@ -45,5 +45,25 @@ export class User extends AbstractModel {
     isDisabled(): boolean {
         return this.getData("is_disabled") === true;
     }
+    
+    getProfile(): Object {
+        return this.getData('profile');
+    }
+    
+    getFirsName() {
+        const profile = this.getProfile();
+        
+        return profile && profile.hasOwnProperty('first_name') ? profile['first_name'] : null;
+    }
+    
+    getLastName() {
+        const profile = this.getProfile();
+        
+        return profile && profile.hasOwnProperty('last_name') ? profile['last_name'] : null;
+    }
+    
+    getEmail(): string {
+        return this.getData('emails')[0]['address'];
+    }
 }
 
