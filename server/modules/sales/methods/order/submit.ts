@@ -1,6 +1,6 @@
-import {User} from "../../../account/models/user";
 import {OM} from "../../../../code/Framework/ObjectManager";
-import * as _ from 'lodash';
+import {OrderCalculation} from "../../models/order-calculation";
+import {Order} from "../../models/order";
 
 new ValidatedMethod({
                         name: 'sales.order_submit',
@@ -10,15 +10,26 @@ new ValidatedMethod({
                             }
                         },
                         run: function (data) {
-                            const user: User = OM.create<User>(User).loadById(this.userId);
-                            const plan       = data['plan'];
-                            const product_id = data['product_id'];
+                            const {plan, product_id} = data;
         
-                            if (_.size(user.getLicenses()) === 0 || user.isShopOwner()) {
-            
-                            } else {
-                                throw new Meteor.Error("Error", "you_are_not_shop_owner");
-                            }
+                            let calculator = OM.create<OrderCalculation>(OrderCalculation);
+                            const totals   = calculator.getTotals(plan, product_id, this.userId);
+        
+                            let order = OM.create<Order>(Order);
+                            order.setData('user_id', this.userId)
+                                 .setData('product_id', product_id)
+                                 .setData('license_id', !!calculator.license ? calculator.license._id : null)
+                                 .setData('pricing_id', plan['pricing_id'])
+                                 .setData('pricing_cycle', plan['cycle'])
+                                 .setData('prev_pricing_id', calculator.currentPricing ? calculator.currentPricing._id : null)
+                                 .setData('prev_pricing_cycle', calculator.productLicense ? calculator.productLicense.billing_cycle : null)
+                                 .setData('cost_new_plan', totals.total.costNewPlan)
+                                 .setData('cost_extra_user', totals.total.costExtraUser)
+                                 .setData('credit_change_user', totals.credit.creditExtraUser)
+                                 .setData('credit_change_plan', totals.credit.creditPlan)
+                                 .setData('discount_amount', 0)
+                                 .setData('grand_total', totals.total.grandTotal)
+                                 .save();
                         }
                     });
 

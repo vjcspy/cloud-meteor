@@ -1,11 +1,15 @@
+import {ProductLicenseBillingCycle} from "../../retail/api/license-interface";
+
 export interface OrderInterface {
     _id?: string;
     user_id: string;
+    license_id: string;
     product_id: string;
     
     pricing_id: string;
-    pricing_type: string;
+    pricing_cycle: ProductLicenseBillingCycle;
     prev_pricing_id: string;
+    prev_pricing_cycle: ProductLicenseBillingCycle;
     
     cost_new_plan: number;
     cost_extra_user: number;
@@ -15,6 +19,5 @@ export interface OrderInterface {
     
     discount_amount: number;
     
-    subtotal: number;
     grand_total: number;
 }

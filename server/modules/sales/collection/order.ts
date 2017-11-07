@@ -11,8 +11,15 @@ export const orderSchema = new SimpleSchema(
         product_id: String,
         
         pricing_id: String,
-        pricing_type: String,
-        prev_pricing_id: String,
+        pricing_cycle: Number,
+        prev_pricing_id: {
+            type: String,
+            optional: true
+        },
+        prev_pricing_cycle: {
+            type: Number,
+            optional: true
+        },
         
         cost_new_plan: Number,
         cost_extra_user: Number,
@@ -22,7 +29,6 @@ export const orderSchema = new SimpleSchema(
         
         discount_amount: Number,
         
-        subtotal: Number,
         grand_total: Number,
     }
 );

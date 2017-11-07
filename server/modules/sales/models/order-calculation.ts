@@ -1,135 +1,106 @@
 import {PriceInterface} from "../../retail/api/price-interface";
-import {LicenseHasProductInterface, ProductLicenseBillingCycle} from "../../retail/api/license-interface";
-import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
-import * as moment from 'moment';
-import {NumberHelper} from "../../../code/Framework/NumberHelper";
-import {UserCreditInterface} from "../../user-credit/api/user-credit-interface";
+import {LicenseHasProductInterface, LicenseInterface} from "../../retail/api/license-interface";
+import {User} from "../../account/models/user";
+import {OM} from "../../../code/Framework/ObjectManager";
+import {PricingCollection} from "../../retail/collections/prices";
+import {UserHasLicense} from "../../account/api/user-interface";
+import {LicenseCollection} from "../../retail/collections/licenses";
+import {CreditChangePlan} from "./order-calculation/credit-change-plan";
+import {CreditChangeActiveUser} from "./order-calculation/credit-change-active-user";
+import {CostNewPlan} from "./order-calculation/cost-new-plan";
+import {CostExtraUser} from "./order-calculation/cost-extra-user";
+import * as _ from 'lodash';
+import {DiscountCredit} from "./order-calculation/discount-credit";
+import {Grandtotal} from "./order-calculation/grandtotal";
 
 export class OrderCalculation {
-    protected calculateCreditChangePlan(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): number {
-        if (!productLicense) {
-            return 0;
+    license: LicenseInterface;
+    productLicense: LicenseHasProductInterface;
+    currentPricing: PriceInterface;
+    newPricing: PriceInterface;
+    
+    protected _totalCollector: any[] = [
+        {
+            i: new CreditChangePlan(),
+            p: 10
+        },
+        {
+            i: new CreditChangeActiveUser(),
+            p: 20
+        },
+        {
+            i: new CostNewPlan(),
+            p: 30
+        },
+        {
+            i: new CostExtraUser(),
+            p: 40
+        },
+        {
+            i: new DiscountCredit(),
+            p: 50
+        },
+        {
+            i: new Grandtotal(),
+            p: 100
         }
+    ];
+    
+    protected calculate(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface, userId: string) {
+        let credit = {};
+        let total  = {};
         
-        const current      = DateTimeHelper.getCurrentMoment();
-        const expired      = moment(productLicense.expired_date);
-        const remainingDay = moment.duration(expired.diff(current)).asDays();
+        const totalCollectorSorted = _.sortBy(this._totalCollector, (t) => t['p']);
         
+        _.forEach(totalCollectorSorted, (t: any) => {
+            const i = t['i'];
+            i.setUserId(userId);
+            i.setTotals(total);
+            i.setCredits(credit);
+            i.collect(plan, currentPricing, productLicense, newPricing);
+        });
         
-        // FIXME: will calculate wrong credit amount when apply discount, promo ....
-        if (remainingDay > 0) {
-            if (newPricing._id === currentPricing._id && plan['cycle'] === productLicense.billing_cycle) {
-                return 0;
-            } else {
-                if (productLicense.billing_cycle === ProductLicenseBillingCycle.ANNUALLY) {
-                    return NumberHelper.round(remainingDay * currentPricing.cost_annually / this.getDayByCycle(productLicense.billing_cycle), 2)
-                } else if (productLicense.billing_cycle === ProductLicenseBillingCycle.MONTHLY) {
-                    return NumberHelper.round(remainingDay * currentPricing.cost_monthly / this.getDayByCycle(productLicense.billing_cycle), 2);
-                } else {
-                    throw new Meteor.Error("can_not_find_cycle");
+        return {credit, total}
+    }
+    
+    public getTotals(plan, product_id, userId): any {
+        const user: User = OM.create<User>(User).loadById(userId);
+        if (_.size(user.getLicenses()) === 0 || user.isShopOwner()) {
+            let currentPricing = null;
+            let newPricing     = this.newPricing = PricingCollection.collection.findOne({_id: plan['pricing_id']});
+            let productLicense = null;
+            
+            if (!newPricing) {
+                throw new Meteor.Error('Error', "can_not_find_new_pricing");
+            }
+            
+            if (_.size(user.getLicenses()) > 0) {
+                const userLicense: UserHasLicense = _.first(user.getLicenses());
+                
+                if (!!userLicense.license_id) {
+                    const license = LicenseCollection.collection.findOne({_id: userLicense.license_id});
+                    if (license) {
+                        this.license = license;
+                        if (_.isArray(license.has_product)) {
+                            const productLicense: LicenseHasProductInterface = this.productLicense = _.find(license.has_product, (_p) => _p['product_id'] === product_id);
+                            
+                            if (productLicense && productLicense.pricing_id) {
+                                this.currentPricing = currentPricing = PricingCollection.collection.findOne({_id: productLicense.pricing_id});
+                                
+                                if (!currentPricing) {
+                                    throw new Meteor.Error("Error", "can_not_find_pricing_of_product_license");
+                                }
+                            } else {
+                                throw new Meteor.Error("Error", "can_not_find_pricing_of_product_license");
+                            }
+                        }
+                    } else {
+                        throw new Meteor.Error('Error', "can_not_find_license");
+                    }
                 }
             }
+            
+            return this.calculate(plan, currentPricing, productLicense, newPricing, userId);
         }
-        
-        return 0;
-    }
-    
-    protected calculateCreditChangeActiveUser(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): number {
-        if (!productLicense) {
-            return 0;
-        }
-        
-        const current      = DateTimeHelper.getCurrentMoment();
-        const expired      = moment(productLicense.extra_user_expired_date);
-        const remainingDay = moment.duration(expired.diff(current)).asDays();
-        
-        if (remainingDay > 0) {
-            if (currentPricing._id === newPricing._id) {
-                const change = parseInt(plan['extraUser']) - productLicense.numOfExtraUser;
-                if (change < 0) {
-                    return NumberHelper.round(Math.abs(change) * currentPricing.cost_adding * remainingDay / 30, 2);
-                } else {
-                    return 0;
-                }
-            } else {
-                return NumberHelper.round(Math.abs(parseInt(plan['extraUser'])) * currentPricing.cost_adding * remainingDay / 30, 2);
-            }
-        }
-        return 0;
-    }
-    
-    protected calculateCostChangePlan(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): number {
-        if (!!currentPricing && newPricing._id === currentPricing._id) {
-            if (plan['cycle'] === productLicense.billing_cycle) {
-                return 0;
-            } else {
-                if (plan['cycle'] === ProductLicenseBillingCycle.ANNUALLY) {
-                    return NumberHelper.round(newPricing.cost_annually, 2);
-                } else if (plan['cycle'] === ProductLicenseBillingCycle.MONTHLY) {
-                    return NumberHelper.round(newPricing.cost_monthly, 2);
-                } else {
-                    throw new Meteor.Error("can_not_find_cycle");
-                }
-            }
-        } else {
-            if (plan['cycle'] === ProductLicenseBillingCycle.ANNUALLY) {
-                return NumberHelper.round(newPricing.cost_annually, 2);
-            } else if (plan['cycle'] === ProductLicenseBillingCycle.MONTHLY) {
-                return NumberHelper.round(newPricing.cost_monthly, 2);
-            } else {
-                throw new Meteor.Error("can_not_find_cycle");
-            }
-        }
-    }
-    
-    calculateCostChangeExtraUser(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): number {
-        if (!!currentPricing && newPricing._id === currentPricing._id) {
-            const change = parseInt(plan['extraUser']) - productLicense.numOfExtraUser;
-            if (change > 0) {
-                return NumberHelper.round(change * newPricing.cost_adding, 2);
-            } else {
-                return 0;
-            }
-        } else {
-            return NumberHelper.round(parseInt(plan['extraUser']) * newPricing.cost_adding, 2);
-        }
-    }
-    
-    protected getDayByCycle(cycle: ProductLicenseBillingCycle): number {
-        if (cycle === ProductLicenseBillingCycle.ANNUALLY) {
-            return 360;
-        }
-        
-        if (cycle === ProductLicenseBillingCycle.MONTHLY) {
-            return 30;
-        }
-        
-        throw new Meteor.Error("wrong_data_billing_cycle");
-    }
-    
-    getTotals(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface, currentCredit: number) {
-        let discountCredit = 0;
-        
-        let totals = {
-            credit: {
-                creditPlan: this.calculateCreditChangePlan(plan, currentPricing, productLicense, newPricing),
-                creditExtraUser: this.calculateCreditChangeActiveUser(plan, currentPricing, productLicense, newPricing),
-            },
-            total: {
-                costNewPlan: this.calculateCostChangePlan(plan, currentPricing, productLicense, newPricing),
-                costExtraUser: this.calculateCostChangeExtraUser(plan, currentPricing, productLicense, newPricing),
-                discountCredit: 0,
-                grandTotal: 0
-            }
-        };
-        
-        if (currentCredit > 0) {
-            discountCredit = Math.min(currentCredit, totals.total.costExtraUser + totals.total.costNewPlan);
-        }
-        
-        totals.total.discountCredit = discountCredit;
-        totals.total.grandTotal     = NumberHelper.round(totals.total.costExtraUser + totals.total.costNewPlan - totals.total.discountCredit, 2);
-        
-        return totals;
     }
 }
