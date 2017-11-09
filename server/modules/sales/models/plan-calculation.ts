@@ -5,13 +5,13 @@ import {OM} from "../../../code/Framework/ObjectManager";
 import {PricingCollection} from "../../retail/collections/prices";
 import {UserHasLicense} from "../../account/api/user-interface";
 import {LicenseCollection} from "../../retail/collections/licenses";
-import {CreditChangePlan} from "./order-calculation/credit-change-plan";
-import {CreditChangeActiveUser} from "./order-calculation/credit-change-active-user";
-import {CostNewPlan} from "./order-calculation/cost-new-plan";
-import {CostExtraUser} from "./order-calculation/cost-extra-user";
+import {CreditChangePlan} from "./plan-calculation/credit-change-plan";
+import {CreditChangeActiveUser} from "./plan-calculation/credit-change-active-user";
+import {CostNewPlan} from "./plan-calculation/cost-new-plan";
+import {CostExtraUser} from "./plan-calculation/cost-extra-user";
 import * as _ from 'lodash';
-import {DiscountCredit} from "./order-calculation/discount-credit";
-import {Grandtotal} from "./order-calculation/grandtotal";
+import {DiscountCredit} from "./plan-calculation/discount-credit";
+import {Grandtotal} from "./plan-calculation/grandtotal";
 
 export class OrderCalculation {
     license: LicenseInterface;
@@ -25,16 +25,8 @@ export class OrderCalculation {
             p: 10
         },
         {
-            i: new CreditChangeActiveUser(),
-            p: 20
-        },
-        {
             i: new CostNewPlan(),
             p: 30
-        },
-        {
-            i: new CostExtraUser(),
-            p: 40
         },
         {
             i: new DiscountCredit(),

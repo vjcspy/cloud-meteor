@@ -1,13 +1,16 @@
 import {Plan} from "./braintree/plan";
 import {Customer} from "./braintree/customer";
+import {OM} from "../../../code/Framework/ObjectManager";
+import {Subscription} from "./braintree/subscription";
 
 export class Braintree {
     protected _customerObject;
     protected _planObject;
+    protected _subscription;
     
     getCustomerObject(): Customer {
         if (typeof this._customerObject === 'undefined') {
-            this._customerObject = new Customer();
+            this._customerObject = OM.create<Customer>(Customer);
         }
         
         return this._customerObject;
@@ -15,9 +18,17 @@ export class Braintree {
     
     getPlanObject(): Plan {
         if (typeof this._planObject === 'undefined') {
-            this._planObject = new Plan();
+            this._planObject = OM.create<Plan>(Plan);
         }
         
         return this._planObject;
+    }
+    
+    getSubscription(): Subscription {
+        if (typeof this._subscription === 'undefined') {
+            this._subscription = OM.create<Subscription>(Subscription);
+        }
+        
+        return this._subscription;
     }
 }

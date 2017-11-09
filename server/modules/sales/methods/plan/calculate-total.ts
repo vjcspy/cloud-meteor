@@ -1,5 +1,5 @@
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {OrderCalculation} from "../../models/order-calculation";
+import {OrderCalculation} from "../../models/plan-calculation";
 
 new ValidatedMethod({
                         name: "sales.calculate_total",

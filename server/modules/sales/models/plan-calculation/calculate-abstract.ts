@@ -8,7 +8,11 @@ export abstract class CalculateAbstract {
     private _credits: Object;
     
     setTotal(amount: number): void {
-        this._totals[this.total] = amount;
+        if (!this._totals.hasOwnProperty(this.total)) {
+            this._totals[this.total] = amount;
+        } else {
+            this._totals[this.total] += amount;
+        }
     }
     
     setTotals(totals: Object): void {

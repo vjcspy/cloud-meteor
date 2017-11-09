@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import {SalesPaymentInterface} from "../models/sales/payment-interface";
+import {SalesPaymentInterface} from "../models/payment/payment-interface";
 
 export interface PaymentData {
     sale?: SalesPaymentInterface;

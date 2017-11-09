@@ -11,6 +11,7 @@ export const orderSchema = new SimpleSchema(
         product_id: String,
         
         pricing_id: String,
+        pricing_code: String,
         pricing_cycle: Number,
         prev_pricing_id: {
             type: String,
@@ -33,4 +34,4 @@ export const orderSchema = new SimpleSchema(
     }
 );
 
-export const OrderCollection = CollectionMaker.make('order', orderSchema);
+export const OrderCollection = CollectionMaker.make('sales_plan', orderSchema);
