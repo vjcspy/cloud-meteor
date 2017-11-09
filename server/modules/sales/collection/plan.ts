@@ -23,13 +23,8 @@ export const orderSchema = new SimpleSchema(
         },
         
         cost_new_plan: Number,
-        cost_extra_user: Number,
-        
-        credit_change_user: Number,
         credit_change_plan: Number,
-        
         discount_amount: Number,
-        
         grand_total: Number,
     }
 );
