@@ -5,8 +5,8 @@ import * as _ from 'lodash';
 import {OM} from "../../../code/Framework/ObjectManager";
 import {BraintreePricingPlan} from "../models/braintree-pricing-plan";
 import {Price} from "../../retail/models/price";
-import {SalesPaymentManager} from "../../sales-payment/repositories/sales-payment-manager";
 import {BraintreeSubscription} from "../models/sales/payment/subscription";
+import {Stone} from "../../../code/core/stone";
 
 export class BraintreeProvider implements ProviderInterface {
     boot() {
@@ -18,7 +18,7 @@ export class BraintreeProvider implements ProviderInterface {
     }
     
     protected addBraintreePayment() {
-        SalesPaymentManager.addPayment('braintree', {
+        Stone.getInstance().s('sales-payment-manager').addPayment('braintree', {
             subscription: new BraintreeSubscription()
         }, true);
     }

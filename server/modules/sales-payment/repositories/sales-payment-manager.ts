@@ -9,7 +9,7 @@ export interface PaymentData {
 export class SalesPaymentManager {
     protected static $SALES_PAYMENT = [];
     
-    static addPayment(id: string, data: PaymentData, isActive: boolean = true): void {
+    addPayment(id: string, data: PaymentData, isActive: boolean = true): void {
         const isExisted = _.find(SalesPaymentManager.$SALES_PAYMENT, (p) => p['id'] === id);
         
         if (isExisted) {
