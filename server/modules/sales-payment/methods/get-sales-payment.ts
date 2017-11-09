@@ -1,4 +1,4 @@
-import {SalesPaymentManager} from "../models/sales-payment-manager";
+import {SalesPaymentManager} from "../repositories/sales-payment-manager";
 import {OM} from "../../../code/Framework/ObjectManager";
 
 new ValidatedMethod({

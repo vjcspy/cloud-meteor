@@ -5,12 +5,22 @@ import * as _ from 'lodash';
 import {OM} from "../../../code/Framework/ObjectManager";
 import {BraintreePricingPlan} from "../models/braintree-pricing-plan";
 import {Price} from "../../retail/models/price";
+import {SalesPaymentManager} from "../../sales-payment/repositories/sales-payment-manager";
+import {BraintreeSubscription} from "../models/sales/payment/subscription";
 
 export class BraintreeProvider implements ProviderInterface {
     boot() {
         
+        this.addBraintreePayment();
+        
         // Fixme: will remove after implement braintree config plan
         this.dummyLinkPricingWithPlan();
+    }
+    
+    protected addBraintreePayment() {
+        SalesPaymentManager.addPayment('braintree', {
+            subscription: new BraintreeSubscription()
+        }, true);
     }
     
     protected dummyLinkPricingWithPlan() {
