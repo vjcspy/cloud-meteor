@@ -24,7 +24,10 @@ export class BraintreeSubscription extends PaymentAbstract implements SalesPayme
                         price,
                         planId,
                         paymentMethodNonce: data.gatewayAdditionData['paymentMethodNonce'],
-                        neverExpires: true
+                        neverExpires: true,
+                        options: {
+                            startImmediately: true
+                        }
                     });
     }
     
