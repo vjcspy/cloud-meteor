@@ -8,6 +8,7 @@ export const Prices            = CollectionMaker.make<PriceInterface>("prices",
                                                                                                type: String,
                                                                                                optional: true
                                                                                            },
+                                                                                           code: String,
                                                                                            display_name: String,
                                                                                            type: String,
                                                                                            trialDay: {
@@ -19,15 +20,15 @@ export const Prices            = CollectionMaker.make<PriceInterface>("prices",
                                                                                                optional: true
                                                                                            },
                                                                                            cost_monthly: {
-                                                                                               type: String,
+                                                                                               type: Number,
                                                                                                optional: true
                                                                                            },
                                                                                            cost_annually: {
-                                                                                               type: String,
+                                                                                               type: Number,
                                                                                                optional: true
                                                                                            },
                                                                                            cost_adding: {
-                                                                                               type: String,
+                                                                                               type: Number,
                                                                                                optional: true
                                                                                            },
                                                                                            description: {

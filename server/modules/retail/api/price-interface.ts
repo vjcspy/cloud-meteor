@@ -1,5 +1,6 @@
 export interface PriceInterface {
     _id?: string;
+    code: string;
     display_name: string;
     type: string;
     nousers?: number;
