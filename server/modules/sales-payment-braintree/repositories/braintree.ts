@@ -1,5 +1,5 @@
-import {Customer} from "./braintree/customer";
 import {Plan} from "./braintree/plan";
+import {Customer} from "./braintree/customer";
 
 export class Braintree {
     protected _customerObject;

@@ -2,7 +2,7 @@ import {UserCreditCollection} from "../collections/user-credit";
 import {UserCreditInterface} from "../api/user-credit-interface";
 import {User} from "../../account/models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
-import {Braintree} from "../models/braintree";
+import {Stone} from "../../../code/core/stone";
 
 new ValidatedMethod({
                         name: 'sales-payment-braintree.client_token',
@@ -16,7 +16,7 @@ new ValidatedMethod({
                                 const user: User = OM.create<User>(User);
                                 user.loadById(this.userId);
             
-                                let braintree = new Braintree();
+                                let braintree = Stone.getInstance().s('braintree');
             
                                 return braintree.getCustomerObject()
                                                 .getClientToken(user)

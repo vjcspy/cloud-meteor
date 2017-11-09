@@ -1,4 +1,4 @@
-import {Braintree} from "../models/braintree";
+import {Stone} from "../../../code/core/stone";
 
 new ValidatedMethod({
                         name: 'sales-payment-braintree.get_plan',
@@ -9,7 +9,7 @@ new ValidatedMethod({
                         },
                         run: function () {
                             return new Promise((res, rej) => {
-                                let braintree = new Braintree();
+                                let braintree = Stone.getInstance().s('braintree');
             
                                 return braintree.getPlanObject()
                                                 .getPlan()

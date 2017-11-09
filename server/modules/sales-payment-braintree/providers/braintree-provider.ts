@@ -7,10 +7,11 @@ import {BraintreePricingPlan} from "../models/braintree-pricing-plan";
 import {Price} from "../../retail/models/price";
 import {BraintreeSubscription} from "../models/sales/payment/subscription";
 import {Stone} from "../../../code/core/stone";
+import {Braintree} from "../repositories/braintree";
 
 export class BraintreeProvider implements ProviderInterface {
     boot() {
-        
+        Stone.getInstance().singleton('braintree', new Braintree());
         this.addBraintreePayment();
         
         // Fixme: will remove after implement braintree config plan
