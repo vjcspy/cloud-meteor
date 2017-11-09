@@ -1,6 +1,6 @@
 import {ProviderInterface} from "../../../code/core/app/contract/module-declare/provider-interface";
 import {BraintreePricingPlanCollection} from "../collections/braintree-pricing-plan";
-import {BraintreeGateway} from "../etc/braintree.config";
+import {BraintreeConfig, BraintreeGateway} from "../etc/braintree.config";
 import * as _ from 'lodash';
 import {OM} from "../../../code/Framework/ObjectManager";
 import {BraintreePricingPlan} from "../models/braintree-pricing-plan";
@@ -25,18 +25,10 @@ export class BraintreeProvider implements ProviderInterface {
     }
     
     protected dummyLinkPricingWithPlan() {
-        const configLink       = [{
-            pricing_code: "cpos_premium",
-            plan_id: "cpos_premium"
-        }, {
-            pricing_code: "cpos_standard",
-            plan_id: "cpos_standard"
-        }
-        ];
         const callBackLinkPlan = (err, result) => {
             if (result && _.isArray(result['plans'])) {
                 _.forEach(result['plans'], (_plan) => {
-                    let exitedLink = _.find(configLink, (_l) => _l['plan_id'] === _plan['id']);
+                    let exitedLink = _.find(BraintreeConfig.subscription.linkPricingPlan, (_l) => _l['plan_id'] === _plan['id']);
                     if (!!exitedLink) {
                         let braintreePricngPlan = OM.create<BraintreePricingPlan>(BraintreePricingPlan);
                         

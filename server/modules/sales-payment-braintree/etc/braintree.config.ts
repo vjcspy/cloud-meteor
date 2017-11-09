@@ -8,7 +8,17 @@ export const BraintreeConfig = {
         privateKey: 'ec91ef68c14852d9b084ce604f8752e1',
     },
     subscription: {
-        discountId: 'subscription_discount'
+        discountId: 'subscription_discount',
+        linkPricingPlan: [
+            {
+                pricing_code: "cpos_premium",
+                plan_id: "cpos_premium"
+            },
+            {
+                pricing_code: "cpos_standard",
+                plan_id: "cpos_standard"
+            }
+        ]
     }
 };
 

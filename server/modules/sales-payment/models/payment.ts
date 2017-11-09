@@ -2,11 +2,11 @@ import {PlanInterface} from "../../sales/api/plan-interface";
 
 export interface OrderObject {
     plan?: PlanInterface;
-    gatewayAdditionData: Object;
+    activeUser?: any;
 }
 
 export class Payment {
-    pay(OrderObject: OrderObject) {
+    pay(OrderObject: OrderObject, gatewayAdditionData?: Object) {
         
     }
 }
