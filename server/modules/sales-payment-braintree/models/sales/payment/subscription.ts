@@ -6,6 +6,8 @@ import {ProductLicenseBillingCycle} from "../../../../retail/api/license-interfa
 import {OrderInterface} from "../../../../sales/api/order-interface";
 import {Stone} from "../../../../../code/core/stone";
 import {Braintree} from "../../../repositories/braintree";
+import {SubscriptionGatewayConfig} from "../../../repositories/braintree/subscription";
+import {BraintreeConfig} from "../../../etc/braintree.config";
 
 export class BraintreeSubscription extends PaymentAbstract implements SalesPaymentInterface {
     place(data: SalesPaymentDataInterface) {
@@ -18,17 +20,32 @@ export class BraintreeSubscription extends PaymentAbstract implements SalesPayme
         
         const price = data.transactionData.billingCycle === ProductLicenseBillingCycle.MONTHLY ? pricing.cost_monthly : pricing.cost_annually;
         
+        let transaction: SubscriptionGatewayConfig = {
+            price,
+            planId,
+            paymentMethodNonce: data.gatewayAdditionData['paymentMethodNonce'],
+            neverExpires: true,
+            options: {
+                startImmediately: true
+            },
+            discounts: {
+                add: []
+            }
+        };
+        
+        if (data.transactionData.subscriptionDiscount && data.transactionData.subscriptionDiscount > 0) {
+            transaction.discounts.add.push({
+                                               amount: data.transactionData.subscriptionDiscount,
+                                               inheritedFromId: BraintreeConfig.subscription.discountId,
+                                               neverExpires: false,
+                                               numberOfBillingCycles: 1,
+                                               quantity: 1
+                                           });
+        }
+        
         return (Stone.getInstance().s('braintree') as Braintree)
             .getSubscription()
-            .create({
-                        price,
-                        planId,
-                        paymentMethodNonce: data.gatewayAdditionData['paymentMethodNonce'],
-                        neverExpires: true,
-                        options: {
-                            startImmediately: true
-                        }
-                    });
+            .create(transaction);
     }
     
     protected getPlanId(pricing_code: string): string {

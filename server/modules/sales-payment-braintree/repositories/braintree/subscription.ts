@@ -1,5 +1,14 @@
 import {BraintreeGateway} from "../../etc/braintree.config";
 
+
+export interface SubscriptionAddDiscount {
+    amount: number;
+    inheritedFromId: string;
+    neverExpires?: boolean;
+    numberOfBillingCycles: number;
+    quantity: number;
+}
+
 export interface SubscriptionGatewayConfig {
     planId: string;
     paymentMethodToken?: string;
@@ -10,6 +19,9 @@ export interface SubscriptionGatewayConfig {
     price: number;
     options?: {
         startImmediately?: boolean;
+    }
+    discounts?: {
+        add: SubscriptionAddDiscount[]
     }
 }
 
