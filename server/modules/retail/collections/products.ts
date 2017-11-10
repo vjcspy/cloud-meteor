@@ -42,13 +42,14 @@ export const Products = CollectionMaker.make<ProductInterface>(
 							type: Array
 						},
 						'api.$':      String,
-						customers:    new SimpleSchema(
+						licenses:    new SimpleSchema(
 							{
 								type:      String,
-								users:     {
-									type: Array
+								license:     {
+									type: Array,
+									optional: true
 								},
-								'users.$': String,
+								'license.$': String,
 							}
 						),
 						path:         String,
