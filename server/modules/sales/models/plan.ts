@@ -25,4 +25,8 @@ export class Plan extends AbstractModel {
                 );
         });
     }
+    
+    canInvoice(): boolean {
+        return this.getData('grand_total') > 0;
+    }
 }

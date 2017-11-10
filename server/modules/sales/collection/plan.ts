@@ -1,5 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 import {CollectionMaker} from "../../../code/MeteorBase/CollectionMaker";
+import {PlanInterface} from "../api/plan-interface";
 
 export const orderSchema = new SimpleSchema(
     {
@@ -29,4 +30,4 @@ export const orderSchema = new SimpleSchema(
     }
 );
 
-export const OrderCollection = CollectionMaker.make('sales_plan', orderSchema);
+export const PlanCollection = CollectionMaker.make<PlanInterface>('sales_plan', orderSchema);
