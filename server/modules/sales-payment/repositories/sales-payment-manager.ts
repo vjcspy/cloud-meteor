@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import {SalesPaymentInterface} from "../models/payment/payment-interface";
 
 export interface PaymentData {
+    name: string;
     sale?: SalesPaymentInterface;
     subscription?: SalesPaymentInterface;
 }

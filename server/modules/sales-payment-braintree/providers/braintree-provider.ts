@@ -20,6 +20,7 @@ export class BraintreeProvider implements ProviderInterface {
     
     protected addBraintreePayment() {
         Stone.getInstance().s('sales-payment-manager').addPayment('braintree', {
+            name: "Braintree",
             subscription: new BraintreeSubscription()
         }, true);
     }
