@@ -8,6 +8,7 @@ export const BraintreePricingPlanSchema = new SimpleSchema({
                                                                },
                                                                pricing_code: String,
                                                                braintree_plan_id: String,
+                                                               type: String,
                                                            });
 
 export const BraintreePricingPlanCollection = CollectionMaker.make('braintree_pricing_plan', BraintreePricingPlanSchema);

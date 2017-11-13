@@ -39,6 +39,7 @@ export class BraintreeProvider implements ProviderInterface {
                         if (pricing.getId()) {
                             braintreePricngPlan.setData('pricing_code', pricing.getData('code'))
                                                .setData('braintree_plan_id', _plan['id'])
+                                               .setData('type', exitedLink['type'])
                                                .save();
                         }
                     }

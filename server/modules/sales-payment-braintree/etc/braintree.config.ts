@@ -12,11 +12,13 @@ export const BraintreeConfig = {
         linkPricingPlan: [
             {
                 pricing_code: "cpos_premium",
-                plan_id: "cpos_premium"
+                plan_id: "cpos_premium",
+                type: 'plan'
             },
             {
                 pricing_code: "cpos_standard",
-                plan_id: "cpos_standard"
+                plan_id: "cpos_standard",
+                type: 'plan'
             }
         ]
     }
