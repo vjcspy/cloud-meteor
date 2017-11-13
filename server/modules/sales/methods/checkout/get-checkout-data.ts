@@ -28,12 +28,9 @@ new ValidatedMethod({
                                         }
                     
                                         totals = {
-                                            credit: {
-                                                creditPlan: plan.getData('credit_change_plan')
-                                            },
                                             total: {
-                                                discount: plan.getData('discount_amount'),
-                                                grandTotal: plan.getData('grand_total')
+                                                discount_amount: plan.getData('discount_amount'),
+                                                grand_total: plan.getData('grand_total')
                                             }
                                         };
                                     } else {
