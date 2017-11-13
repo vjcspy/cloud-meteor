@@ -12,8 +12,12 @@ export interface PlanInterface {
     prev_pricing_id: string;
     prev_pricing_cycle: ProductLicenseBillingCycle;
     
-    cost_new_plan: number;
-    credit_change_plan: number;
-    discount_amount: number;
+    price: number;
+    credit_earn: number;
+    credit_spent: number;
+    discount_amount: number
     grand_total: number;
+    
+    created_at?: Date;
+    updated_at?: Date
 }

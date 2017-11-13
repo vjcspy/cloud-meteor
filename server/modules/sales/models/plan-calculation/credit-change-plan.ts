@@ -7,11 +7,13 @@ import * as moment from 'moment';
 import {NumberHelper} from "../../../../code/Framework/NumberHelper";
 
 export class CreditChangePlan extends CalculateAbstract implements CalculateInterface {
-    total: string = 'creditPlan';
+    total: string = '';
     
     collect(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): void {
         if (!productLicense) {
-            return this.setCredit(0);
+            this.getTotals().setTotal(this.total, 0);
+            
+            return;
         }
         
         const current      = DateTimeHelper.getCurrentMoment();
@@ -22,19 +24,21 @@ export class CreditChangePlan extends CalculateAbstract implements CalculateInte
         // FIXME: will calculate wrong credit amount when apply discount, promo ....
         if (remainingDay > 0) {
             if (newPricing._id === currentPricing._id && plan['cycle'] === productLicense.billing_cycle) {
-                return this.setCredit(0);
+                this.getTotals().setData('credit_earn', 0);
             } else {
                 if (productLicense.billing_cycle === ProductLicenseBillingCycle.ANNUALLY) {
-                    return this.setCredit(NumberHelper.round(remainingDay * currentPricing.cost_annually / this.getDayByCycle(productLicense.billing_cycle), 2));
+                    this.getTotals()
+                        .setData('credit_earn', NumberHelper.round(remainingDay * currentPricing.cost_annually / this.getDayByCycle(productLicense.billing_cycle), 2));
                 } else if (productLicense.billing_cycle === ProductLicenseBillingCycle.MONTHLY) {
-                    return this.setCredit(NumberHelper.round(remainingDay * currentPricing.cost_monthly / this.getDayByCycle(productLicense.billing_cycle), 2));
+                    this.getTotals()
+                        .setData('credit_earn', NumberHelper.round(remainingDay * currentPricing.cost_monthly / this.getDayByCycle(productLicense.billing_cycle), 2));
                 } else {
                     throw new Meteor.Error("can_not_find_cycle");
                 }
             }
         }
         
-        return this.setCredit(0);
+        this.getTotals().setData('credit_earn', 0);
     }
     
 }

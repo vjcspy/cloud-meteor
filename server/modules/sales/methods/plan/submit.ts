@@ -1,5 +1,5 @@
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {OrderCalculation} from "../../models/plan-calculation";
+import {PlanCalculation} from "../../models/plan-calculation";
 import {Plan} from "../../models/plan";
 import {DataObject} from "../../../../code/Framework/DataObject";
 
@@ -14,7 +14,7 @@ new ValidatedMethod({
                             return new Promise((resolve, reject) => {
                                 const {plan, product_id} = data;
             
-                                let calculator = OM.create<OrderCalculation>(OrderCalculation);
+                                let calculator = OM.create<PlanCalculation>(PlanCalculation);
                                 const totals   = calculator.getTotals(plan, product_id, this.userId);
             
                                 let salePlan = OM.create<Plan>(Plan);
@@ -28,10 +28,11 @@ new ValidatedMethod({
                                         .setData('pricing_cycle', plan['cycle'])
                                         .setData('prev_pricing_id', calculator.currentPricing ? calculator.currentPricing._id : null)
                                         .setData('prev_pricing_cycle', calculator.productLicense ? calculator.productLicense.billing_cycle : null)
-                                        .setData('cost_new_plan', totals.total.costNewPlan)
-                                        .setData('credit_change_plan', totals.credit.creditPlan)
-                                        .setData('discount_amount', totals.total.discount)
-                                        .setData('grand_total', totals.total.grandTotal);
+                                        .setData('price', totals.total.price)
+                                        .setData('credit_earn', totals.data.credit_earn || 0)
+                                        .setData('credit_spent', totals.data.credit_spent || 0)
+                                        .setData('discount_amount', totals.total.discount_amount || 0)
+                                        .setData('grand_total', totals.total.grand_total);
             
                                 salePlan.createSalePlan(planData.getData())
                                         .then((planId) => resolve(planId),

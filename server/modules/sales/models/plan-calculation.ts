@@ -6,14 +6,13 @@ import {PricingCollection} from "../../retail/collections/prices";
 import {UserHasLicense} from "../../account/api/user-interface";
 import {LicenseCollection} from "../../retail/collections/licenses";
 import {CreditChangePlan} from "./plan-calculation/credit-change-plan";
-import {CreditChangeActiveUser} from "./plan-calculation/credit-change-active-user";
 import {CostNewPlan} from "./plan-calculation/cost-new-plan";
-import {CostExtraUser} from "./plan-calculation/cost-extra-user";
 import * as _ from 'lodash';
 import {DiscountCredit} from "./plan-calculation/discount-credit";
 import {Grandtotal} from "./plan-calculation/grandtotal";
+import {SalesTotal} from "./sales-total";
 
-export class OrderCalculation {
+export class PlanCalculation {
     license: LicenseInterface;
     productLicense: LicenseHasProductInterface;
     currentPricing: PriceInterface;
@@ -39,20 +38,18 @@ export class OrderCalculation {
     ];
     
     protected calculate(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface, userId: string) {
-        let credit = {};
-        let total  = {};
+        let salesTotal = OM.create<SalesTotal>(SalesTotal);
         
         const totalCollectorSorted = _.sortBy(this._totalCollector, (t) => t['p']);
         
         _.forEach(totalCollectorSorted, (t: any) => {
             const i = t['i'];
-            i.setUserId(userId);
-            i.setTotals(total);
-            i.setCredits(credit);
-            i.collect(plan, currentPricing, productLicense, newPricing);
+            i.setUserId(userId)
+             .setTotals(salesTotal)
+             .collect(plan, currentPricing, productLicense, newPricing);
         });
         
-        return {credit, total}
+        return {data: salesTotal.getData(), total: salesTotal.getTotals(), totalObject: SalesTotal};
     }
     
     public getTotals(plan, product_id, userId): any {

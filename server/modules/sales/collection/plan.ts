@@ -1,6 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 import {CollectionMaker} from "../../../code/MeteorBase/CollectionMaker";
 import {PlanInterface} from "../api/plan-interface";
+import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
 export const orderSchema = new SimpleSchema(
     {
@@ -23,10 +24,20 @@ export const orderSchema = new SimpleSchema(
             optional: true
         },
         
-        cost_new_plan: Number,
-        credit_change_plan: Number,
+        price: Number,
+        credit_earn: Number,
+        credit_spent: Number,
         discount_amount: Number,
         grand_total: Number,
+    
+        created_at: {
+            type: Date,
+            defaultValue: DateTimeHelper.getCurrentDate()
+        },
+        updated_at: {
+            type: Date,
+            defaultValue: DateTimeHelper.getCurrentDate()
+        }
     }
 );
 

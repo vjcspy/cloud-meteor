@@ -11,7 +11,7 @@ export class CreditChangeActiveUser extends CalculateAbstract implements Calcula
     
     collect(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): void {
         if (!productLicense) {
-            return this.setCredit(0);
+            this.getTotals().setTotal(this.total, 0);
         }
         
         const current      = DateTimeHelper.getCurrentMoment();
@@ -22,15 +22,16 @@ export class CreditChangeActiveUser extends CalculateAbstract implements Calcula
             if (currentPricing._id === newPricing._id) {
                 const change = parseInt(plan['extraUser']) - productLicense.numOfExtraUser;
                 if (change < 0) {
-                    return this.setCredit(NumberHelper.round(Math.abs(change) * currentPricing.cost_adding * remainingDay / 30, 2));
+                    this.getTotals().setTotal(this.total, NumberHelper.round(Math.abs(change) * currentPricing.cost_adding * remainingDay / 30, 2));
                 } else {
-                    return this.setCredit(0);
+                    this.getTotals().setTotal(this.total, 0);
                 }
             } else {
-                return this.setCredit(NumberHelper.round(Math.abs(parseInt(plan['extraUser'])) * currentPricing.cost_adding * remainingDay / 30, 2));
+                this.getTotals()
+                    .setTotal(this.total, NumberHelper.round(Math.abs(parseInt(plan['extraUser'])) * currentPricing.cost_adding * remainingDay / 30, 2));
             }
         }
-        return this.setCredit(0);
+        this.getTotals().setTotal(this.total, 0);
     }
     
 }

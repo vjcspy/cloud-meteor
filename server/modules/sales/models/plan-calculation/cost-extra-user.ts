@@ -11,12 +11,12 @@ export class CostExtraUser extends CalculateAbstract implements CalculateInterfa
         if (!!currentPricing && newPricing._id === currentPricing._id) {
             const change = parseInt(plan['extraUser']) - productLicense.numOfExtraUser;
             if (change > 0) {
-                return this.setTotal(NumberHelper.round(change * newPricing.cost_adding, 2));
+                this.getTotals().setTotal(this.total, NumberHelper.round(change * newPricing.cost_adding, 2));
             } else {
-                return this.setTotal(0);
+                this.getTotals().setTotal(this.total, 0);
             }
         } else {
-            return this.setTotal(NumberHelper.round(parseInt(plan['extraUser']) * newPricing.cost_adding, 2));
+            this.getTotals().setTotal(this.total, NumberHelper.round(parseInt(plan['extraUser']) * newPricing.cost_adding, 2));
         }
     }
 }

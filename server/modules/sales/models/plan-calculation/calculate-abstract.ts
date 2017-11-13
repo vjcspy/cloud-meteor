@@ -1,29 +1,19 @@
 import {ProductLicenseBillingCycle} from "../../../retail/api/license-interface";
+import {SalesTotal} from "../sales-total";
 
 export abstract class CalculateAbstract {
     abstract total: string;
     
-    protected _totals: Object;
+    protected _totals: SalesTotal;
     private _userId: string;
-    private _credits: Object;
     
-    setTotal(amount: number): void {
-        if (!this._totals.hasOwnProperty(this.total)) {
-            this._totals[this.total] = amount;
-        } else {
-            this._totals[this.total] += amount;
-        }
-    }
-    
-    setTotals(totals: Object): void {
+    setTotals(totals: SalesTotal) {
         this._totals = totals;
+        
+        return this;
     }
     
-    setCredits(credit: Object): void {
-        this._credits = credit;
-    }
-    
-    getTotals(): Object {
+    getTotals(): SalesTotal {
         return this._totals;
     }
     
@@ -45,13 +35,7 @@ export abstract class CalculateAbstract {
     
     setUserId(value: string) {
         this._userId = value;
-    }
-    
-    getCredits(): Object {
-        return this._credits;
-    }
-    
-    setCredit(value: number) {
-        this._credits[this.total] = value;
+        
+        return this;
     }
 }

@@ -6,17 +6,24 @@ import * as _ from 'lodash';
 import {UserCredit} from "../../../user-credit/models/user-credit";
 
 export class DiscountCredit extends CalculateAbstract implements CalculateInterface {
-    total: string = 'discount';
+    total: string = 'discount_amount';
     
     collect(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): void {
-        const st             = _.reduce(this.getTotals(), (r: any, v: any) => parseFloat(v + r), 0);
+        const st             = _.reduce(this.getTotals().getTotals(), (r: any, v: any) => parseFloat(v + '') + parseFloat(r + ''), 0);
         const userCredit     = new UserCredit();
         const currentBalance = userCredit.getUserBalanace(this.getUserId());
         
         if (currentBalance > 0) {
-            this.setTotal(-Math.min(currentBalance, st));
+            this.getTotals()
+                .setTotal(this.total, this.getTotals().getTotal(this.total) + -Math.min(currentBalance, st))
+                .setData('credit_spent', Math.min(currentBalance, st));
+            
+            return;
         } else {
-            this.setTotal(0);
+            this.getTotals()
+                .setData('credit_spent', 0);
+            
+            return;
         }
     }
     

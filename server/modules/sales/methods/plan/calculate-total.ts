@@ -1,5 +1,5 @@
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {OrderCalculation} from "../../models/plan-calculation";
+import {PlanCalculation} from "../../models/plan-calculation";
 
 new ValidatedMethod({
                         name: "sales.calculate_total",
@@ -10,7 +10,7 @@ new ValidatedMethod({
                         },
                         run: function (data) {
                             const {plan, product_id} = data;
-                            return OM.create<OrderCalculation>(OrderCalculation).getTotals(plan, product_id, this.userId);
+                            return OM.create<PlanCalculation>(PlanCalculation).getTotals(plan, product_id, this.userId);
                         }
                     });
 

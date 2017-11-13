@@ -14,7 +14,7 @@ new ValidatedMethod({
                             const {orderType, orderId} = data;
         
                             let salePaymentManager = <SalesPaymentManager>Stone.getInstance().s('sales-payment-manager');
-                            const payments         = salePaymentManager.getPayment();
+                            const payments         = salePaymentManager.getPayments();
         
                             let totals;
                             switch (orderType) {
