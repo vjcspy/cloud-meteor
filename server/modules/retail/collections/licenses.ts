@@ -26,7 +26,7 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                              "has_product.$": new SimpleSchema(
                                                                                                  {
                                                                                                      product_id: String,
-                                                                                                     isFresh: Boolean,
+                                                                                                     is_fresh: Boolean,
                                                                                                      base_url: {
                                                                                                          type: Array,
                                                                                                          optional: true
@@ -36,20 +36,17 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                              status: SimpleSchema.Integer,
                                                                                                              url: String
                                                                                                          }),
-                                                                                                     numOfExtraUser: SimpleSchema.Integer,
+                                                                                                     pricing_id: String,
+                                                                                                     pricing_type: String,
+                                                                                                     addition_entity: SimpleSchema.Integer,
                                                                                                      has_user: Array,
                                                                                                      "has_user.$": new SimpleSchema(
                                                                                                          {
                                                                                                              user_id: String,
                                                                                                              username: String
                                                                                                          }),
-                                                                                                     pricing_id: String,
-                                                                                                     pricing_type: String,
-                                                                                                     status: Number,
                                                                                                      purchase_date: Date,
                                                                                                      expired_date: Date,
-                                                                                                     extra_user_purchase_date: Date,
-                                                                                                     extra_user_expired_date: Date
                                                                                                  }),
                                                                                              has_roles: {
                                                                                                  type: Array,
@@ -68,10 +65,6 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                                                                    permission: String,
                                                                                                                                                    is_active: Boolean
                                                                                                                                                }),
-                                                                                             created_by: {
-                                                                                                 type: String,
-                                                                                                 optional: true
-                                                                                             },
                                                                                              created_at: {
                                                                                                  type: Date,
                                                                                                  defaultValue: DateTimeHelper.getCurrentDate()
