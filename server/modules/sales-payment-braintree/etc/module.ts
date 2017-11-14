@@ -8,7 +8,6 @@ StoneModuleManager.config({
                               providers: [
                                   new BraintreeProvider(),
                               ],
-                              db: new SalesPaymentBraintreeSchema(),
                               dependencies: [
                                   'sales',
                                   'sales-payment',

@@ -5,6 +5,5 @@ StoneModuleManager.config({
                               name: 'base',
                               version: '0.0.1',
                               providers: [],
-                              db: new BaseSchema(),
                               dependencies: []
                           });

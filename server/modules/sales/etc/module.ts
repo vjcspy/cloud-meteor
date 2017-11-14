@@ -5,7 +5,6 @@ StoneModuleManager.config({
                               name: 'sales',
                               version: '0.0.1',
                               providers: [],
-                              db: new SalesSchema(),
                               dependencies: [
                                   'account'
                               ]

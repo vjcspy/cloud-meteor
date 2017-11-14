@@ -9,4 +9,8 @@ export class Price extends AbstractModel {
 
   static VISIBILITY_HIDDEN = 0;
   static VISIBILITY_SHOW = 1;
+  
+  getPriceType(){
+      return this.getData('type');
+  }
 }

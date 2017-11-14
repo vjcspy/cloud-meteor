@@ -29,4 +29,12 @@ export class Plan extends AbstractModel {
     canInvoice(): boolean {
         return this.getData('grand_total') > 0;
     }
+    
+    getPrice(): number {
+        return this.getData('price') || 0;
+    }
+    
+    getDiscountAmount(): number {
+        return this.getData('discount_amount') || 0;
+    }
 }

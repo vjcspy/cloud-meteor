@@ -1,5 +1,4 @@
 import {StoneModuleManager} from "../../../code/core/app/module/stone-module-manager";
-import {SalesPaymentSchema} from "../db/Schema";
 import {SalesPaymentProvider} from "../providers/sales-payment";
 
 StoneModuleManager.config({
@@ -8,7 +7,6 @@ StoneModuleManager.config({
                               providers: [
                                   new SalesPaymentProvider()
                               ],
-                              db: new SalesPaymentSchema(),
                               dependencies: [
                                   'sales',
                                   'account'
