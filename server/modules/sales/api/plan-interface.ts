@@ -1,5 +1,14 @@
 import {ProductLicenseBillingCycle} from "../../retail/api/license-interface";
 
+export enum PlanStatus {
+    SALE_PENDING,
+    SALE_COMPLETE,
+    
+    SUBSCRIPTION_ACTIVE,
+    SUBSCRIPTION_PENDING,
+    SUBSCRIPTION_PAST_DUE
+}
+
 export interface PlanInterface {
     _id?: string;
     user_id: string;
@@ -17,6 +26,8 @@ export interface PlanInterface {
     credit_spent: number;
     discount_amount: number
     grand_total: number;
+    
+    status: PlanStatus;
     
     created_at?: Date;
     updated_at?: Date

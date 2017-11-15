@@ -21,7 +21,11 @@ export class SalesPaymentManager {
         
     }
     
-    getPayment() {
+    getPayments() {
         return SalesPaymentManager.$SALES_PAYMENT;
+    }
+    
+    getPayment(id: string) {
+        return _.find(SalesPaymentManager.$SALES_PAYMENT, (p) => p['id'] === id);
     }
 }

@@ -37,4 +37,9 @@ export class Plan extends AbstractModel {
     getDiscountAmount(): number {
         return this.getData('discount_amount') || 0;
     }
+    
+    getPricingId(): string {
+        return this.getData('pricing_id');
+    }
+    
 }

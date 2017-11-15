@@ -10,7 +10,7 @@ new ValidatedMethod({
                         },
                         run: function () {
                             let salePaymentManager = OM.create <SalesPaymentManager>(SalesPaymentManager);
-                            return salePaymentManager.getPayment();
+                            return salePaymentManager.getPayments();
                         }
                     });
 

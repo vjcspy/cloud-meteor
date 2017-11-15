@@ -3,7 +3,7 @@ import {CollectionMaker} from "../../../code/MeteorBase/CollectionMaker";
 import {PlanInterface} from "../api/plan-interface";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
-export const orderSchema = new SimpleSchema(
+export const invoiceSchema = new SimpleSchema(
     {
         _id: {
             type: String,
@@ -15,23 +15,15 @@ export const orderSchema = new SimpleSchema(
         pricing_id: String,
         pricing_code: String,
         pricing_cycle: Number,
-        prev_pricing_id: {
-            type: String,
-            optional: true
-        },
-        prev_pricing_cycle: {
-            type: Number,
-            optional: true
-        },
         
         price: Number,
-        credit_earn: Number,
-        credit_spent: Number,
         discount_amount: Number,
+        add_on: Number,
         grand_total: Number,
-        
-        status: Number,
-        
+        addition_data: {
+            type: Object,
+            optional: true
+        },
         created_at: {
             type: Date,
             defaultValue: DateTimeHelper.getCurrentDate()
@@ -43,4 +35,4 @@ export const orderSchema = new SimpleSchema(
     }
 );
 
-export const PlanCollection = CollectionMaker.make<PlanInterface>('sales_plan', orderSchema);
+export const InvoiceCollection = CollectionMaker.make<PlanInterface>('sales_invoice', invoiceSchema);

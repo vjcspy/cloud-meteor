@@ -8,9 +8,10 @@ import {Stone} from "../../../../../code/core/stone";
 import {Braintree} from "../../../repositories/braintree";
 import {SubscriptionGatewayConfig} from "../../../repositories/braintree/subscription";
 import {BraintreeConfig} from "../../../etc/braintree.config";
+import {PayResultInterface} from "../../../../sales-payment/models/payment/pay-result-interface";
 
 export class BraintreeSubscription extends PaymentAbstract implements SalesPaymentInterface {
-    place(data: SalesPaymentDataInterface) {
+    place(data: SalesPaymentDataInterface): Promise<PayResultInterface> {
         const planId  = this.getPlanId(data.pricing.code);
         const pricing = this.getPricing(data.pricing._id);
         
@@ -33,9 +34,9 @@ export class BraintreeSubscription extends PaymentAbstract implements SalesPayme
             }
         };
         
-        if (data.transactionData.subscriptionDiscount && data.transactionData.subscriptionDiscount > 0) {
+        if (_.isNumber(data.transactionData.discountAmount)) {
             transaction.discounts.add.push({
-                                               amount: data.transactionData.subscriptionDiscount,
+                                               amount: Math.abs(data.transactionData.discountAmount),
                                                inheritedFromId: BraintreeConfig.subscription.discountId,
                                                neverExpires: false,
                                                numberOfBillingCycles: 1,
@@ -43,15 +44,22 @@ export class BraintreeSubscription extends PaymentAbstract implements SalesPayme
                                            });
         }
         
-        return (Stone.getInstance().s('braintree') as Braintree)
-            .getSubscription()
-            .create(transaction);
+        return new Promise((resolve, reject) => {
+            (Stone.getInstance().s('braintree') as Braintree)
+                .getSubscription()
+                .create(transaction)
+                .then((result) => {
+                
+                }, (err) => {
+                
+                });
+        });
     }
     
     protected getPlanId(pricing_code: string): string {
         let existedPlanId = _.find(this.getPricingPlan(), (_p) => _p['pricing_code'] === pricing_code);
         if (existedPlanId) {
-            return existedPlanId['plan_id'];
+            return existedPlanId['braintree_plan_id'];
         } else {
             throw new Meteor.Error("pricing_not_yet_config_braintree_plan");
         }
