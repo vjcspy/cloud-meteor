@@ -1,11 +1,13 @@
 import {StoneModuleManager} from "../../../code/core/app/module/stone-module-manager";
-import {Pricing} from "../providers/pricing";
+import {PricingProvider} from "../providers/pricing";
+import {ProductProvider} from "../providers/product";
 
 StoneModuleManager.config({
                               name: 'retail',
                               version: '0.0.4',
                               providers: [
-                                  new Pricing(),
+                                  new PricingProvider(),
+                                  new ProductProvider()
                               ],
                               dependencies: [
                                   'account'

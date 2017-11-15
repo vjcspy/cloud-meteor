@@ -1,25 +1,39 @@
 export interface ProductInterface {
     _id?: string;
     code: string;
-    name?: string;
-    additional_data?: Object;
+    name: string;
     has_pricing: ProductHasPricingInterface[];
-    nousers: number;
     versions?: ProductVersion[];
+    api_versions: ApiVersions[];
     description?: string;
-    created_at?: Date;
-    updated_at?: Date;
+    created_at: Date;
+    updated_at: Date;
 }
 
 export interface ProductHasPricingInterface {
     pricing_id: string;
-    addition_data?: Object
 }
 
 export interface ProductVersion {
-    name?: string;
-    version?: string;
-    changelog: string;
-    created_at?: Date;
-    updated_at?: Date;
+    name: string;
+    version: string;
+    api_compatible: ProductVersionApiCompatible[];
+    license_compatible: ProductVersionLicenseCompatible[];
+    directory_path: string;
+    descriptions?: string;
+    changelog?: string;
+}
+
+export interface ProductVersionApiCompatible {
+    code: string;
+}
+
+export interface ProductVersionLicenseCompatible {
+    license_id: string;
+}
+
+export interface ApiVersions {
+    code: string;
+    name: string;
+    directory_path: string;
 }

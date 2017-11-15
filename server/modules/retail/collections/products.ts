@@ -4,90 +4,80 @@ import {ProductInterface} from "../api/product-interface";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
 export const Products = CollectionMaker.make<ProductInterface>(
-	"products",
-	new SimpleSchema(
-		{
-			_id:             {
-				type:     String,
-				optional: true
-			},
-			code:            String,
-			name:            String,
-			additional_data: {
-				type:     Object,
-				optional: true
-			},
-			description:     {
-				type:     String,
-				optional: true
-			},
-			has_pricing:     {
-				type: Array
-			},
-			'has_pricing.$': new SimpleSchema(
-				{
-					pricing_id:    String,
-					addition_data: {
-						type:     Object,
-						optional: true
-					},
-				}
-			),
-			versions:        [
-				new SimpleSchema(
-					{
-						name:         String,
-						version:      String,
-						api:          {
-							type: Array
-						},
-						'api.$':      String,
-						licenses:    new SimpleSchema(
-							{
-								type:      String,
-								license:     {
-									type: Array,
-									optional: true
-								},
-								'license.$': String,
-							}
-						),
-						path:         String,
-						descriptions: {
-							type:     String,
-							optional: true
-						},
-						changelog:    {
-							type:     String,
-							optional: true
-						},
-						created_at:   {
-							type: Date,
-						},
-						updated_at:   {
-							type: Date,
-						},
-					}
-				)
-			],
-			apiVersions:     {
-				type: Array
-			},
-			'apiVersions.$': new SimpleSchema(
-				{
-					code:           String,
-					name:           String,
-					package_module: String
-				}
-			),
-			created_at:      {
-				type:         Date,
-				defaultValue: DateTimeHelper.getCurrentDate()
-			},
-			updated_at:      {
-				type:         Date,
-				defaultValue: DateTimeHelper.getCurrentDate()
-			}
-		}
-	)
+    "products",
+    new SimpleSchema(
+        {
+            _id: {
+                type: String,
+                optional: true
+            },
+            code: String,
+            name: String,
+            description: {
+                type: String,
+                optional: true
+            },
+            has_pricing: {
+                type: Array
+            },
+            'has_pricing.$': new SimpleSchema(
+                {
+                    pricing_id: String,
+                }
+            ),
+            versions: [
+                new SimpleSchema(
+                    {
+                        name: String,
+                        version: String,
+                        api_compatible: {
+                            type: Array
+                        },
+                        'api_compatible.$': new SimpleSchema(
+                            {
+                                api_code: String,
+                            }
+                        ),
+                        license_compatible: {
+                            type: Array
+                        },
+                        "license_compatible.$": new SimpleSchema(
+                            {
+                                license_id: String
+                            }
+                        ),
+                        directory_path: String,
+                        descriptions: {
+                            type: String,
+                            optional: true
+                        },
+                        changelog: {
+                            type: String,
+                            optional: true
+                        },
+                    }
+                )
+            ],
+            api_versions: {
+                type: Array
+            },
+            'api_versions.$': new SimpleSchema(
+                {
+                    code: String,
+                    name: String,
+                    directory_path: String
+                }
+            ),
+            created_at: {
+                type: Date,
+                defaultValue: DateTimeHelper.getCurrentDate()
+            },
+            updated_at: {
+                type: Date,
+                defaultValue: DateTimeHelper.getCurrentDate()
+            }
+        }
+    )
 );
+
+export const ProductCollection = Products;
