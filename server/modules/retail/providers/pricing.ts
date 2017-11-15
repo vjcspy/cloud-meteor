@@ -6,8 +6,9 @@ import {Price} from "../models/price";
 import {PriceTypesCollection} from "../collections/price-types";
 import {PriceType} from "../models/price-type";
 import * as _ from 'lodash';
+import {PriceEntityType} from "../api/price-interface";
 
-export class InitDefaultPriceCpos implements ProviderInterface {
+export class Pricing implements ProviderInterface {
     boot() {
         this.initDefaultPricingType();
         this.initDefaultPricing();
@@ -46,28 +47,29 @@ export class InitDefaultPriceCpos implements ProviderInterface {
                     "type": "subscription",
                     "code": "cpos_premium",
                     "display_name": "ConnectPos Premium",
-                    "nouser": 3,
+                    "entity_type": PriceEntityType.REGISTER,
+                    "free_entity": 3,
                     "cost_monthly": "30",
                     "cost_annually": "300",
-                    "cost_adding": "50",
                     "description": "ConnectPos Premium"
                 },
                 {
                     "type": "subscription",
                     "code": "cpos_standard",
                     "display_name": "ConnectPos Standard",
-                    "nouser": 3,
-                    "cost_monthly": "25",
-                    "cost_annually": "250",
-                    "cost_adding": "50",
+                    "entity_type": PriceEntityType.REGISTER,
+                    "free_entity": 3,
+                    "cost_monthly": "30",
+                    "cost_annually": "300",
                     "description": "ConnectPos Standard"
                 },
                 {
                     "type": "trial",
                     "code": "cpos_trial",
                     "display_name": "ConnectPOS Trial",
-                    "nouser": 3,
-                    "trialDay": 30,
+                    "entity_type": PriceEntityType.REGISTER,
+                    "free_entity": 3,
+                    "trial_day": 30,
                     "description": "ConnectPOS Trial"
                 }
             ];
