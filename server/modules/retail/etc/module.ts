@@ -1,5 +1,5 @@
 import {StoneModuleManager} from "../../../code/core/app/module/stone-module-manager";
-import {InitDefaultPriceCpos} from "../providers/init-default-price-cpos";
+import {InitDefaultPriceCpos} from "../providers/pricing-type";
 
 StoneModuleManager.config({
                               name: 'retail',

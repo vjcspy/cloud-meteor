@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import {Stone} from "../../../stone";
-import {StoneLogger} from "../../../logger/logger";
 import {StoneModuleManager} from "../stone-module-manager";
 import {ModuleConfigInterface} from "../../contract/module-declare/module-config-interface";
 import {ProviderInterface} from "../../contract/module-declare/provider-interface";

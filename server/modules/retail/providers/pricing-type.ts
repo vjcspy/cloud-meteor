@@ -3,10 +3,42 @@ import {PricingCollection} from "../collections/prices";
 import {StoneLogger} from "../../../code/core/logger/logger";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {Price} from "../models/price";
+import {PriceTypesCollection} from "../collections/price-types";
+import {PriceType} from "../models/price-type";
+import * as _ from 'lodash';
 
 export class InitDefaultPriceCpos implements ProviderInterface {
     boot() {
-        // Add default pricing
+        this.initDefaultPricingType();
+        this.initDefaultPricing();
+    }
+    
+    protected initDefaultPricingType(): void {
+        if (PriceTypesCollection.collection.find().count() === 0) {
+            const defaultPricingType = [
+                {
+                    "name": "trial",
+                    "label": "Trial"
+                },
+                {
+                    "name": "subscription",
+                    "label": "Subscription"
+                },
+                {
+                    "name": "life_time",
+                    "label": "Life time"
+                }
+            ];
+            
+            _.forEach(defaultPricingType, (_p) => {
+                let pricingType = OM.create<PriceType>(PriceType);
+                pricingType.addData(_p)
+                           .save();
+            });
+        }
+    }
+    
+    protected initDefaultPricing(): void {
         if (PricingCollection.collection.find().count() === 0) {
             StoneLogger.info("Init default pricing for C-POS");
             let defaultPricing = [
