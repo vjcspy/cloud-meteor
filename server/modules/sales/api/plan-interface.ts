@@ -16,10 +16,12 @@ export interface PlanInterface {
     product_id: string;
     
     pricing_id: string;
-    pricing_code: string;
     pricing_cycle: ProductLicenseBillingCycle;
+    addition_entity: number;
+    
     prev_pricing_id: string;
     prev_pricing_cycle: ProductLicenseBillingCycle;
+    prev_addition_entity: number;
     
     price: number;
     credit_earn: number;

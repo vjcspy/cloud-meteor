@@ -1,10 +1,10 @@
-import {PriceInterface} from "../../retail/api/price-interface";
-import {LicenseHasProductInterface, LicenseInterface} from "../../retail/api/license-interface";
-import {User} from "../../account/models/user";
-import {OM} from "../../../code/Framework/ObjectManager";
-import {PricingCollection} from "../../retail/collections/prices";
-import {UserHasLicense} from "../../account/api/user-interface";
-import {LicenseCollection} from "../../retail/collections/licenses";
+import {PriceInterface} from "../../../retail/api/price-interface";
+import {LicenseHasProductInterface, LicenseInterface} from "../../../retail/api/license-interface";
+import {User} from "../../../account/models/user";
+import {OM} from "../../../../code/Framework/ObjectManager";
+import {PricingCollection} from "../../../retail/collections/prices";
+import {UserHasLicense} from "../../../account/api/user-interface";
+import {LicenseCollection} from "../../../retail/collections/licenses";
 import {CreditChangePlan} from "./plan-calculation/credit-change-plan";
 import {CostNewPlan} from "./plan-calculation/cost-new-plan";
 import * as _ from 'lodash';

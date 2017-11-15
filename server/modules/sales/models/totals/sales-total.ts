@@ -1,4 +1,4 @@
-import {DataObject} from "../../../code/Framework/DataObject";
+import {DataObject} from "../../../../code/Framework/DataObject";
 
 export class SalesTotal extends DataObject {
     protected _totals = {};

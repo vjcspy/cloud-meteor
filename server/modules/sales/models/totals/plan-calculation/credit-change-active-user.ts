@@ -1,10 +1,10 @@
 import {CalculateAbstract} from "./calculate-abstract";
 import {CalculateInterface} from "./calculate-interface";
-import {PriceInterface} from "../../../retail/api/price-interface";
-import {LicenseHasProductInterface} from "../../../retail/api/license-interface";
-import {DateTimeHelper} from "../../../../code/Framework/DateTimeHelper";
+import {PriceInterface} from "../../../../retail/api/price-interface";
+import {LicenseHasProductInterface} from "../../../../retail/api/license-interface";
+import {DateTimeHelper} from "../../../../../code/Framework/DateTimeHelper";
 import * as moment from 'moment';
-import {NumberHelper} from "../../../../code/Framework/NumberHelper";
+import {NumberHelper} from "../../../../../code/Framework/NumberHelper";
 
 export class CreditChangeActiveUser extends CalculateAbstract implements CalculateInterface {
     total: string = 'creditExtraUser';

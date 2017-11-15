@@ -1,8 +1,8 @@
 import {CalculateAbstract} from "./calculate-abstract";
 import {CalculateInterface} from "./calculate-interface";
-import {PriceInterface} from "../../../retail/api/price-interface";
-import {LicenseHasProductInterface, ProductLicenseBillingCycle} from "../../../retail/api/license-interface";
-import {NumberHelper} from "../../../../code/Framework/NumberHelper";
+import {PriceInterface} from "../../../../retail/api/price-interface";
+import {LicenseHasProductInterface, ProductLicenseBillingCycle} from "../../../../retail/api/license-interface";
+import {NumberHelper} from "../../../../../code/Framework/NumberHelper";
 
 export class CostNewPlan extends CalculateAbstract implements CalculateInterface {
     total: string = 'price';

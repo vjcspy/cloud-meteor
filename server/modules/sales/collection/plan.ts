@@ -13,13 +13,18 @@ export const orderSchema = new SimpleSchema(
         product_id: String,
         
         pricing_id: String,
-        pricing_code: String,
         pricing_cycle: Number,
+        addition_entity: Number,
+        
         prev_pricing_id: {
             type: String,
             optional: true
         },
         prev_pricing_cycle: {
+            type: Number,
+            optional: true
+        },
+        prev_addition_entity: {
             type: Number,
             optional: true
         },

@@ -1,4 +1,4 @@
-import {ProductLicenseBillingCycle} from "../../../retail/api/license-interface";
+import {ProductLicenseBillingCycle} from "../../../../retail/api/license-interface";
 import {SalesTotal} from "../sales-total";
 
 export abstract class CalculateAbstract {
