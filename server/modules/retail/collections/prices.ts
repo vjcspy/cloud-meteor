@@ -26,6 +26,10 @@ export const Prices            = CollectionMaker.make<PriceInterface>("prices",
                                                                                   type: Number,
                                                                                   optional: true
                                                                               },
+                                                                              lifetime_cost: {
+                                                                                  type: Number,
+                                                                                  optional: true
+                                                                              },
                                                                               description: {
                                                                                   type: String,
                                                                                   optional: true

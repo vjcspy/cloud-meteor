@@ -14,5 +14,6 @@ export interface PriceInterface {
     free_entity: number;
     cost_monthly?: number;
     cost_annually?: number;
+    lifetime_cost?: number;
     description?: string;
 }
