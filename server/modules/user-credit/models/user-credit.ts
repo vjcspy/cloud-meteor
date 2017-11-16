@@ -12,4 +12,8 @@ export class UserCredit extends AbstractModel {
             return 0;
         }
     }
+    
+    getBalance() {
+        return this.getData('balance');
+    }
 }

@@ -7,12 +7,14 @@ export class StoneEventManager {
     
     private static $events = Map<string, List<any>>();
     
-    static dispatch(eventName: string, object: DataObject | Object): void {
+    static dispatch(eventName: string, data: any): void {
         if (StoneEventManager.$events.has(eventName) && List.isList(StoneEventManager.$events.get(eventName))) {
             StoneEventManager.$events
                              .get(eventName)
                              .forEach((eventObserver: any) => {
-                                 (eventObserver['observer'] as ObserverInterface).observe(object);
+                                 let observerData = new DataObject();
+                                 observerData.setData('data', data);
+                                 (eventObserver['observer'] as ObserverInterface).observe(observerData);
                              });
         }
     }

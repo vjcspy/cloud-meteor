@@ -18,7 +18,7 @@ export class Plan extends AbstractModel {
             this.save()
                 .then(
                     (planId) => {
-                        StoneEventManager.dispatch('sale_plan_save_after', this);
+                        StoneEventManager.dispatch('sale_plan_save_after', {plan: this});
                         resolve(planId)
                     },
                     (err) => reject(err)
@@ -42,4 +42,11 @@ export class Plan extends AbstractModel {
         return this.getData('pricing_id');
     }
     
+    getCreditSpent(): number {
+        return this.getData('credit_spent')
+    }
+    
+    getUserId(): string {
+        return this.getData('user_id');
+    }
 }

@@ -5,7 +5,10 @@ import {UserCreditTransactionInterface} from "../api/user-credit-transaction-int
 export const userCreditTransactionSchema     = new SimpleSchema(
     {
         _id: String,
-        type: SimpleSchema.Integer,
+        user_id: String,
+        plan_id: String,
+        reason: SimpleSchema.Integer,
+        description: String,
         amount: Number,
         created_at: Date
     }
