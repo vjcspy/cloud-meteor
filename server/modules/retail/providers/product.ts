@@ -23,7 +23,7 @@ export class ProductProvider implements ProviderInterface {
             let productData: ProductInterface[] = [
                 {
                     "code": "cpos",
-                    "name": "Connect POS",
+                    "name": "Connect-POS",
                     "has_pricing": this.getDummyCPosPricing(),
                     "versions": [
                         {

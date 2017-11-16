@@ -65,8 +65,8 @@ export class PricingProvider implements ProviderInterface {
                     "display_name": "ConnectPos Standard",
                     "entity_type": PriceEntityType.REGISTER,
                     "free_entity": 3,
-                    "cost_monthly": "30",
-                    "cost_annually": "300",
+                    "cost_monthly": "20",
+                    "cost_annually": "200",
                     "description": "ConnectPos Standard"
                 },
                 {

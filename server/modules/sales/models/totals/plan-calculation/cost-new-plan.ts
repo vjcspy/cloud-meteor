@@ -9,13 +9,28 @@ export class CostNewPlan extends CalculateAbstract implements CalculateInterface
     total: string = 'price';
     
     collect(plan: RequestPlan, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): void {
-        if (newPricing.type === 'life_time') {
-            this.getTotals().setTotal(this.total, NumberHelper.round(newPricing.lifetime_cost, 2));
+        if (newPricing.type === 'trial') {
+            this.getTotals().setTotal(this.total, 0);
+            
+            return;
+        }
+        else if (newPricing.type === 'life_time') {
+            this.getTotals().setTotal(this.total, NumberHelper.round(newPricing.lifetime_cost * (plan.addition_entity ), 2));
             
             return;
         } else {
-            const costSubscribe = plan.cycle === ProductLicenseBillingCycle.MONTHLY ? newPricing.cost_monthly : newPricing.cost_annually;
-            this.getTotals().setTotal(this.total, NumberHelper.round(costSubscribe, 2));
+            let costSubscribe;
+            if (parseInt(plan.cycle + '') === ProductLicenseBillingCycle.MONTHLY) {
+                costSubscribe = newPricing.cost_monthly;
+            } else if (parseInt(plan.cycle + '') === ProductLicenseBillingCycle.ANNUALLY) {
+                costSubscribe = newPricing.cost_annually;
+            }
+            
+            if (typeof costSubscribe === 'undefined') {
+                throw new Meteor.Error("Error", "can_not_find_price_of_new_pricing");
+            }
+            
+            this.getTotals().setTotal(this.total, NumberHelper.round(costSubscribe * (plan.addition_entity), 2));
             
             return;
         }
