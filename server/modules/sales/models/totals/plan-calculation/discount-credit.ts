@@ -4,11 +4,12 @@ import {PriceInterface} from "../../../../retail/api/price-interface";
 import {LicenseHasProductInterface} from "../../../../retail/api/license-interface";
 import * as _ from 'lodash';
 import {UserCredit} from "../../../../user-credit/models/user-credit";
+import {RequestPlan} from "../../../api/request-plan";
 
 export class DiscountCredit extends CalculateAbstract implements CalculateInterface {
     total: string = 'discount_amount';
     
-    collect(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): void {
+    collect(plan: RequestPlan, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): void {
         const st             = _.reduce(this.getTotals().getTotals(), (r: any, v: any) => parseFloat(v + '') + parseFloat(r + ''), 0);
         const userCredit     = new UserCredit();
         const currentBalance = userCredit.getUserBalanace(this.getUserId());

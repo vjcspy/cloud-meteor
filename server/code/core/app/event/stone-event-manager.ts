@@ -7,7 +7,7 @@ export class StoneEventManager {
     
     private static $events = Map<string, List<any>>();
     
-    static dispatch(eventName: string, object: DataObject): void {
+    static dispatch(eventName: string, object: DataObject | Object): void {
         if (StoneEventManager.$events.has(eventName) && List.isList(StoneEventManager.$events.get(eventName))) {
             StoneEventManager.$events
                              .get(eventName)
