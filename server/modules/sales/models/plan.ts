@@ -49,4 +49,8 @@ export class Plan extends AbstractModel {
     getUserId(): string {
         return this.getData('user_id');
     }
+    
+    getGrandtotal():Number{
+        return this.getData('grand_total');
+    }
 }

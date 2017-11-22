@@ -10,20 +10,11 @@ export const invoiceSchema = new SimpleSchema(
             optional: true
         },
         user_id: String,
-        product_id: String,
+        plan_id: String,
         
-        pricing_id: String,
-        pricing_code: String,
-        pricing_cycle: Number,
-        
-        price: Number,
-        discount_amount: Number,
-        add_on: Number,
         grand_total: Number,
-        addition_data: {
-            type: Object,
-            optional: true
-        },
+        payment_data: String,
+        
         created_at: {
             type: Date,
             defaultValue: DateTimeHelper.getCurrentDate()

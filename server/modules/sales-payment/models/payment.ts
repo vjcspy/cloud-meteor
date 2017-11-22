@@ -5,36 +5,26 @@ import {OM} from "../../../code/Framework/ObjectManager";
 import {Price} from "../../retail/models/price";
 import {PayResultInterface, PayResultType} from "./payment/pay-result-interface";
 import {Invoice} from "../../sales/models/invoice";
-
-export interface OrderObject {
-    plan?: Plan;
-}
-
-export interface GatewayAdditionData {
-    id: string
-}
+import {PaymentGatewayDataInterface} from "./payment/payment-gateway-data-interface";
 
 export class Payment {
-    async pay(orderObject: OrderObject, gatewayAdditionData: GatewayAdditionData): Promise<any> {
+    async pay(plan: Plan, gatewayAdditionData: PaymentGatewayDataInterface): Promise<any> {
         const paymentId = gatewayAdditionData.id;
         
         let paymentManager: SalesPaymentManager = Stone.getInstance().s('sales-payment-manager');
         
         const payment = paymentManager.getPayment(paymentId);
+        
         if (!payment) {
-            throw new Meteor.Error("Error", 'can_not_find_payment');
+            throw new Meteor.Error("Error", 'can_not_find_payment_when_pay_plan');
         }
         
-        let result: PayResultInterface;
-        
-        if (!!orderObject.plan) {
-            const plan: Plan = orderObject.plan;
-            result           = await this.processPay(plan, payment['data'], gatewayAdditionData);
-        }
+        const result: PayResultInterface = await this.processPay(plan, payment['data'], gatewayAdditionData);
         
         switch (result.type) {
             case PayResultType.PAY_SUCCESS:
-                break;
+                let invoice = OM.create<Invoice>(Invoice);
+                return invoice.createInvoice(plan, result.data);
             case PayResultType.PAY_FAIL:
                 throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
             case PayResultType.PAY_ERROR:
@@ -42,15 +32,9 @@ export class Payment {
             default:
                 throw new Meteor.Error("payment_pay", 'wrong_format_result');
         }
-        
-        throw new Meteor.Error("payment_pay", 'wrong_data');
     }
     
-    protected createInvoice() {
-        let invoice = OM.create<Invoice>(Invoice);
-    }
-    
-    protected processPay(plan: Plan, payment: PaymentData, gatewayAdditionData: GatewayAdditionData): Promise<PayResultInterface> {
+    protected processPay(plan: Plan, payment: PaymentData, gatewayAdditionData: PaymentGatewayDataInterface): Promise<PayResultInterface> {
         let pricing = OM.create<Price>(Price);
         pricing.loadById(plan.getPricingId());
         

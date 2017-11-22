@@ -6,5 +6,5 @@ export enum PayResultType {
 
 export interface PayResultInterface {
     type: PayResultType;
-    data: Object;
+    data?: Object;
 }
