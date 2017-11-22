@@ -9,28 +9,32 @@ import {PaymentGatewayDataInterface} from "./payment/payment-gateway-data-interf
 
 export class Payment {
     async pay(plan: Plan, gatewayAdditionData: PaymentGatewayDataInterface): Promise<any> {
-        const paymentId = gatewayAdditionData.id;
-        
-        let paymentManager: SalesPaymentManager = Stone.getInstance().s('sales-payment-manager');
-        
-        const payment = paymentManager.getPayment(paymentId);
-        
-        if (!payment) {
-            throw new Meteor.Error("Error", 'can_not_find_payment_when_pay_plan');
-        }
-        
-        const result: PayResultInterface = await this.processPay(plan, payment['data'], gatewayAdditionData);
-        
-        switch (result.type) {
-            case PayResultType.PAY_SUCCESS:
-                let invoice = OM.create<Invoice>(Invoice);
-                return invoice.createInvoice(plan, result.data);
-            case PayResultType.PAY_FAIL:
-                throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
-            case PayResultType.PAY_ERROR:
-                throw new Meteor.Error("payment_pay_error", "There was a problem processing your credit card; please double check your payment information and try again");
-            default:
-                throw new Meteor.Error("payment_pay", 'wrong_format_result');
+        let invoice = OM.create<Invoice>(Invoice);
+        if (plan.getGrandtotal() === 0) {
+            return invoice.createInvoice(plan, {});
+        } else {
+            const paymentId = gatewayAdditionData.id;
+            
+            let paymentManager: SalesPaymentManager = Stone.getInstance().s('sales-payment-manager');
+            
+            const payment = paymentManager.getPayment(paymentId);
+            
+            if (!payment) {
+                throw new Meteor.Error("Error", 'can_not_find_payment_when_pay_plan');
+            }
+            
+            const result: PayResultInterface = await this.processPay(plan, payment['data'], gatewayAdditionData);
+            
+            switch (result.type) {
+                case PayResultType.PAY_SUCCESS:
+                    return invoice.createInvoice(plan, result.data);
+                case PayResultType.PAY_FAIL:
+                    throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
+                case PayResultType.PAY_ERROR:
+                    throw new Meteor.Error("payment_pay_error", "There was a problem processing your credit card; please double check your payment information and try again");
+                default:
+                    throw new Meteor.Error("payment_pay", 'wrong_format_result');
+            }
         }
     }
     

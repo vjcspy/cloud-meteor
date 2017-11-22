@@ -5,6 +5,7 @@ import {Plan} from "../models/plan";
 import {PlanInterface, PlanStatus} from "../api/plan-interface";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 import {StoneEventManager} from "../../../code/core/app/event/stone-event-manager";
+import {Payment} from "../../sales-payment/models/payment";
 
 export class PlanHelper {
     submitPlan(requestPlan: RequestPlan, product_id: string, userId: string) {
@@ -12,7 +13,16 @@ export class PlanHelper {
             let newPlan = this.prepareNewPlanData(requestPlan, product_id, userId);
             let plan    = OM.create<Plan>(Plan);
             plan.createSalePlan(newPlan)
-                .then((planId) => resolve(planId),
+                .then((planId) => {
+                          if (plan.getGrandtotal() === 0) {
+                              let payment = OM.create<Payment>(Payment);
+                              payment.pay(plan, null)
+                                     .then(() => resolve(planId),
+                                           (err) => reject(err));
+                          } else {
+                              resolve(planId)
+                          }
+                      },
                       (err) => reject(err));
         });
     }
