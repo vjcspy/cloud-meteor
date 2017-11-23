@@ -17,7 +17,7 @@ export class ProductProvider implements ProviderInterface {
     }
     
     protected dummyProduct() {
-        ProductCollection.collection.remove({});
+        // ProductCollection.collection.remove({});
         if (ProductCollection.collection.find({}).count() === 0) {
             StoneLogger.info("Dummy Product C-POS");
             let productData: ProductInterface[] = [

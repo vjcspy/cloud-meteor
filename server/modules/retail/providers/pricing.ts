@@ -18,7 +18,7 @@ export class PricingProvider implements ProviderInterface {
     }
     
     protected initDefaultPricingType(): void {
-        PriceTypesCollection.collection.remove({});
+        // PriceTypesCollection.collection.remove({});
         if (PriceTypesCollection.collection.find().count() === 0) {
             StoneLogger.info("Dummy pricing type for C-POS");
             const defaultPricingType = [
@@ -45,7 +45,7 @@ export class PricingProvider implements ProviderInterface {
     }
     
     protected initDefaultPricing(): void {
-        PricingCollection.collection.remove({});
+        // PricingCollection.collection.remove({});
         if (PricingCollection.collection.find().count() === 0) {
             StoneLogger.info("Dummy pricing for C-POS");
             let defaultPricing = [
