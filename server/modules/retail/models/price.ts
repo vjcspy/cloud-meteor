@@ -1,16 +1,21 @@
 import {AbstractModel} from "../../../code/MeteorBase/AbstractModel";
 
 export class Price extends AbstractModel {
-  protected $collection = 'prices';
-
-  static TYPE_STANDARD   = 1;
-  static TYPE_PREMIUM   = 2;
-  static TYPE_LIFETIME = 3;
-
-  static VISIBILITY_HIDDEN = 0;
-  static VISIBILITY_SHOW = 1;
-  
-  getPriceType(){
-      return this.getData('type');
-  }
+    protected $collection = 'prices';
+    
+    static TYPE_SUBSCRIPTION = 'subscription';
+    static TYPE_TRIAL        = 'trial';
+    static TYPE_LIFETIME     = 'lifetime';
+    
+    getPriceType() {
+        return this.getData('type');
+    }
+    
+    getTrialDay(): number {
+        if (this.getPriceType() === Price.TYPE_TRIAL) {
+            return this.getData('trial_day');
+        } else {
+            throw new Meteor.Error("Error", "this_pricing_is_not_trial");
+        }
+    }
 }

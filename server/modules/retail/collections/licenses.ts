@@ -25,8 +25,6 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                              },
                                                                                              "has_product.$": new SimpleSchema(
                                                                                                  {
-                                                                                                     product_id: String,
-                                                                                                     is_fresh: Boolean,
                                                                                                      base_url: {
                                                                                                          type: Array,
                                                                                                          optional: true
@@ -36,9 +34,11 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                              status: SimpleSchema.Integer,
                                                                                                              url: String
                                                                                                          }),
+                                                                                                     plan_id: String,
+                                                                                                     product_id: String,
                                                                                                      pricing_id: String,
-                                                                                                     pricing_type: String,
-                                                                                                     addition_entity: SimpleSchema.Integer,
+                                                                                                     billing_cycle: Number,
+                                                                                                     addition_entity: Number,
                                                                                                      has_user: Array,
                                                                                                      "has_user.$": new SimpleSchema(
                                                                                                          {
@@ -46,7 +46,7 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                              username: String
                                                                                                          }),
                                                                                                      purchase_date: Date,
-                                                                                                     expired_date: Date,
+                                                                                                     expiry_date: Date
                                                                                                  }),
                                                                                              has_roles: {
                                                                                                  type: Array,

@@ -7,7 +7,7 @@ export enum ProductLicenseBillingCycle {
 export interface LicenseInterface {
     _id?: string;
     key?: string;
-    status?: number;
+    status: number;
     shop_owner_id?: string;
     shop_owner_username?: string;
     current_cashier_increment?: number;
@@ -31,16 +31,15 @@ export interface LicenseHasRoleHasPermissionInterface {
 }
 
 export interface LicenseHasProductInterface {
-    product_id: string;
     base_url: BaseUrl[];
+    plan_id: string;
+    product_id: string;
     pricing_id: string;
-    pricing_type: string;
     billing_cycle: ProductLicenseBillingCycle;
-    addition_entity: number; // Maybe register, outlet or activated user
-    is_fresh: boolean; // has already activated trial
+    addition_entity: number;
     has_user: LicenseHasProductHasUser[];
     purchase_date: Date;
-    expired_date: Date;
+    expiry_date: Date;
 }
 
 export interface BaseUrl {

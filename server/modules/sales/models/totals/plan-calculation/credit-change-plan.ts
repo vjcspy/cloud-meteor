@@ -20,7 +20,7 @@ export class CreditChangePlan extends CalculateAbstract implements CalculateInte
         }
         
         const current        = DateTimeHelper.getCurrentMoment();
-        const expired        = moment(productLicense.expired_date);
+        const expired        = moment(productLicense.expiry_date);
         const remainingMonth = moment.duration(expired.diff(current)).asMonths() - 1;
         
         

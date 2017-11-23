@@ -71,7 +71,7 @@ export class PlanCalculation {
                     if (license) {
                         this.license = license;
                         if (_.isArray(license.has_product)) {
-                            const productLicense: LicenseHasProductInterface = this.productLicense = _.find(license.has_product, (_p) => _p['product_id'] === product_id);
+                            const productLicense: LicenseHasProductInterface = this.productLicense = _.find(license.has_product, (_p: LicenseHasProductInterface) => _p.product_id === product_id);
                             
                             if (productLicense && productLicense.pricing_id) {
                                 this.currentPricing = currentPricing = PricingCollection.collection.findOne({_id: productLicense.pricing_id});

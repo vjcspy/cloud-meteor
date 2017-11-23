@@ -31,7 +31,7 @@ export class PricingProvider implements ProviderInterface {
                     "label": "Subscription"
                 },
                 {
-                    "name": "life_time",
+                    "name": "lifetime",
                     "label": "Life time"
                 }
             ];

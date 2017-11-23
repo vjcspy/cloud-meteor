@@ -1,5 +1,6 @@
 import {Logger} from 'meteor/ostrio:logger';
 import {LoggerConsole} from 'meteor/ostrio:loggerconsole';
+import {LoggerMongo} from 'meteor/ostrio:loggermongo';
 import * as moment from 'moment';
 import * as _ from 'lodash'
 
@@ -21,3 +22,13 @@ export const $log = new Logger();
         return output;
     }
 })).enable();
+
+const $LogMongo = new LoggerMongo($log, {
+    collectionName: 'AppErrors'
+});
+$LogMongo.enable({
+                     enable: true,
+                     filter: ['ERROR', 'FATAL', 'WARN'], // Filters: 'ERROR', 'FATAL', 'WARN', 'DEBUG', 'INFO', 'TRACE', '*'
+                     client: true, // Set to `false` to avoid Client to Server logs transfer
+                     server: true  // Allow logging on Server
+                 });
