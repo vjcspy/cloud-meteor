@@ -1,7 +1,7 @@
 import {PlanInterface} from "../api/plan-interface";
 import {User} from "../../account/models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
-import {Role} from "../../account/api/role";
+import {Role} from "../../account/models/role";
 import {PlanCollection} from "../collection/plan";
 
 Meteor.publishComposite("sales_plan", function (): PublishCompositeConfig<PlanInterface> {

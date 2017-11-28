@@ -1,7 +1,7 @@
 import * as $q from "q";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../account/models/user";
-import {Role} from "../../../account/api/role";
+import {Role} from "../../../account/models/role";
 import {Price} from "../../models/price";
 
 new ValidatedMethod({

@@ -2,7 +2,7 @@ import * as $q from "q";
 import * as _ from "lodash";
 import {User} from "../../../account/models/user";
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {Role} from "../../../account/api/role";
+import {Role} from "../../../account/models/role";
 import {Price} from "../../models/price";
 
 new ValidatedMethod({

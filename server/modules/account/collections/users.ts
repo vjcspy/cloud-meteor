@@ -2,7 +2,7 @@ import {CollectionMaker} from "../../../code/MeteorBase/CollectionMaker";
 import {UserInterface} from "../api/user-interface";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {User} from "../models/user";
-import {Role} from "../api/role";
+import {Role} from "../models/role";
 import SimpleSchema from 'simpl-schema';
 
 export const userSchema = new SimpleSchema({

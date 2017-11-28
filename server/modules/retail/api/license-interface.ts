@@ -24,8 +24,7 @@ export interface LicenseHasRoleInterface {
 }
 
 export interface LicenseHasRoleHasPermissionInterface {
-    code: string;
-    group: string;
+    name: string;
     permission: string;
     is_active: boolean;
 }

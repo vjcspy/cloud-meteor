@@ -1,6 +1,6 @@
 import {AbstractModel} from "../../../code/MeteorBase/AbstractModel";
 import {UserHasLicense} from "../api/user-interface";
-import {Role} from "../api/role";
+import {Role} from "./role";
 
 export class User extends AbstractModel {
     protected $collection = "users";
@@ -11,6 +11,9 @@ export class User extends AbstractModel {
     static LICENSE_PERMISSION_CASHIER = 'cashier';
     
     static DEFAULT_PASSWORD_USER = 'smartosc123';
+    
+    static STATUS_ACTIVE   = 1;
+    static STATUS_DEACTIVE = 0;
     
     getUsername(): string {
         return this.getData('username');

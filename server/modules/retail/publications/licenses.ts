@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import {User} from "../../account/models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {LicenseInterface} from "../api/license-interface";
-import {Role} from "../../account/api/role";
+import {Role} from "../../account/models/role";
 import {Licenses} from "../collections/licenses";
 import {Users} from "../../account/collections/users";
 

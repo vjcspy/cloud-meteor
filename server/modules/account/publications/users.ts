@@ -1,7 +1,7 @@
 import {UserInterface, UserHasLicense} from "../api/user-interface";
 import {User} from "../models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
-import {Role} from "../api/role";
+import {Role} from "../models/role";
 import {Users} from "../collections/users";
 import {License} from "../../retail/models/license";
 import * as _ from "lodash";

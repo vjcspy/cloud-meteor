@@ -1,7 +1,7 @@
 import * as $q from 'q';
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../account/models/user";
-import {Role} from "../../../account/api/role";
+import {Role} from "../../../account/models/role";
 import {StringHelper} from "../../../../code/Framework/StringHelper";
 import {License} from "../../models/license";
 import {UserLicense} from "../../models/userlicense";

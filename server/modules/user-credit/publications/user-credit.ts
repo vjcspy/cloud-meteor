@@ -1,7 +1,7 @@
 import {UserCreditInterface} from "../api/user-credit-interface";
 import {User} from "../../account/models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
-import {Role} from "../../account/api/role";
+import {Role} from "../../account/models/role";
 import {UserCreditCollection} from "../collections/user-credit";
 
 Meteor.publishComposite('user_credit', function (): PublishCompositeConfig<UserCreditInterface> {

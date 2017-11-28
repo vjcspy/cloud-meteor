@@ -3,7 +3,7 @@ import {DataObject} from "../../../code/Framework/DataObject";
 import {Plan} from "../models/plan";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {User} from "../../account/models/user";
-import {Role} from "../../account/api/role";
+import {Role} from "../../account/models/role";
 import * as _ from 'lodash';
 import {LicenseHelper} from "../../retail/helper/license";
 import {StoneLogger} from "../../../code/core/logger/logger";
