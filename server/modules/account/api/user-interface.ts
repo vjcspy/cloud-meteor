@@ -17,6 +17,6 @@ export interface Profile {
 
 export interface UserHasLicense {
     license_id: string,
-    license_key: string,
+    license_increment: number,
     license_permission: string;
 }

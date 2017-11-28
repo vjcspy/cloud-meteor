@@ -26,13 +26,16 @@ export class UserLicense {
                 throw new Meteor.Error("Error", "permission_must_be_shop_owner_or_cashier");
             }
             
-            user.setData('has_license',
-                         [
-                             {
-                                 license_id: license.getId(),
-                                 license_permission: userHasLicensePermission
-                             }
-                         ]);
+            if (isAttachNewUser) {
+                user.setData('has_license',
+                             [
+                                 {
+                                     license_id: license.getId(),
+                                     license_permission: userHasLicensePermission,
+                                     license_increment: license.getCurrentCashierIncrement() + 1
+                                 }
+                             ]);
+            }
             
             if (userHasLicensePermission == User.LICENSE_PERMISSION_OWNER) {
                 if (license.getData('shop_owner_id') && license.getData('shop_owner_id') != user.getId()) {
