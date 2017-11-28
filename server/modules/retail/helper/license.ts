@@ -54,7 +54,7 @@ export class LicenseHelper {
             status: 1,
             shop_owner_id: user.getId(),
             shop_owner_username: user.getUsername(),
-            current_cashier_increment: 1,
+            current_cashier_increment: 0,
             has_product: [
                 {
                     base_url: [],

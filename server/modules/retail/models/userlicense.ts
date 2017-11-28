@@ -12,12 +12,19 @@ export class UserLicense {
             throw new Meteor.Error("Error", "required data missing");
         }
         if (user.isInRoles(Role.USER)) {
-            // Nếu user đã tồn tại license và license đó không phải là cái hiện tại thì báo lỗi
-            if (_.size(user.getLicenses()) > 0 && user.getLicenses()[0].license_id != license.getId())
-                throw new Meteor.Error("Error", "User already has license");
+            let isAttachNewUser = true;
             
-            if (_.indexOf([User.LICENSE_PERMISSION_OWNER, User.LICENSE_PERMISSION_CASHIER], userHasLicensePermission) < 0)
+            // Nếu user đã tồn tại license và license đó không phải là cái hiện tại thì báo lỗi
+            if (_.size(user.getLicenses()) > 0) {
+                isAttachNewUser = false;
+                if (user.getLicenses()[0].license_id != license.getId()) {
+                    throw new Meteor.Error("Error", "User already has license");
+                }
+            }
+            
+            if (_.indexOf([User.LICENSE_PERMISSION_OWNER, User.LICENSE_PERMISSION_CASHIER], userHasLicensePermission) < 0) {
                 throw new Meteor.Error("Error", "permission_must_be_shop_owner_or_cashier");
+            }
             
             user.setData('has_license',
                          [
@@ -36,7 +43,7 @@ export class UserLicense {
                        .setData("shop_owner_username", user.getUsername())
             } else if (userHasLicensePermission == User.LICENSE_PERMISSION_CASHIER) {
                 if (_.size(products) == 0) {
-                    throw new Meteor.Error("Error", "license_do_not_have_any_product");
+                    throw new Meteor.Error("Error", "must_attach_cashier_at_least_one_product");
                 }
                 let licenseHasProduct = license.getProducts();
                 // ensure remove user from all product before add.
@@ -57,13 +64,18 @@ export class UserLicense {
                     if (!_.isArray(_pInLicense.has_user)) {
                         _pInLicense.has_user = [];
                     }
-                    if (!_.find(_pInLicense.has_user, _u => _u.user_id == user.getId())) {
+                    if (!_.find(_pInLicense.has_user, _u => _u.user_id === user.getId())) {
                         _pInLicense.has_user.push({user_id: user.getId(), username: user.getData('username')});
                     }
                 });
                 
                 license.setData('has_product', licenseHasProduct);
             }
+            
+            if (isAttachNewUser) {
+                license.setData('current_cashier_increment', license.getCurrentCashierIncrement() + 1);
+            }
+            
             return Promise.all([user.save(), license.save()]);
         } else if (user.isInRoles([Role.SALES, Role.AGENCY])) {
             if (_.indexOf([User.LICENSE_PERMISSION_AGENCY, User.LICENSE_PERMISSION_SALES], userHasLicensePermission) < 0)

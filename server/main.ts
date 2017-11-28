@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import {OM} from "./code/Framework/ObjectManager";
 import {User} from "./modules/account/models/user";
-import {Role} from "./modules/account/api/role";
+import {Role} from "./modules/account/models/role";
 import {Stone} from "./code/core/stone";
 
 Meteor.startup(() => {

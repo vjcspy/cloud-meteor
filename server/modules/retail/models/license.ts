@@ -37,4 +37,8 @@ export class License extends AbstractModel {
     getRoles(): LicenseHasRoleInterface[] {
         return this.getData('has_roles');
     }
+    
+    getCurrentCashierIncrement(): number {
+        return !!this.getData('current_cashier_increment') ? parseInt(this.getData('current_cashier_increment') + '') : 0;
+    }
 }
