@@ -19,4 +19,5 @@ export interface UserHasLicense {
     license_id: string,
     license_increment: number,
     license_permission: string;
+    shop_role: string;
 }

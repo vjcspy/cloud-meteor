@@ -7,7 +7,7 @@ export class UserLicense {
     /**
      * Attach License vào user, có thể dùng cho sales, agency, user(shop owner or cashier)
      */
-    static attach(user: User, license: License, userHasLicensePermission: string, products: string[] = []): Promise<any> {
+    static attach(user: User, license: License, userHasLicensePermission: string, products: string[] = [], shopRole: string = null): Promise<any> {
         if (!user.getId() || !license.getId()) {
             throw new Meteor.Error("Error", "required data missing");
         }
@@ -19,6 +19,9 @@ export class UserLicense {
                 isAttachNewUser = false;
                 if (user.getLicenses()[0].license_id != license.getId()) {
                     throw new Meteor.Error("Error", "User already has license");
+                }
+                if (user.getLicenses()[0]['license_permission'] === User.LICENSE_PERMISSION_OWNER) {
+                    throw new Meteor.Error("Warning", "we_can_not_update_data_of_shop_owner");
                 }
             }
             
@@ -32,9 +35,14 @@ export class UserLicense {
                                  {
                                      license_id: license.getId(),
                                      license_permission: userHasLicensePermission,
-                                     license_increment: license.getCurrentCashierIncrement() + 1
+                                     license_increment: license.getCurrentCashierIncrement() + 1,
+                                     shop_role: shopRole
                                  }
                              ]);
+            } else {
+                let userHasLicense = user.getLicenses()[0];
+                userHasLicense     = Object.assign({}, {...userHasLicense}, {shop_role: shopRole});
+                user.setData('has_license', [userHasLicense]);
             }
             
             if (userHasLicensePermission == User.LICENSE_PERMISSION_OWNER) {

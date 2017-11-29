@@ -50,10 +50,9 @@ new ValidatedMethod({
         
                             cashier.setData('profile', profile)
                                    .setData('status', cashierData['status'])
-                                   .setRoles([cashierData['role']], Role.GROUP_SHOP)
                                    .save()
                                    .then(() => {
-                                       return UserLicense.attach(cashier, license, User.LICENSE_PERMISSION_CASHIER, cashierData['cashier_products'])
+                                       return UserLicense.attach(cashier, license, User.LICENSE_PERMISSION_CASHIER, cashierData['cashier_products'], cashierData['role'])
                                    })
                                    .then(() => {
                                        return defer.resolve();
