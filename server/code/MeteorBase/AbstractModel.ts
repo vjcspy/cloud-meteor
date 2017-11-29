@@ -35,14 +35,14 @@ export abstract class AbstractModel extends DataObject {
     let _id = this.getData('_id');
     return new Promise((resolve, reject) => {
       if (!_id) {
-        this.setData('createdAt', DateTimeHelper.getDateAsNumber());
+        this.setData('createdAt', DateTimeHelper.getCurrentDate());
         this.getMongoCollection()
             .insert(this.getData(), (err, id) => {
                 this.setData('_id', id);
                 return err ? reject(err) : resolve(id);
             });
       } else {
-        this.setData('updatedAt', DateTimeHelper.getDateAsNumber());
+        this.setData('updatedAt', DateTimeHelper.getCurrentDate());
         this.getMongoCollection()
             .update({_id: _id}, {$set: this.getData()}, {}, (err) => {
               return err ? reject(err) : resolve(_id);

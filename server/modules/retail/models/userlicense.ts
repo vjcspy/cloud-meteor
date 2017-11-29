@@ -7,7 +7,10 @@ export class UserLicense {
     /**
      * Attach License vào user, có thể dùng cho sales, agency, user(shop owner or cashier)
      */
-    static attach(user: User, license: License, userHasLicensePermission: string, products: string[] = [], shopRole: string = null): Promise<any> {
+    static attach(user: User, license: License, userHasLicensePermission: string, products: string[] = [], licenseInfo: Object = {
+        shop_role: null,
+        status: 1
+    }): Promise<any> {
         if (!user.getId() || !license.getId()) {
             throw new Meteor.Error("Error", "required data missing");
         }
@@ -32,16 +35,15 @@ export class UserLicense {
             if (isAttachNewUser) {
                 user.setData('has_license',
                              [
-                                 {
+                                 Object.assign({}, {
                                      license_id: license.getId(),
                                      license_permission: userHasLicensePermission,
                                      license_increment: license.getCurrentCashierIncrement() + 1,
-                                     shop_role: shopRole
-                                 }
+                                 }, licenseInfo)
                              ]);
             } else {
                 let userHasLicense = user.getLicenses()[0];
-                userHasLicense     = Object.assign({}, {...userHasLicense}, {shop_role: shopRole});
+                userHasLicense     = Object.assign({}, {...userHasLicense}, licenseInfo);
                 user.setData('has_license', [userHasLicense]);
             }
             
@@ -51,7 +53,8 @@ export class UserLicense {
                 }
                 
                 license.setData("shop_owner_id", user.getId())
-                       .setData("shop_owner_username", user.getUsername())
+                       .setData("shop_owner_username", user.getUsername());
+                
             } else if (userHasLicensePermission == User.LICENSE_PERMISSION_CASHIER) {
                 if (_.size(products) == 0) {
                     throw new Meteor.Error("Error", "must_attach_cashier_at_least_one_product");

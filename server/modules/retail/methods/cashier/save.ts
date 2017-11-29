@@ -49,10 +49,12 @@ new ValidatedMethod({
                             profile['last_name']  = cashierData['profile']['last_name'];
         
                             cashier.setData('profile', profile)
-                                   .setData('status', cashierData['status'])
                                    .save()
                                    .then(() => {
-                                       return UserLicense.attach(cashier, license, User.LICENSE_PERMISSION_CASHIER, cashierData['cashier_products'], cashierData['role'])
+                                       return UserLicense.attach(cashier, license, User.LICENSE_PERMISSION_CASHIER, cashierData['cashier_products'], {
+                                           shop_role: cashierData['role'],
+                                           status: cashierData['status']
+                                       });
                                    })
                                    .then(() => {
                                        return defer.resolve();
