@@ -11,34 +11,28 @@ new ValidatedMethod({
                             }
                         },
                         run: function (data) {
-                            const {orderType, orderId} = data;
+                            const {planId} = data;
         
                             let salePaymentManager = <SalesPaymentManager>Stone.getInstance().s('sales-payment-manager');
                             const payments         = salePaymentManager.getPayments();
         
                             let totals;
-                            switch (orderType) {
-                                case 'plan':
-                                    let plan = OM.create<Plan>(Plan);
-                                    plan.loadById(orderId);
-                
-                                    if (plan.getId()) {
-                                        if (!plan.canInvoice()) {
-                                            throw new Meteor.Error("plan_has_been_invoiced");
-                                        }
-                    
-                                        totals = {
-                                            total: {
-                                                discount_amount: plan.getData('discount_amount'),
-                                                grand_total: plan.getData('grand_total')
-                                            }
-                                        };
-                                    } else {
-                                        throw new Meteor.Error("can_find_plan");
+                            let plan = OM.create<Plan>(Plan);
+                            plan.loadById(planId);
+        
+                            if (plan.getId()) {
+                                if (!plan.canInvoice()) {
+                                    throw new Meteor.Error("plan_has_been_invoiced");
+                                }
+            
+                                totals = {
+                                    total: {
+                                        discount_amount: plan.getData('discount_amount'),
+                                        grand_total: plan.getData('grand_total')
                                     }
-                                    break;
-                                default:
-                                    throw new Meteor.Error("wrong_data_order_type");
+                                };
+                            } else {
+                                throw new Meteor.Error("can_find_plan");
                             }
         
                             return {payments, totals};
