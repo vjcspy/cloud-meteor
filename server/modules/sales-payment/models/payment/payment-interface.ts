@@ -1,9 +1,9 @@
 import {Order} from "../../../sales/models/order";
-import {PriceInterface} from "../../../retail/api/price-interface";
 import {PayResultInterface} from "./pay-result-interface";
+import {Price} from "../../../retail/models/price";
 
 export interface SalesPaymentDataInterface {
-    pricing: PriceInterface;
+    pricing: Price;
     transactionType: string;
     transactionData: {
         price?: number;

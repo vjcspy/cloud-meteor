@@ -18,4 +18,16 @@ export class Price extends AbstractModel {
             throw new Meteor.Error("Error", "this_pricing_is_not_trial");
         }
     }
+    
+    getCode(): string {
+        return this.getData('code');
+    }
+    
+    getCostMonthly(): number {
+        return parseFloat(this.getData('cost_monthly'));
+    }
+    
+    getCostAnnually(): number {
+        return parseFloat(this.getData('cost_annually'));
+    }
 }

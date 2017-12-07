@@ -52,7 +52,7 @@ export class Payment {
             }
             
             return payment.subscription.place({
-                                                  pricing: pricing.getData(),
+                                                  pricing: pricing,
                                                   transactionType: 'subscription',
                                                   transactionData: {
                                                       price: plan.getPrice(),

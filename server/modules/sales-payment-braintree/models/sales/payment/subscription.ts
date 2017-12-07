@@ -8,22 +8,18 @@ import {Stone} from "../../../../../code/core/stone";
 import {Braintree} from "../../../repositories/braintree";
 import {SubscriptionGatewayConfig} from "../../../repositories/braintree/subscription";
 import {BraintreeConfig} from "../../../etc/braintree.config";
-import {PayResultInterface} from "../../../../sales-payment/models/payment/pay-result-interface";
+import {PayResultInterface, PayResultType} from "../../../../sales-payment/models/payment/pay-result-interface";
 
 export class BraintreeSubscription extends PaymentAbstract implements SalesPaymentInterface {
     place(data: SalesPaymentDataInterface): Promise<PayResultInterface> {
-        const planId  = this.getPlanId(data.pricing.code);
-        const pricing = this.getPricing(data.pricing._id);
+        const subscriptionPlanId = this.getPlanId(data.pricing.getCode());
+        const pricing            = data.pricing;
         
-        if (!pricing) {
-            throw new Meteor.Error("can_not_find_pricing_for_this_order");
-        }
-        
-        const price = data.transactionData.billingCycle === ProductLicenseBillingCycle.MONTHLY ? pricing.cost_monthly : pricing.cost_annually;
+        const price = data.transactionData.billingCycle === ProductLicenseBillingCycle.MONTHLY ? pricing.getCostMonthly() : pricing.getCostAnnually();
         
         let transaction: SubscriptionGatewayConfig = {
             price,
-            planId,
+            planId: subscriptionPlanId,
             paymentMethodNonce: data.gatewayAdditionData['paymentMethodNonce'],
             neverExpires: true,
             options: {
@@ -49,7 +45,10 @@ export class BraintreeSubscription extends PaymentAbstract implements SalesPayme
                 .getSubscription()
                 .create(transaction)
                 .then((result) => {
-                
+                    resolve({
+                                type: PayResultType.PAY_SUCCESS,
+                                data: result
+                            })
                 }, (err) => {
                 
                 });

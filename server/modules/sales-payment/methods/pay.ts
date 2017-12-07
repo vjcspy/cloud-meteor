@@ -10,17 +10,15 @@ new ValidatedMethod({
                             }
                         },
                         run: function (data) {
-                            let payment = OM.create <Payment>(Payment);
-                            const {orderType, orderId, gatewayAdditionData} = data;
+                            let payment                         = OM.create <Payment>(Payment);
+                            const {planId, gatewayAdditionData} = data;
                             let orderObject;
         
-                            if (orderType === 'plan') {
-                                let plan = OM.create<Plan>(Plan);
-                                plan.loadById(orderId);
-            
-                                if (!!plan.getId()) {
-                                    orderObject = {plan};
-                                }
+                            let plan = OM.create<Plan>(Plan);
+                            plan.loadById(planId);
+        
+                            if (!!plan.getId()) {
+                                orderObject = {plan};
                             }
         
         
@@ -28,7 +26,7 @@ new ValidatedMethod({
                                 throw new Meteor.Error("sales-payment.pay", "pay_err");
                             }
         
-                            return payment.pay(orderObject, gatewayAdditionData);
+                            return payment.pay(plan, gatewayAdditionData);
                         }
                     });
 
