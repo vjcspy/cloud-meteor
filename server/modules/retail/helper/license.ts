@@ -75,4 +75,22 @@ export class LicenseHelper {
         // attack user to this license
         await UserLicense.attach(user, license, User.LICENSE_PERMISSION_OWNER);
     }
+    
+    getLicenseOfUser(user: User): License {
+        const licenses = user.getLicenses();
+        
+        if (_.size(licenses) === 1) {
+            const userLicense = _.first(licenses);
+            const license     = OM.create<License>(License);
+            license.loadById(userLicense['license_id']);
+            
+            if (!license.getId()) {
+                throw new Meteor.Error("Error", "can_not_find_license");
+            }
+            
+            return license;
+        }
+        
+        return null;
+    }
 }

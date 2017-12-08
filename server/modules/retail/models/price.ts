@@ -30,4 +30,12 @@ export class Price extends AbstractModel {
     getCostAnnually(): number {
         return parseFloat(this.getData('cost_annually'));
     }
+    
+    isSubscriptionType() {
+        return this.getPriceType() === Price.TYPE_SUBSCRIPTION;
+    }
+    
+    isLifetime() {
+        return this.getPriceType() === Price.TYPE_LIFETIME;
+    }
 }
