@@ -1,22 +1,22 @@
 import {PriceInterface} from "../../../retail/api/price-interface";
-import {LicenseHasProductInterface, LicenseInterface} from "../../../retail/api/license-interface";
+import {LicenseHasProductInterface} from "../../../retail/api/license-interface";
 import {User} from "../../../account/models/user";
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {PricingCollection} from "../../../retail/collections/prices";
 import {UserHasLicense} from "../../../account/api/user-interface";
-import {LicenseCollection} from "../../../retail/collections/licenses";
 import {CreditChangePlan} from "./plan-calculation/credit-change-plan";
 import {CostNewPlan} from "./plan-calculation/cost-new-plan";
 import * as _ from 'lodash';
 import {DiscountCredit} from "./plan-calculation/discount-credit";
 import {Grandtotal} from "./plan-calculation/grandtotal";
 import {SalesTotal} from "./sales-total";
+import {Price} from "../../../retail/models/price";
+import {License} from "../../../retail/models/license";
 
 export class PlanCalculation {
-    license: LicenseInterface;
+    license: License;
     productLicense: LicenseHasProductInterface;
-    currentPricing: PriceInterface;
-    newPricing: PriceInterface;
+    currentPricing: Price;
+    newPricing: Price;
     
     protected _totalCollector: any[] = [
         {
@@ -55,11 +55,11 @@ export class PlanCalculation {
     public getTotals(plan, product_id, userId): any {
         const user: User = OM.create<User>(User).loadById(userId);
         if (_.size(user.getLicenses()) === 0 || user.isShopOwner()) {
-            let currentPricing = null;
-            let newPricing     = this.newPricing = PricingCollection.collection.findOne({_id: plan['pricing_id']});
+            this.newPricing = OM.create<Price>(Price);
+            this.newPricing.loadById(plan['pricing_id']);
             let productLicense = null;
             
-            if (!newPricing) {
+            if (!this.newPricing.getId()) {
                 throw new Meteor.Error('Error', "can_not_find_new_pricing");
             }
             
@@ -67,17 +67,22 @@ export class PlanCalculation {
                 const userLicense: UserHasLicense = _.first(user.getLicenses());
                 
                 if (!!userLicense.license_id) {
-                    const license = LicenseCollection.collection.findOne({_id: userLicense.license_id});
-                    if (license) {
-                        this.license = license;
-                        if (_.isArray(license.has_product)) {
-                            const productLicense: LicenseHasProductInterface = this.productLicense = _.find(license.has_product, (_p: LicenseHasProductInterface) => _p.product_id === product_id);
+                    this.license = OM.create<License>(License);
+                    this.license.loadById(userLicense.license_id);
+                    if (!!this.license.getId()) {
+                        if (_.isArray(this.license.getProducts())) {
+                            const productLicense: LicenseHasProductInterface = this.productLicense = _.find(this.license.getProducts(), (_p: LicenseHasProductInterface) => _p.product_id === product_id);
                             
                             if (productLicense && productLicense.pricing_id) {
-                                this.currentPricing = currentPricing = PricingCollection.collection.findOne({_id: productLicense.pricing_id});
+                                this.currentPricing = OM.create<Price>(Price);
+                                this.currentPricing.loadById(productLicense.pricing_id);
                                 
-                                if (!currentPricing) {
+                                if (!this.currentPricing.getId()) {
                                     throw new Meteor.Error("Error", "can_not_find_pricing_of_product_license");
+                                } else {
+                                    if (this.newPricing.isTrial()) {
+                                        throw new Meteor.Error("Error", "you_can_not_apply_trial_pricing");
+                                    }
                                 }
                             } else {
                                 throw new Meteor.Error("Error", "can_not_find_pricing_of_product_license");
@@ -89,7 +94,7 @@ export class PlanCalculation {
                 }
             }
             
-            return this.calculate(plan, currentPricing, productLicense, newPricing, userId);
+            return this.calculate(plan, this.currentPricing.getData(), productLicense, this.newPricing.getData(), userId);
         }
     }
 }

@@ -2,7 +2,7 @@ import {CalculateInterface} from "./calculate-interface";
 import {CalculateAbstract} from "./calculate-abstract";
 import {PriceInterface} from "../../../../retail/api/price-interface";
 import {LicenseHasProductInterface} from "../../../../retail/api/license-interface";
-import {RequestPlan} from "../../../api/request-plan";
+import {RequestPlan} from "../../../api/data/request-plan";
 
 export class Grandtotal extends CalculateAbstract implements CalculateInterface {
     total: string = 'grand_total';

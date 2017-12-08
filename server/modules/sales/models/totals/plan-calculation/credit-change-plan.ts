@@ -5,7 +5,7 @@ import {CalculateAbstract} from "./calculate-abstract";
 import {DateTimeHelper} from "../../../../../code/Framework/DateTimeHelper";
 import * as moment from 'moment';
 import {NumberHelper} from "../../../../../code/Framework/NumberHelper";
-import {RequestPlan} from "../../../api/request-plan";
+import {RequestPlan} from "../../../api/data/request-plan";
 
 export class CreditChangePlan extends CalculateAbstract implements CalculateInterface {
     total: string = '';

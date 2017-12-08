@@ -3,7 +3,7 @@ import {CalculateInterface} from "./calculate-interface";
 import {PriceInterface} from "../../../../retail/api/price-interface";
 import {LicenseHasProductInterface, ProductLicenseBillingCycle} from "../../../../retail/api/license-interface";
 import {NumberHelper} from "../../../../../code/Framework/NumberHelper";
-import {RequestPlan} from "../../../api/request-plan";
+import {RequestPlan} from "../../../api/data/request-plan";
 
 export class CostNewPlan extends CalculateAbstract implements CalculateInterface {
     total: string = 'price';
