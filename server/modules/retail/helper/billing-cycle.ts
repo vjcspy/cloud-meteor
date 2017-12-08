@@ -19,12 +19,6 @@ export class BillingCycleHelper {
                                      name: 'Annually'
                                  });
                     break;
-                case ProductLicenseBillingCycle.LIFE_TIME:
-                    options.push({
-                                     value: c,
-                                     name: 'Life time'
-                                 });
-                    break;
             }
         });
         
