@@ -50,6 +50,15 @@ export class Plan extends AbstractModel {
         return true;
     }
     
+    planHasAlreadyPaid(): boolean {
+        if (this.getStatus() === PlanStatus.SALE_COMPLETE) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
     getPrice(): number {
         return this.getData('price') || 0;
     }

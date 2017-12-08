@@ -22,7 +22,7 @@ new ValidatedMethod({
         
                             if (plan.getId()) {
                                 if (!plan.canInvoice()) {
-                                    throw new Meteor.Error("plan_has_been_invoiced");
+                                    throw new Meteor.Error("Error", "can_not_create_invoice_for_plan");
                                 }
             
                                 totals = {

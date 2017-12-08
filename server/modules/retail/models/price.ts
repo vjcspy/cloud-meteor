@@ -38,4 +38,8 @@ export class Price extends AbstractModel {
     isLifetime() {
         return this.getPriceType() === Price.TYPE_LIFETIME;
     }
+    
+    isTrial() {
+        return this.getPriceType() === Price.TYPE_TRIAL;
+    }
 }

@@ -3,11 +3,16 @@ import {Plan} from "./plan";
 import {StoneEventManager} from "../../../code/core/app/event/stone-event-manager";
 import {ProductLicenseBillingCycle} from "../../retail/api/license-interface";
 import {PlanStatus} from "../api/plan-interface";
+import {Price} from "../../retail/models/price";
+import {OM} from "../../../code/Framework/ObjectManager";
 
 export class Invoice extends AbstractModel {
     protected $collection: string = 'sales_invoice';
+    protected plan: Plan;
+    protected pricing: Price;
     
     async createInvoice(plan: Plan, data: Object): Promise<any> {
+        this.plan = plan;
         if (!plan.canInvoice()) {
             throw new Meteor.Error('Error', 'can_invoice_plan');
         }
@@ -23,7 +28,7 @@ export class Invoice extends AbstractModel {
         
         await this.save();
         
-        if (plan.getPricingCycle() === ProductLicenseBillingCycle.LIFE_TIME) {
+        if (plan.getPricingCycle() === ProductLicenseBillingCycle.LIFE_TIME || this.getPricing().isTrial()) {
             plan.setData('status', PlanStatus.SALE_COMPLETE)
         } else {
             plan.setData('status', PlanStatus.SUBSCRIPTION_ACTIVE);
@@ -32,5 +37,18 @@ export class Invoice extends AbstractModel {
         await plan.save();
         
         StoneEventManager.dispatch('invoice_create_after', {plan, invoice: this});
+    }
+    
+    protected getPricing(): Price {
+        if (typeof this.pricing === 'undefined') {
+            this.pricing = OM.create<Price>(Price);
+            this.pricing.loadById(this.plan.getPricingId());
+            
+            if (!this.pricing.getId()) {
+                throw new Meteor.Error("payment_pay", "can_not_find_price");
+            }
+        }
+        
+        return this.pricing;
     }
 }

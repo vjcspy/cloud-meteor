@@ -64,7 +64,7 @@ export class LicenseHelper {
                     product_id: product.getId(),
                     addition_entity: plan.getAdditionEntity(),
                     pricing_id: pricing.getId(),
-                    billing_cycle: plan.getPricingCycle(),
+                    billing_cycle: pricing.getPriceType() === Price.TYPE_TRIAL ? null : plan.getPricingCycle(),
                     expiry_date
                 }
             ],
