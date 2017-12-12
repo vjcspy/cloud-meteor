@@ -5,6 +5,7 @@ import {ProductLicenseBillingCycle} from "../../retail/api/license-interface";
 import {PlanStatus} from "../api/plan-interface";
 import {Price} from "../../retail/models/price";
 import {OM} from "../../../code/Framework/ObjectManager";
+import {StoneLogger} from "../../../code/core/logger/logger";
 
 export class Invoice extends AbstractModel {
     protected $collection: string = 'sales_invoice';
@@ -30,8 +31,10 @@ export class Invoice extends AbstractModel {
         
         if (plan.getPricingCycle() === ProductLicenseBillingCycle.LIFE_TIME || this.getPricing().isTrial()) {
             plan.setData('status', PlanStatus.SALE_COMPLETE)
-        } else {
+        } else if (this.getPricing().isSubscriptionType()) {
             plan.setData('status', PlanStatus.SUBSCRIPTION_ACTIVE);
+        } else {
+            StoneLogger.error('can_not_update_plan_status', {plan});
         }
         
         await plan.save();

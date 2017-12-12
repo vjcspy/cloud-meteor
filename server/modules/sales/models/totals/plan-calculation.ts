@@ -53,9 +53,11 @@ export class PlanCalculation {
     }
     
     public getTotals(plan, product_id, userId): any {
-        const user: User = OM.create<User>(User).loadById(userId);
+        const user: User    = OM.create<User>(User).loadById(userId);
+        this.currentPricing = OM.create<Price>(Price);
+        this.newPricing     = OM.create<Price>(Price);
+        
         if (_.size(user.getLicenses()) === 0 || user.isShopOwner()) {
-            this.newPricing = OM.create<Price>(Price);
             this.newPricing.loadById(plan['pricing_id']);
             let productLicense = null;
             
@@ -74,7 +76,6 @@ export class PlanCalculation {
                             const productLicense: LicenseHasProductInterface = this.productLicense = _.find(this.license.getProducts(), (_p: LicenseHasProductInterface) => _p.product_id === product_id);
                             
                             if (productLicense && productLicense.pricing_id) {
-                                this.currentPricing = OM.create<Price>(Price);
                                 this.currentPricing.loadById(productLicense.pricing_id);
                                 
                                 if (!this.currentPricing.getId()) {

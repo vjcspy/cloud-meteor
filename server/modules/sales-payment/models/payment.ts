@@ -83,11 +83,14 @@ export class Payment extends DataObject {
         const licenseHelper = OM.create<LicenseHelper>(LicenseHelper);
         const license       = licenseHelper.getLicenseOfUser(user);
         
-        
-        const licenseProduct = _.find(license['has_product']);
+        if (!!license) {
+            const licenseProduct = _.find(license['has_product']);
+        }
         
         if (pricing.isSubscriptionType()) {
-        
+            /*
+            * Neu la supscription thi se khong duoc pay vao cung 1 ki
+            * */
             
         } else if (pricing.isLifetime()) {
             return false;
