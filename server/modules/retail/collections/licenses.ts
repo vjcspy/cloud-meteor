@@ -31,7 +31,6 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                      },
                                                                                                      'base_url.$': new SimpleSchema(
                                                                                                          {
-                                                                                                             status: SimpleSchema.Integer,
                                                                                                              url: String,
                                                                                                              in_use: {
                                                                                                                  type: Boolean,
@@ -42,7 +41,7 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                                  optional: true
                                                                                                              },
                                                                                                              api_version: {
-                                                                                                                 type: Boolean,
+                                                                                                                 type: String,
                                                                                                                  optional: true
                                                                                                              }
                                                                                                          }),

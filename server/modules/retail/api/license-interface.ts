@@ -39,14 +39,13 @@ export interface LicenseHasProductInterface {
     has_user: LicenseHasProductHasUser[];
     purchase_date: Date;
     expiry_date: Date;
-    last_invoice: Date;
-    next_invoice: Date;
+    last_invoice?: Date;
+    next_invoice?: Date;
 }
 
 export interface BaseUrl {
     in_use: boolean; // User Select inuse or not
     is_valid: boolean; // Admin must valid this base url
-    status?: number;
     url: string;
     api_version: string;
 }

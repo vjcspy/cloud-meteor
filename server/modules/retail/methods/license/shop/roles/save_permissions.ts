@@ -1,6 +1,6 @@
-import {OM} from "../../../../../code/Framework/ObjectManager";
-import {License} from "../../../models/license";
-import {User} from "../../../../account/models/user";
+import {OM} from "../../../../../../code/Framework/ObjectManager";
+import {License} from "../../../../models/license";
+import {User} from "../../../../../account/models/user";
 
 new ValidatedMethod({
                         name: 'license.save_permissions',
