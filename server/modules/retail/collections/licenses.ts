@@ -32,7 +32,19 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                      'base_url.$': new SimpleSchema(
                                                                                                          {
                                                                                                              status: SimpleSchema.Integer,
-                                                                                                             url: String
+                                                                                                             url: String,
+                                                                                                             in_use: {
+                                                                                                                 type: Boolean,
+                                                                                                                 optional: true
+                                                                                                             },
+                                                                                                             is_valid: {
+                                                                                                                 type: Boolean,
+                                                                                                                 optional: true
+                                                                                                             },
+                                                                                                             api_version: {
+                                                                                                                 type: Boolean,
+                                                                                                                 optional: true
+                                                                                                             }
                                                                                                          }),
                                                                                                      plan_id: String,
                                                                                                      product_id: String,
@@ -49,7 +61,15 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                              username: String
                                                                                                          }),
                                                                                                      purchase_date: Date,
-                                                                                                     expiry_date: Date
+                                                                                                     expiry_date: Date,
+                                                                                                     last_invoice: {
+                                                                                                         type: Date,
+                                                                                                         optional: true
+                                                                                                     },
+                                                                                                     next_invoice: {
+                                                                                                         type: Date,
+                                                                                                         optional: true
+                                                                                                     },
                                                                                                  }),
                                                                                              has_roles: {
                                                                                                  type: Array,
