@@ -2,7 +2,6 @@ import * as $q from 'q';
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../account/models/user";
 import {Role} from "../../../account/models/role";
-import {License} from "../../models/license";
 import {Stone} from "../../../../code/core/stone";
 import {LicenseHelper} from "../../helper/license";
 
@@ -34,14 +33,10 @@ new ValidatedMethod({
                                 userModel.loadById(newUserId);
                             } else {
                                 userModel.loadById(license['shop_owner_id']);
-            
-                                if (userModel.hasLicense()) {
-                                    throw new Meteor.Error("Error", "can_not_create_license_this_user_already_has_license_key");
-                                }
                             }
         
                             const $license = Stone.getInstance().s('$license') as LicenseHelper;
-                            $license.saveLicenseByAdmin(OM.create<License>(License).addData(license), userModel, licenseHasProduct)
+                            $license.saveLicenseByAdmin(license, userModel, licenseHasProduct)
                                     .then(() => defer.resolve(), (err) => defer.reject(err));
         
                             return defer.promise;

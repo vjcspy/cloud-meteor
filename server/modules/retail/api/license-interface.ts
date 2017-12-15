@@ -41,7 +41,8 @@ export interface LicenseHasProductInterface {
     purchase_date: Date;
     expiry_date: Date;
     last_invoice?: Date;
-    created_by?: string; // create by admin or sale?
+    created_by: string; // create by admin or sale?
+    updated_by: string; // user or admin?
     status: number;
 }
 

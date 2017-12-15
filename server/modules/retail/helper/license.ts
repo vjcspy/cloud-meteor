@@ -67,7 +67,9 @@ export class LicenseHelper {
                     pricing_id: pricing.getId(),
                     billing_cycle: pricing.getPriceType() === Price.TYPE_TRIAL ? null : plan.getPricingCycle(),
                     expiry_date,
-                    status: 1
+                    status: 1,
+                    created_by: user.getId(),
+                    updated_by: user.getId()
                 }
             ],
             has_roles: [],
@@ -96,12 +98,25 @@ export class LicenseHelper {
         return null;
     }
     
-    async saveLicenseByAdmin(license: License, user: User, hasProduct: any[]): Promise<any> {
+    async saveLicenseByAdmin(licenseData: Object, user: User, hasProduct: any[]): Promise<any> {
+        const license = OM.create<License>(License);
+        
+        if (!!licenseData['_id']) {
+            license.loadById(licenseData['_id']);
+            if (!license.getId()) {
+                throw new Meteor.Error("License_Helper", "can_not_find_license");
+            }
+        }
+        
         if (!license.getId()) {
+            if (user.hasLicense()) {
+                throw new Meteor.Error("License_Helper", "user_already_has_license");
+            }
             
-            let licenseData: LicenseInterface = {
+            
+            let _licenseData: LicenseInterface = {
                 key: StringHelper.getUnique(),
-                status: license.getStatus(),
+                status: licenseData['status'],
                 shop_owner_id: user.getId(),
                 shop_owner_username: user.getUsername(),
                 current_cashier_increment: 0,
@@ -122,21 +137,34 @@ export class LicenseHelper {
                         billing_cycle: licenseHasProduct['billing_cycle'],
                         expiry_date: licenseHasProduct['expiry_date'],
                         status: licenseHasProduct['status'],
-                        created_by: Meteor.userId()
+                        created_by: Meteor.userId(),
+                        updated_by: Meteor.userId(),
                     };
                     
-                    licenseData.has_product.push(licenseHasProductData);
+                    _licenseData.has_product.push(licenseHasProductData);
                 }
             });
             
-            await license.addData(licenseData).save();
+            await license.addData(_licenseData).save();
             await UserLicense.attach(user, license, User.LICENSE_PERMISSION_OWNER, []);
         } else {
-            license.setData('status', license.getStatus());
+            license.setData('status', licenseData['status'],);
             
             const licenseHasProducts = license.getProducts();
             _.forEach(hasProduct, (_d) => {
-                if (_d['checked'] === true) {
+                const licenseHasProduct = _.find(licenseHasProducts, (lhp) => lhp['product_id'] === _d['product_id']);
+                if (licenseHasProduct) {
+                    Object.assign(licenseHasProduct, {
+                        base_url: _d['base_url'],
+                        plan_id: null,
+                        addition_entity: _d['addition_entity'],
+                        pricing_id: _d['pricing_id'],
+                        billing_cycle: _d['billing_cycle'],
+                        expiry_date: _d['expiry_date'],
+                        status: _d['status'],
+                        updated_by: Meteor.userId()
+                    });
+                } else if (_d['checked'] === true) {
                     let data: LicenseHasProductInterface = {
                         base_url: _d['base_url'],
                         plan_id: null,
@@ -148,24 +176,11 @@ export class LicenseHelper {
                         billing_cycle: _d['billing_cycle'],
                         expiry_date: _d['expiry_date'],
                         status: _d['status'],
-                        created_by: Meteor.userId()
+                        created_by: Meteor.userId(),
+                        updated_by: Meteor.userId()
                     };
                     
                     licenseHasProducts.push(data);
-                } else {
-                    const licenseHasProduct = _.find(licenseHasProducts, (lhp) => lhp['product_id'] === _d['product_id']);
-                    if (licenseHasProduct) {
-                        Object.assign(licenseHasProduct, {
-                            base_url: _d['base_url'],
-                            plan_id: null,
-                            addition_entity: _d['addition_entity'],
-                            pricing_id: _d['pricing_id'],
-                            billing_cycle: _d['billing_cycle'],
-                            expiry_date: _d['expiry_date'],
-                            status: _d['status'],
-                            created_by: Meteor.userId()
-                        });
-                    }
                 }
             });
             

@@ -45,4 +45,20 @@ export class License extends AbstractModel {
     getStatus(): number {
         return this.getData('status');
     }
+    
+    save() {
+        // validate licenseHasProduct
+        const countProduct = _.countBy(this.getProducts(), (p) => p['product_id']);
+        _.forEach(countProduct, (c) => {
+            if (c > 1) {
+                throw new Meteor.Error("license", "duplicate_product_in_license");
+            }
+        });
+        
+        return super.save();
+    }
+    
+    protected validateLicense() {
+    
+    }
 }
