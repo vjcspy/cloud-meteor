@@ -7,6 +7,7 @@ import {Role} from "../../account/models/role";
 import * as _ from 'lodash';
 import {LicenseHelper} from "../../retail/helper/license";
 import {StoneLogger} from "../../../code/core/logger/logger";
+import {Stone} from "../../../code/core/stone";
 
 /**
  * Handle after created invoice to change plan
@@ -31,8 +32,8 @@ export class HandleCreateInvoice implements ObserverInterface {
                 if (_.size(user.getLicenses()) > 0) {
                 
                 } else {
-                    let licenseHelper = OM.create<LicenseHelper>(LicenseHelper);
-                    await licenseHelper.createLicense(plan);
+                    const $license = Stone.getInstance().s('$license') as LicenseHelper;
+                    await $license.createLicense(plan);
                 }
             } else {
                 throw new Meteor.Error("Error", 'some_thing_went_wrong_when_upgrade_plan');

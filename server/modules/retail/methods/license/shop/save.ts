@@ -2,6 +2,8 @@ import * as _ from "lodash";
 import {OM} from "../../../../../code/Framework/ObjectManager";
 import {LicenseHelper} from "../../../helper/license";
 import {User} from "../../../../account/models/user";
+import {Stone} from "../../../../../code/core/stone";
+import {async} from "rxjs/scheduler/async";
 
 new ValidatedMethod({
                         name: "license.shop_save_product_license",
@@ -9,9 +11,9 @@ new ValidatedMethod({
                         },
                         run: function (licenseHasProduct: Object) {
                             return new Promise((resolve, reject) => {
-                                const licenseHelper = OM.create<LicenseHelper>(LicenseHelper);
-                                let user: User      = OM.create<User>(User).loadById(this.userId);
-                                const license       = licenseHelper.getLicenseOfUser(user);
+                                const $license = Stone.getInstance().s('$license') as LicenseHelper;
+                                let user: User = OM.create<User>(User).loadById(this.userId);
+                                const license  = $license.getLicenseOfUser(user);
             
                                 let hasProduct = _.map(license.getProducts(), (l) => {
                                     if (l['product_id'] === licenseHasProduct['product_id']) {

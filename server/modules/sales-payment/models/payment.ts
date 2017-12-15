@@ -11,6 +11,7 @@ import {LicenseHelper} from "../../retail/helper/license";
 import {User} from "../../account/models/user";
 import {License} from "../../retail/models/license";
 import {LicenseHasProductInterface} from "../../retail/api/license-interface";
+import {async} from "rxjs/scheduler/async";
 
 export class Payment extends DataObject {
     protected plan: Plan;
@@ -78,10 +79,10 @@ export class Payment extends DataObject {
     }
     
     protected validatePlanPay(plan: Plan): boolean {
-        const pricing       = this.getPricing();
-        const user          = this.getUser();
-        const licenseHelper = OM.create<LicenseHelper>(LicenseHelper);
-        const license       = licenseHelper.getLicenseOfUser(user);
+        const pricing  = this.getPricing();
+        const user     = this.getUser();
+        const $license = Stone.getInstance().s('$license') as LicenseHelper;
+        const license  = $license.getLicenseOfUser(user);
         
         if (!!license) {
             const licenseProduct = _.find(license['has_product']);

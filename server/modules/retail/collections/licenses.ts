@@ -45,7 +45,10 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                                  optional: true
                                                                                                              }
                                                                                                          }),
-                                                                                                     plan_id: String,
+                                                                                                     plan_id: {
+                                                                                                         type: String,
+                                                                                                         optional: true
+                                                                                                     },
                                                                                                      product_id: String,
                                                                                                      pricing_id: String,
                                                                                                      billing_cycle: {
@@ -65,10 +68,11 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                          type: Date,
                                                                                                          optional: true
                                                                                                      },
-                                                                                                     next_invoice: {
-                                                                                                         type: Date,
+                                                                                                     status: SimpleSchema.Integer,
+                                                                                                     created_by: {
+                                                                                                         type: String,
                                                                                                          optional: true
-                                                                                                     },
+                                                                                                     }
                                                                                                  }),
                                                                                              has_roles: {
                                                                                                  type: Array,

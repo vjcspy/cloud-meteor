@@ -41,4 +41,8 @@ export class License extends AbstractModel {
     getCurrentCashierIncrement(): number {
         return !!this.getData('current_cashier_increment') ? parseInt(this.getData('current_cashier_increment') + '') : 0;
     }
+    
+    getStatus(): number {
+        return this.getData('status');
+    }
 }

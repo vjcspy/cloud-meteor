@@ -31,7 +31,8 @@ export interface LicenseHasRoleHasPermissionInterface {
 
 export interface LicenseHasProductInterface {
     base_url: BaseUrl[];
-    plan_id: string;
+    /* License maybe has or don't has any plan. Base on this, we can check license is created by admin or user change plan*/
+    plan_id?: string;
     product_id: string;
     pricing_id: string;
     billing_cycle: ProductLicenseBillingCycle;
@@ -40,7 +41,8 @@ export interface LicenseHasProductInterface {
     purchase_date: Date;
     expiry_date: Date;
     last_invoice?: Date;
-    next_invoice?: Date;
+    created_by?: string; // create by admin or sale?
+    status: number;
 }
 
 export interface BaseUrl {
