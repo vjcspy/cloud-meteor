@@ -3,10 +3,11 @@ import {Stone} from "../../../stone";
 import {StoneModuleManager} from "../stone-module-manager";
 import {ModuleConfigInterface} from "../../contract/module-declare/module-config-interface";
 import {ProviderInterface} from "../../contract/module-declare/provider-interface";
+import {StoneLogger} from "../../../logger/logger";
 
 export class ProviderManager {
     boot() {
-        // StoneLogger.info("Provider: Booting");
+        StoneLogger.info("Provider: Booting");
         
         const $stoneModuleManager = Stone.getInstance().s('$stoneModuleManager') as StoneModuleManager;
         
@@ -16,7 +17,7 @@ export class ProviderManager {
             });
         });
         
-        // StoneLogger.info("Provider: Done!!");
+        StoneLogger.info("Provider: Done!!");
     }
 }
 

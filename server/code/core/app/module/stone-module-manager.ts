@@ -26,8 +26,10 @@ export class StoneModuleManager {
         this._prepareModuleDepend(StoneModuleManager.$modules);
         
         const $providerManager = Stone.getInstance().s('$providerManager') as ProviderManager;
-        
+        const $databaseManager = Stone.getInstance().s('$databaseManager') as DatabaseManager;
+    
         $providerManager.boot();
+        $databaseManager.boot();
         
         this._afterConfigModule();
     }
