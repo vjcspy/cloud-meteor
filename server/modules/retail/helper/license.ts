@@ -164,9 +164,6 @@ export class LicenseHelper {
                         status: _d['status'],
                         updated_by: Meteor.userId()
                     });
-                    if (!licenseHasProduct['created_by']) {
-                        licenseHasProduct['created_by'] = Meteor.userId()
-                    }
                 } else if (_d['checked'] === true) {
                     let data: LicenseHasProductInterface = {
                         base_url: _d['base_url'],
