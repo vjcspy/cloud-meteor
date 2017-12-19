@@ -1,4 +1,5 @@
 export interface UserInterface extends Meteor.User {
+    status?: Number;
     profile?: Profile;
     has_license?: UserHasLicense[]; // Normal user has only one license. We support license as array to satisfy agency or sale role.
     created_at?: Date;
