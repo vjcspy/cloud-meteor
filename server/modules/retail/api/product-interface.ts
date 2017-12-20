@@ -25,7 +25,7 @@ export interface ProductVersion {
 }
 
 export interface ProductVersionApiCompatible {
-    code: string;
+    version: string;
 }
 
 export interface ProductVersionLicenseCompatible {
@@ -33,7 +33,7 @@ export interface ProductVersionLicenseCompatible {
 }
 
 export interface ApiVersions {
-    code: string;
+    version: string;
     name: string;
     directory_path: string;
 }
