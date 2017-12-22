@@ -15,7 +15,7 @@ new ValidatedMethod({
                                 let user: User = OM.create<User>(User).loadById(this.userId);
                                 const license  = $license.getLicenseOfUser(user);
             
-                                let hasProduct = _.map(license.getProducts(), (l) => {
+                                let hasProduct = _.map(license.getProducts(), (l: any) => {
                                     if (l['product_id'] === licenseHasProduct['product_id']) {
                                         l['base_url'] = _.chain(l['base_url'])
                                                          .filter((b) => _.find(licenseHasProduct['base_url'], (_b) => _b['url'] === b['url']))

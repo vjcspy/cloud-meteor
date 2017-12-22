@@ -29,7 +29,7 @@ export class ProductProvider implements ProviderInterface {
                         {
                             "name": "Beta",
                             "version": "1.0.0",
-                            api_compatible: [{code: '1.0.0'}],
+                            api_compatible: [{version: '1.0.0'}],
                             license_compatible: [],
                             directory_path: 'path/to/version/in/sales',
                             changelog: "Nothing change",
@@ -37,7 +37,7 @@ export class ProductProvider implements ProviderInterface {
                         }
                     ],
                     api_versions: [{
-                        code: "1.0.0",
+                        version: "1.0.0",
                         name: "api For cpos",
                         directory_path: 'path/to/api/in/server'
                     }],
