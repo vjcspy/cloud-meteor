@@ -35,7 +35,7 @@ export const Products = CollectionMaker.make<ProductInterface>(
                         },
                         'api_compatible.$': new SimpleSchema(
                             {
-                                api_code: String,
+                                version: String,
                             }
                         ),
                         license_compatible: {
@@ -63,7 +63,7 @@ export const Products = CollectionMaker.make<ProductInterface>(
             },
             'api_versions.$': new SimpleSchema(
                 {
-                    code: String,
+                    version: String,
                     name: String,
                     directory_path: String
                 }
