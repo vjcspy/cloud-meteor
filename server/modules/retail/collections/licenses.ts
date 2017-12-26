@@ -57,7 +57,7 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                      },
                                                                                                      addition_entity: {
                                                                                                          type: SimpleSchema.Integer,
-                                                                                                         defaultValue: 0
+                                                                                                         optional: true
                                                                                                      },
                                                                                                      has_user: Array,
                                                                                                      "has_user.$": new SimpleSchema(

@@ -2,10 +2,12 @@ import {StoneModuleManager} from "../../../code/core/app/module/stone-module-man
 import {PricingProvider} from "../providers/pricing";
 import {ProductProvider} from "../providers/product";
 import {LicenseProvider} from "../providers/license";
+import {RetailDB} from "./db";
 
 StoneModuleManager.config({
                               name: 'retail',
                               version: '0.0.4',
+                              db: new RetailDB(),
                               providers: [
                                   new PricingProvider(),
                                   new ProductProvider(),

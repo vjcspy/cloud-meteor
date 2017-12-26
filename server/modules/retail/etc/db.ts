@@ -7,6 +7,7 @@ export class RetailDB implements DbSchemaInterface {
     }
     
     up(currentModule: StoneModulesInterface, moduleConfig: ModuleConfigInterface) {
+        console.log('here');
     }
     
     down(currentModule: StoneModulesInterface, moduleConfig: ModuleConfigInterface) {
