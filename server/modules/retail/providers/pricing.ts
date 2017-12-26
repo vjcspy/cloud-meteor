@@ -13,7 +13,10 @@ export class PricingProvider implements ProviderInterface {
     boot() {
         if (RetailConfig.dummyData) {
             this.initDefaultPricingType();
-            this.initDefaultPricing();
+            
+            if (PricingCollection.collection.find().count() === 0) {
+                this.initDefaultPricing();
+            }
         }
     }
     
@@ -44,47 +47,45 @@ export class PricingProvider implements ProviderInterface {
         }
     }
     
-    protected initDefaultPricing(): void {
+    initDefaultPricing(): void {
         // PricingCollection.collection.remove({});
-        if (PricingCollection.collection.find().count() === 0) {
-            StoneLogger.info("Dummy pricing for C-POS");
-            let defaultPricing = [
-                {
-                    "type": "subscription",
-                    "code": "cpos_premium",
-                    "display_name": "ConnectPos Premium",
-                    "entity_type": PriceEntityType.REGISTER,
-                    "free_entity": 3,
-                    "cost_monthly": "30",
-                    "cost_annually": "300",
-                    "description": "ConnectPos Premium"
-                },
-                {
-                    "type": "subscription",
-                    "code": "cpos_standard",
-                    "display_name": "ConnectPos Standard",
-                    "entity_type": PriceEntityType.REGISTER,
-                    "free_entity": 3,
-                    "cost_monthly": "20",
-                    "cost_annually": "200",
-                    "description": "ConnectPos Standard"
-                },
-                {
-                    "type": "trial",
-                    "code": "cpos_trial",
-                    "display_name": "ConnectPOS Trial",
-                    "entity_type": PriceEntityType.REGISTER,
-                    "free_entity": 3,
-                    "trial_day": 30,
-                    "description": "ConnectPOS Trial"
-                }
-            ];
-            
-            _.forEach(defaultPricing, (_p) => {
-                let price = OM.create<Price>(Price);
-                price.addData(_p)
-                     .save();
-            });
-        }
+        StoneLogger.info("Dummy pricing for C-POS");
+        let defaultPricing = [
+            {
+                "type": "subscription",
+                "code": "cpos_premium",
+                "display_name": "ConnectPos Premium",
+                "entity_type": PriceEntityType.REGISTER,
+                "free_entity": 3,
+                "cost_monthly": "30",
+                "cost_annually": "300",
+                "description": "ConnectPos Premium"
+            },
+            {
+                "type": "subscription",
+                "code": "cpos_standard",
+                "display_name": "ConnectPos Standard",
+                "entity_type": PriceEntityType.REGISTER,
+                "free_entity": 3,
+                "cost_monthly": "20",
+                "cost_annually": "200",
+                "description": "ConnectPos Standard"
+            },
+            {
+                "type": "trial",
+                "code": "cpos_trial",
+                "display_name": "ConnectPOS Trial",
+                "entity_type": PriceEntityType.REGISTER,
+                "free_entity": 3,
+                "trial_day": 30,
+                "description": "ConnectPOS Trial"
+            }
+        ];
+        
+        _.forEach(defaultPricing, (_p) => {
+            let price = OM.create<Price>(Price);
+            price.addData(_p)
+                 .save();
+        });
     }
 }

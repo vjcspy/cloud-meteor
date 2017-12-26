@@ -160,9 +160,11 @@ export class LicenseHelper {
                         addition_entity: _d['addition_entity'],
                         pricing_id: _d['pricing_id'],
                         billing_cycle: _d['billing_cycle'],
-                        expiry_date: _d['expiry_date'],
+                        expiry_date: moment(_d['expiry_date']).toDate(),
                         status: _d['status'],
-                        updated_by: Meteor.userId()
+                        updated_by: Meteor.userId(),
+                        has_user: _.isArray(licenseHasProduct['has_user']) ? licenseHasProduct['has_user'] : [],
+                        created_by: !!licenseHasProduct['created_by'] ? licenseHasProduct['created_by'] : Meteor.userId(),
                     });
                 } else if (_d['checked'] === true) {
                     let data: LicenseHasProductInterface = {
@@ -174,7 +176,7 @@ export class LicenseHelper {
                         addition_entity: _d['addition_entity'],
                         pricing_id: _d['pricing_id'],
                         billing_cycle: _d['billing_cycle'],
-                        expiry_date: _d['expiry_date'],
+                        expiry_date: moment(_d['expiry_date']).toDate(),
                         status: _d['status'],
                         created_by: Meteor.userId(),
                         updated_by: Meteor.userId()

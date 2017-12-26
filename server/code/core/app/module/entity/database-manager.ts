@@ -16,17 +16,27 @@ export class DatabaseManager {
             
             if (!currentModule || !currentModule.version) {
                 StoneLogger.info('installing module ' + m.name);
-                m.db.install();
+                
+                if (!!m['db'] && !!m['db']['install']) {
+                    m.db.install();
+                }
             }
             
             if (!currentModule || !currentModule.version || currentModule.version < m.version) {
                 StoneLogger.info('upgrading module ' + m.name);
-                m.db.up(currentModule, m);
+                
+                if (!!m['db'] && !!m['db']['up']) {
+                    m.db.up(currentModule, m);
+                }
             }
             
             if (!!currentModule && currentModule.version > m.version) {
-                StoneLogger.info('downgrading module ' + m.name);
-                m.db.down(currentModule, m);
+                throw new Meteor.Error('not_yet_support_downgrade_module');
+                // StoneLogger.info('downgrading module ' + m.name);
+                //
+                // if (!!m['db'] && !!m['db']['down']) {
+                //     m.db.down(currentModule, m);
+                // }
             }
         });
         
