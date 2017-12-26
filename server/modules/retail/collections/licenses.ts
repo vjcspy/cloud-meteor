@@ -72,8 +72,14 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                          optional: true
                                                                                                      },
                                                                                                      status: SimpleSchema.Integer,
-                                                                                                     created_by: String,
-                                                                                                     updated_by: String
+                                                                                                     created_by: {
+                                                                                                         type: String,
+                                                                                                         optional: true
+                                                                                                     },
+                                                                                                     updated_by: {
+                                                                                                         type: String,
+                                                                                                         optional: true
+                                                                                                     },
                                                                                                  }),
                                                                                              has_roles: {
                                                                                                  type: Array,

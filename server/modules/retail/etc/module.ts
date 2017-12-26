@@ -6,7 +6,7 @@ import {RetailDB} from "./db";
 
 StoneModuleManager.config({
                               name: 'retail',
-                              version: '0.0.9',
+                              version: '0.0.95',
                               db: new RetailDB(),
                               providers: [
                                   new PricingProvider(),
