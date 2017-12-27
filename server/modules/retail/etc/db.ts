@@ -14,13 +14,13 @@ export class RetailDB implements DbSchemaInterface {
     }
     
     up(currentModule: StoneModulesInterface, moduleConfig: ModuleConfigInterface) {
-        if (currentModule.version < '0.0.8') {
+        if (!currentModule || currentModule.version < '0.0.8') {
             LicenseCollection.collection.update({}, {$set: {has_roles: []}}, {multi: true});
         }
-        if (currentModule.version < '0.0.9') {
+        if (!currentModule || currentModule.version < '0.0.9') {
             (new PricingProvider()).initDefaultPricing();
         }
-        if (currentModule.version < '0.0.95') {
+        if (!currentModule || currentModule.version < '0.0.95') {
             const licenses = LicenseCollection.collection.find().fetch();
             _.forEach(licenses, (l) => {
                 const license = OM.create<License>(License);
