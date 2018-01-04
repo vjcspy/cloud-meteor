@@ -31,6 +31,7 @@ export interface LicenseHasRoleHasPermissionInterface {
 
 export interface LicenseHasProductInterface {
     base_url: BaseUrl[];
+    product_version?: String;
     /* License maybe has or don't has any plan. Base on this, we can check license is created by admin or user change plan*/
     plan_id?: string;
     product_id: string;

@@ -17,6 +17,7 @@ new ValidatedMethod({
             
                                 let hasProduct = _.map(license.getProducts(), (l: any) => {
                                     if (l['product_id'] === licenseHasProduct['product_id']) {
+                                        l['product_version'] = licenseHasProduct['product_version'];
                                         l['base_url'] = _.chain(l['base_url'])
                                                          .filter((b) => _.find(licenseHasProduct['base_url'], (_b) => _b['url'] === b['url']))
                                                          .map((b) => {

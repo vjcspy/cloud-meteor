@@ -45,6 +45,10 @@ export const Licenses          = CollectionMaker.make<LicenseInterface>("license
                                                                                                                  optional: true
                                                                                                              }
                                                                                                          }),
+                                                                                                     product_version: {
+                                                                                                         type: String,
+                                                                                                         optional: true
+                                                                                                     },
                                                                                                      plan_id: {
                                                                                                          type: String,
                                                                                                          optional: true
