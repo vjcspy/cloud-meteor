@@ -53,7 +53,7 @@ new ValidatedMethod({
                                    .then(() => {
                                        return UserLicense.attach(cashier, license, User.LICENSE_PERMISSION_CASHIER, cashierData['cashier_products'], {
                                            shop_role: cashierData['role'],
-                                           status: cashierData['status']
+                                           status: parseInt(cashierData['status'])
                                        });
                                    })
                                    .then(() => {
