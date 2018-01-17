@@ -37,6 +37,7 @@ export class PlanHelper {
             license_id: !!calculator.license ? calculator.license.getId() : null,
             pricing_id: calculator.newPricing.getId(),
             pricing_cycle: requestPlan.cycle,
+            num_of_cycle: requestPlan.num_of_cycle,
             addition_entity: requestPlan.addition_entity,
             prev_pricing_id: calculator.currentPricing ? calculator.currentPricing.getId() : null,
             prev_pricing_cycle: calculator.productLicense ? calculator.productLicense.billing_cycle : null,
@@ -47,7 +48,7 @@ export class PlanHelper {
             discount_amount: totals.total.discount_amount || 0,
             grand_total: totals.total.grand_total,
             
-            status: calculator.newPricing.isSubscriptionType() ? PlanStatus.SUBSCRIPTION_PENDING : PlanStatus.SALE_PENDING,
+            status: PlanStatus.SALE_PENDING,
             created_at: DateTimeHelper.getCurrentDate(),
             updated_at: DateTimeHelper.getCurrentDate()
         };

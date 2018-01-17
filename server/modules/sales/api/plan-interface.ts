@@ -17,6 +17,7 @@ export interface PlanInterface {
     
     pricing_id: string;
     pricing_cycle: ProductLicenseBillingCycle;
+    num_of_cycle: number;
     addition_entity: number;
     
     prev_pricing_id: string;

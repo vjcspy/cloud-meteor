@@ -19,13 +19,8 @@ export class Plan extends AbstractModel {
         return new Promise((resolve, reject) => {
             this.addData(plan);
             
-            
             // process status
-            if (plan.pricing_cycle === ProductLicenseBillingCycle.LIFE_TIME) {
-                this.setData('status', PlanStatus.SALE_PENDING);
-            } else if (plan.pricing_cycle === ProductLicenseBillingCycle.MONTHLY || plan.pricing_cycle === ProductLicenseBillingCycle.ANNUALLY) {
-                this.setData('status', PlanStatus.SUBSCRIPTION_PENDING);
-            }
+            this.setData('status', PlanStatus.SALE_PENDING);
             
             StoneEventManager.dispatch('sale_plan_save_before', this);
             this.save()
@@ -99,18 +94,18 @@ export class Plan extends AbstractModel {
         return this.getData('product_id');
     }
     
-    submitPlan(requestPlan: RequestPlan, product_id: string, userId: string) {
-        return new Promise((resolve, reject) => {
-            let newPlan = this.prepareNewPlanData(requestPlan, product_id, userId);
-            let plan    = OM.create<Plan>(Plan);
-            plan.createSalePlan(newPlan)
-                .then((planId) => {
-                          StoneEventManager.dispatch('plan_create_after', {plan, planId});
-                          resolve(planId);
-                      },
-                      (err) => reject(err));
-        });
-    }
+    // submitPlan(requestPlan: RequestPlan, product_id: string, userId: string) {
+    //     return new Promise((resolve, reject) => {
+    //         let newPlan = this.prepareNewPlanData(requestPlan, product_id, userId);
+    //         let plan    = OM.create<Plan>(Plan);
+    //         plan.createSalePlan(newPlan)
+    //             .then((planId) => {
+    //                       StoneEventManager.dispatch('plan_create_after', {plan, planId});
+    //                       resolve(planId);
+    //                   },
+    //                   (err) => reject(err));
+    //     });
+    // }
     
     protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string): PlanInterface {
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
@@ -122,6 +117,7 @@ export class Plan extends AbstractModel {
             license_id: !!calculator.license ? calculator.license.getId() : null,
             pricing_id: calculator.newPricing.getId(),
             pricing_cycle: requestPlan.cycle,
+            num_of_cycle: requestPlan.num_of_cycle,
             addition_entity: requestPlan.addition_entity,
             prev_pricing_id: calculator.currentPricing ? calculator.currentPricing.getId() : null,
             prev_pricing_cycle: calculator.productLicense ? calculator.productLicense.billing_cycle : null,

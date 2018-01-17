@@ -21,9 +21,9 @@ export class CostNewPlan extends CalculateAbstract implements CalculateInterface
         } else {
             let costSubscribe;
             if (parseInt(plan.cycle + '') === ProductLicenseBillingCycle.MONTHLY) {
-                costSubscribe = newPricing.cost_monthly;
+                costSubscribe = parseFloat(newPricing.cost_monthly + '') * parseFloat(plan.num_of_cycle + '');
             } else if (parseInt(plan.cycle + '') === ProductLicenseBillingCycle.ANNUALLY) {
-                costSubscribe = newPricing.cost_annually;
+                costSubscribe = parseFloat(newPricing.cost_annually + '') * parseFloat(plan.num_of_cycle + '');
             }
             
             if (typeof costSubscribe === 'undefined') {

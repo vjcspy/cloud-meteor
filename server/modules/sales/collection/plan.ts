@@ -15,6 +15,7 @@ export const orderSchema = new SimpleSchema(
         pricing_id: String,
         pricing_cycle: Number,
         addition_entity: Number,
+        num_of_cycle: Number,
         
         prev_pricing_id: {
             type: String,
