@@ -11,7 +11,6 @@ new ValidatedMethod({
                         },
                         run: function (cashierData: Object) {
                             let defer = $q.defer();
-        
                             let userModel: User = OM.create<User>(User).loadById(this.userId);
                             if (!userModel.hasLicense()) {
                                 throw new Meteor.Error("license.delete_role", "can_not_find_license");
@@ -20,7 +19,6 @@ new ValidatedMethod({
                             let license: License = OM.create<License>(License).load(license_id);
         
                             let cashier: User = OM.create<User>(User);
-        
                             if (!!cashierData['_id']) {
                                 cashier.loadById(cashierData['_id']);
             
@@ -29,9 +27,9 @@ new ValidatedMethod({
                                 let newCashierId = Accounts.createUser({
                                                                            username: cashierData['username'],
                                                                            email: cashierData['email'],
-                                                                           password: User.DEFAULT_PASSWORD_USER,
+                                                                           password: !!cashierData['password'] ? cashierData['password'] : User.DEFAULT_PASSWORD_USER,
                                                                        });
-                                Accounts.sendEnrollmentEmail(newCashierId);
+                                !cashierData['password'] ? Accounts.sendEnrollmentEmail(newCashierId) : '';
             
                                 cashier.loadById(newCashierId);
                             }
@@ -47,7 +45,7 @@ new ValidatedMethod({
                             let profile           = cashier.getProfile() || {};
                             profile['first_name'] = cashierData['profile']['first_name'];
                             profile['last_name']  = cashierData['profile']['last_name'];
-        
+                            profile['phone']      = cashierData['profile']['phone'];
                             cashier.setData('profile', profile)
                                    .save()
                                    .then(() => {
