@@ -31,7 +31,6 @@ export class ProductProvider implements ProviderInterface {
                             "version": "1.0.0",
                             api_compatible: [{version: '1.0.0'}],
                             license_compatible: [],
-                            directory_path: 'path/to/version/in/sales',
                             changelog: "Nothing change",
                             descriptions: "Beta version"
                         }
