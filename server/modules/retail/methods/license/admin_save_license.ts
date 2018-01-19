@@ -30,6 +30,7 @@ new ValidatedMethod({
                                                                               last_name: user['profile']['last_name']
                                                                           }
                                                                       });
+                                Accounts.sendEnrollmentEmail(newUserId);
                                 userModel.loadById(newUserId);
                             } else {
                                 userModel.loadById(license['shop_owner_id']);
