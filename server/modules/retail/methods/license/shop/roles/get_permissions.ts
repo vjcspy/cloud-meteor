@@ -8,32 +8,6 @@ new ValidatedMethod({
                         run: function () {
                             return [
                                 {
-                                    group: "cretail",
-                                    name: "C-Retail",
-                                    sections: [
-                                        {
-                                            name: "C-Retail Configurations",
-                                            permissions: [
-                                                {
-                                                    name: "Access to General Settings",
-                                                    permission: "access_to_general_settings",
-                                                    is_active: false
-                                                },
-                                                {
-                                                    name: "Email Configuration",
-                                                    permission: "email_configuration",
-                                                    is_active: false
-                                                },
-                                                {
-                                                    name: "Debug Mode",
-                                                    permission: "debug_mode",
-                                                    is_active: false
-                                                }
-                                            ]
-                                        },
-                                    ],
-                                },
-                                {
                                     group: "users",
                                     name: "Users",
                                     sections: [
