@@ -19,7 +19,6 @@ export interface ProductVersion {
     version: string;
     api_compatible: ProductVersionApiCompatible[];
     license_compatible: ProductVersionLicenseCompatible[];
-    directory_path: string;
     descriptions?: string;
     changelog?: string;
 }

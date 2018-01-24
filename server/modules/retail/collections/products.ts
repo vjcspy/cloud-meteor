@@ -46,7 +46,6 @@ export const Products = CollectionMaker.make<ProductInterface>(
                                 license_id: String
                             }
                         ),
-                        directory_path: String,
                         descriptions: {
                             type: String,
                             optional: true
