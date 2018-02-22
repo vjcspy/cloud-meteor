@@ -8,9 +8,10 @@ export class PaypalProvider implements ProviderInterface {
     }
     
     protected addPaypalPayment() {
-        Stone.getInstance().s('sales-payment-manager').addPayment('paypal', {
-            name: "Paypal",
-            sale: new PaypalSale()
-        }, true);
+        // Not yet support paypal
+        // Stone.getInstance().s('sales-payment-manager').addPayment('paypal', {
+        //     name: "Paypal",
+        //     sale: new PaypalSale()
+        // }, true);
     }
 }
