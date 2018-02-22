@@ -10,18 +10,22 @@ import {RequestPlan} from "../api/data/request-plan";
 
 export class Plan extends AbstractModel {
     protected $collection: string = 'sales_plan';
-    
+
     getPricingCycle(): ProductLicenseBillingCycle {
         return this.getData('pricing_cycle');
     }
-    
+
+    getNumberOfCycle(): number {
+        return this.getData("num_of_cycle");
+    }
+
     createSalePlan(plan: PlanInterface) {
         return new Promise((resolve, reject) => {
             this.addData(plan);
-            
+
             // process status
             this.setData('status', PlanStatus.SALE_PENDING);
-            
+
             StoneEventManager.dispatch('sale_plan_save_before', this);
             this.save()
                 .then(
@@ -33,22 +37,22 @@ export class Plan extends AbstractModel {
                 );
         });
     }
-    
+
     canInvoice(): boolean {
         // if order is sale -> status = Pending and not any invoice created
         if (this.getStatus() === PlanStatus.SALE_PENDING) {
             const existedInvoice = InvoiceCollection.collection.find({plan_id: this.getId()}).count();
-            
+
             return existedInvoice <= 0;
         }
-        
+
         if (this.getStatus() === PlanStatus.SALE_COMPLETE) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     planHasAlreadyPaid(): boolean {
         if (this.getStatus() === PlanStatus.SALE_COMPLETE) {
             return true;
@@ -57,43 +61,43 @@ export class Plan extends AbstractModel {
             return false;
         }
     }
-    
+
     getPrice(): number {
         return this.getData('price') || 0;
     }
-    
+
     getDiscountAmount(): number {
         return this.getData('discount_amount') || 0;
     }
-    
+
     getPricingId(): string {
         return this.getData('pricing_id');
     }
-    
+
     getCreditSpent(): number {
         return this.getData('credit_spent')
     }
-    
+
     getUserId(): string {
         return this.getData('user_id');
     }
-    
-    getGrandtotal(): Number {
+
+    getGrandtotal(): number {
         return this.getData('grand_total');
     }
-    
+
     getStatus(): PlanStatus {
         return this.getData('status');
     }
-    
+
     getAdditionEntity(): number {
         return this.getData('addition_entity');
     }
-    
+
     getProductId(): string {
         return this.getData('product_id');
     }
-    
+
     // submitPlan(requestPlan: RequestPlan, product_id: string, userId: string) {
     //     return new Promise((resolve, reject) => {
     //         let newPlan = this.prepareNewPlanData(requestPlan, product_id, userId);
@@ -106,11 +110,11 @@ export class Plan extends AbstractModel {
     //                   (err) => reject(err));
     //     });
     // }
-    
+
     protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string): PlanInterface {
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
         const totals   = calculator.getTotals(requestPlan, product_id, userId);
-        
+
         let newPlan: PlanInterface = {
             user_id: userId,
             product_id,
@@ -127,14 +131,14 @@ export class Plan extends AbstractModel {
             credit_spent: totals.data.credit_spent || 0,
             discount_amount: totals.total.discount_amount || 0,
             grand_total: totals.total.grand_total,
-            
+
             status: calculator.newPricing.isSubscriptionType() ? PlanStatus.SUBSCRIPTION_PENDING : PlanStatus.SALE_PENDING,
             created_at: DateTimeHelper.getCurrentDate(),
             updated_at: DateTimeHelper.getCurrentDate()
         };
-        
+
         StoneEventManager.dispatch('prepare_new_plan', newPlan);
-        
+
         return newPlan;
     }
 }

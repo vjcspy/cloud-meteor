@@ -5,7 +5,7 @@ import {CollectionMaker} from "./CollectionMaker";
 export abstract class AbstractModel extends DataObject {
   protected abstract $collection: string;
   
-  getId() {
+  getId():string {
     return this.getData('_id');
   }
   

@@ -10,12 +10,12 @@
     "local": "export MONGO_URL=mongodb://localhost:27017/cloud2 && export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587 && export ROOT_URL='http://cloud.local/' && export PORT=2005 && meteor run --settings server/settings.json --port 2005"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.77",
+    "@types/lodash": "^4.14.104",
     "@types/meteor-publish-composite": "^0.0.32",
     "babel-runtime": "^6.23.0",
-    "braintree": "^2.3.0",
+    "braintree": "^2.7.0",
     "immutable": "^3.8.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "meteor-node-stubs": "^0.2.6",
     "meteor-rxjs": "^0.4.7",
     "moment": "^2.17.1",

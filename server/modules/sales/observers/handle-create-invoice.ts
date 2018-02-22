@@ -17,24 +17,20 @@ export class HandleCreateInvoice implements ObserverInterface {
         const data       = dataObject.getData('data');
         const plan: Plan = data['plan'];
         const userId     = plan.getUserId();
-        
+
         let user = OM.create<User>(User);
         user.loadById(userId);
-        
+
         try {
             if (!user.getId()) {
                 throw new Meteor.Error('Error', 'can_not_found_user_when_upgrade_plan');
             }
-            
+
             if (user.isInRoles([Role.AGENCY], Role.GROUP_CLOUD)) {
                 throw new Meteor.Error("Error", 'not_yet_support_agency_buy_license');
             } else if (user.isInRoles([Role.USER], Role.GROUP_CLOUD)) {
-                if (_.size(user.getLicenses()) > 0) {
-                
-                } else {
-                    const $license = Stone.getInstance().s('$license') as LicenseHelper;
-                    await $license.createLicense(plan);
-                }
+                const $license = Stone.getInstance().s('$license') as LicenseHelper;
+                await $license.updateLicense(plan);
             } else {
                 throw new Meteor.Error("Error", 'some_thing_went_wrong_when_upgrade_plan');
             }

@@ -1,3 +1,3 @@
 export interface PaymentGatewayDataInterface {
-    id: string;
+    id: string; // payment id
 }

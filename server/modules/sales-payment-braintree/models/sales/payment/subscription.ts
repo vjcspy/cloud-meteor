@@ -1,4 +1,7 @@
-import {SalesPaymentDataInterface, SalesPaymentInterface} from "../../../../sales-payment/models/payment/payment-interface";
+import {
+    SalesPaymentDataInterface,
+    SalesPaymentInterface
+} from "../../../../sales-payment/models/payment/payment-interface";
 import * as _ from 'lodash';
 import {BraintreePricingPlanCollection} from "../../../collections/braintree-pricing-plan";
 import {PaymentAbstract} from "../../../../sales-payment/models/payment/payment-abstract";
@@ -14,9 +17,9 @@ export class BraintreeSubscription extends PaymentAbstract implements SalesPayme
     place(data: SalesPaymentDataInterface): Promise<PayResultInterface> {
         const subscriptionPlanId = this.getPlanId(data.pricing.getCode());
         const pricing            = data.pricing;
-        
+
         const price = data.transactionData.billingCycle === ProductLicenseBillingCycle.MONTHLY ? pricing.getCostMonthly() : pricing.getCostAnnually();
-        
+
         let transaction: SubscriptionGatewayConfig = {
             price,
             planId: subscriptionPlanId,
@@ -29,32 +32,32 @@ export class BraintreeSubscription extends PaymentAbstract implements SalesPayme
                 add: []
             }
         };
-        
+
         if (_.isNumber(data.transactionData.discountAmount)) {
             transaction.discounts.add.push({
-                                               amount: Math.abs(data.transactionData.discountAmount),
-                                               inheritedFromId: BraintreeConfig.subscription.discountId,
-                                               neverExpires: false,
-                                               numberOfBillingCycles: 1,
-                                               quantity: 1
-                                           });
+                amount: Math.abs(data.transactionData.discountAmount),
+                inheritedFromId: BraintreeConfig.subscription.discountId,
+                neverExpires: false,
+                numberOfBillingCycles: 1,
+                quantity: 1
+            });
         }
-        
+
         return new Promise((resolve, reject) => {
             (Stone.getInstance().s('braintree') as Braintree)
                 .getSubscription()
                 .create(transaction)
                 .then((result) => {
                     resolve({
-                                type: PayResultType.PAY_SUCCESS,
-                                data: result
-                            })
+                        type: PayResultType.PAY_SUCCESS,
+                        data: result
+                    })
                 }, (err) => {
-                
+
                 });
         });
     }
-    
+
     protected getPlanId(pricing_code: string): string {
         let existedPlanId = _.find(this.getPricingPlan(), (_p) => _p['pricing_code'] === pricing_code);
         if (existedPlanId) {
@@ -63,12 +66,12 @@ export class BraintreeSubscription extends PaymentAbstract implements SalesPayme
             throw new Meteor.Error("pricing_not_yet_config_braintree_plan");
         }
     }
-    
+
     protected getPricingPlan() {
         if (!this.getData('pricing_plan')) {
             this.setData('pricing_plan', BraintreePricingPlanCollection.collection.find().fetch());
         }
-        
+
         return this.getData('pricing_plan');
     }
 }

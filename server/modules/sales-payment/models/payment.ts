@@ -58,16 +58,18 @@ export class Payment extends DataObject {
         let pricing = this.getPricing();
 
         if (pricing.getPriceType() === Price.TYPE_SUBSCRIPTION) {
-            if (!payment.subscription) {
-                throw new Meteor.Error('payment_pay', 'payment_not_support_subscription');
+            if (!payment.sale) {
+                throw new Meteor.Error('payment_pay', 'payment_not_support_sale_transaction');
             }
 
-            return payment.subscription.place({
+            return payment.sale.place({
                 pricing: pricing,
                 transactionType: Price.TYPE_SUBSCRIPTION,
                 transactionData: {
+                    planId: plan.getId(),
                     price: plan.getPrice(),
-                    discountAmount: plan.getDiscountAmount()
+                    discountAmount: plan.getDiscountAmount(),
+                    grandTotal: plan.getGrandtotal()
                 },
                 gatewayAdditionData
             });
@@ -89,9 +91,6 @@ export class Payment extends DataObject {
         }
 
         if (pricing.isSubscriptionType()) {
-            /*
-            * Neu la supscription thi se khong duoc pay vao cung 1 ki
-            * */
 
         } else if (pricing.isLifetime()) {
             return false;
