@@ -9,32 +9,27 @@ import {RequestPlan} from "../../../api/data/request-plan";
 
 export class CreditChangePlan extends CalculateAbstract implements CalculateInterface {
     total: string = '';
-    
+
     collect(plan: RequestPlan, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): void {
-        
-        // Only billing cycle = Annually maybe refund credit point
-        if (!productLicense || productLicense.billing_cycle !== ProductLicenseBillingCycle.ANNUALLY) {
-            this.getTotals().setTotal(this.total, 0);
-            
-            return;
-        }
-        
+
+        this.getTotals().setTotal(this.total, 0);
+
         const current        = DateTimeHelper.getCurrentMoment();
         const expired        = moment(productLicense.expiry_date);
         const remainingMonth = moment.duration(expired.diff(current)).asMonths() - 1;
-        
-        
+
+
         // FIXME: will calculate wrong credit amount when apply discount, promo ....
         if (remainingMonth > 0) {
             this.getTotals()
-                .setData('credit_earn', NumberHelper.round(remainingMonth * currentPricing.cost_annually * productLicense.addition_entity, 2));
-            
+                .setData('credit_earn', NumberHelper.round(remainingMonth * currentPricing.cost_annually / 12 * productLicense.addition_entity, 2));
+
             return;
         } else {
             this.getTotals().setData('credit_earn', 0);
-            
+
             return;
         }
     }
-    
+
 }

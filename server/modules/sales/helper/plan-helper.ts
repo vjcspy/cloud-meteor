@@ -20,12 +20,11 @@ export class PlanHelper {
             if (productLicense && productLicense['plan_id']) {
                 const plan = OM.create<Plan>(Plan).loadById(productLicense['plan_id']);
                 if (plan) {
-                    if (plan) {
-                        if (plan['pricing_id'] === requestPlan.pricing_id
-                            && plan['pricing_cycle'] === requestPlan.cycle
-                            && plan['addition_entity'] === requestPlan.addition_entity) {
-                            return true
-                        }
+                    if (plan.getData('pricing_id') === requestPlan.pricing_id
+                        && parseInt(plan.getData('pricing_cycle')) === parseInt(requestPlan.cycle + '')
+                        && parseInt(plan.getData('num_of_cycle')) === parseInt(requestPlan.num_of_cycle + '')
+                        && parseInt(plan.getData('addition_entity')) === parseInt(requestPlan.addition_entity + '')) {
+                        return plan.getId();
                     }
                 }
             }
@@ -40,11 +39,12 @@ export class PlanHelper {
 
     submitPlan(requestPlan: RequestPlan, product_id: string, userId: string) {
         return new Promise((resolve, reject) => {
-            if (this.isSameAsCurrentPlan(requestPlan, product_id, userId)) {
-                return reject({
-                    isError: true,
-                    code: "same_as_old_plan"
-                })
+            const planId = this.isSameAsCurrentPlan(requestPlan, product_id, userId);
+            if (planId) {
+                return resolve({
+                    planId,
+                    sameAsOld: true
+                });
             }
 
             let newPlan = this.prepareNewPlanData(requestPlan, product_id, userId);
@@ -55,7 +55,10 @@ export class PlanHelper {
                         if (plan.getGrandtotal() === 0) {
                             let payment = OM.create<Payment>(Payment);
                             payment.pay(plan, null)
-                                   .then(() => resolve(planId),
+                                   .then(() => resolve({
+                                           planId,
+                                           sameAsOld: false
+                                       }),
                                        (err) => reject(err));
                         } else {
                             resolve(planId)
