@@ -47,6 +47,23 @@ export class LicenseHelper {
                         created_by: user.getId(),
                         updated_by: user.getId()
                     })
+                } else {
+                    Object.assign(productLicense, {
+                        // base_url: [],
+                        plan_id: plan.getId(),
+                        // has_user: [],
+                        purchase_date: DateTimeHelper.getCurrentDate(),
+                        product_id: product.getId(),
+                        // product_version: "",
+                        addition_entity: plan.getAdditionEntity(),
+                        pricing_id: pricing.getId(),
+                        billing_cycle: pricing.getPriceType() === Price.TYPE_TRIAL ? null : plan.getPricingCycle(),
+                        expiry_date: this.getExpiryDate(plan, pricing),
+                        status: 1,
+                        last_invoice: DateTimeHelper.getCurrentDate(),
+                        created_by: user.getId(),
+                        updated_by: user.getId()
+                    })
                 }
             } else {
                 const hasProduct = license.getProducts();
@@ -56,7 +73,7 @@ export class LicenseHelper {
                     has_user: [],
                     purchase_date: DateTimeHelper.getCurrentDate(),
                     product_id: product.getId(),
-                    product_version: product.getId(),
+                    product_version: "",
                     addition_entity: plan.getAdditionEntity(),
                     pricing_id: pricing.getId(),
                     billing_cycle: pricing.getPriceType() === Price.TYPE_TRIAL ? null : plan.getPricingCycle(),
@@ -88,7 +105,7 @@ export class LicenseHelper {
                         has_user: [],
                         purchase_date: DateTimeHelper.getCurrentDate(),
                         product_id: product.getId(),
-                        product_version: product.getId(),
+                        product_version: "",
                         addition_entity: plan.getAdditionEntity(),
                         pricing_id: pricing.getId(),
                         billing_cycle: pricing.getPriceType() === Price.TYPE_TRIAL ? null : plan.getPricingCycle(),
@@ -108,7 +125,7 @@ export class LicenseHelper {
         }
     }
 
-    protected getExpiryDate(plan: Plan, pricing: Price, startDate = moment()) {
+    protected getExpiryDate(plan: Plan, pricing: Price, startDate = DateTimeHelper.getCurrentMoment()) {
         let expiry_date;
         if (pricing.getPriceType() === Price.TYPE_LIFETIME) {
             expiry_date = DateTimeHelper.getCurrentDate();
