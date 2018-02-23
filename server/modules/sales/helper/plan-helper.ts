@@ -61,7 +61,10 @@ export class PlanHelper {
                                        }),
                                        (err) => reject(err));
                         } else {
-                            resolve(planId)
+                            resolve({
+                                planId,
+                                sameAsOld: false
+                            })
                         }
                     },
                     (err) => reject(err));

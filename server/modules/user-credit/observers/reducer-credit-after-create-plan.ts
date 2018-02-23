@@ -34,7 +34,7 @@ export class ReducerCreditAfterCreatePlan implements ObserverInterface {
                               user_id: plan.getUserId(),
                               plan_id: plan.getId(),
                               description: "Reduce credit after create plan",
-                              reason: CreditTransactionReason.ADJUST_PLAN,
+                              reason: CreditTransactionReason.ADD_CREDIT_WHEN_ADJUST_PLAN,
                               amount: -creditSpent,
                               created_at: DateTimeHelper.getCurrentDate(),
                           };

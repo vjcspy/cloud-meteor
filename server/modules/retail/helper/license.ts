@@ -39,20 +39,22 @@ export class LicenseHelper {
             license              = licenseHelper.getLicenseOfUser(user);
             const productLicense = license.getProductLicense(plan.getProductId());
             if (productLicense) {
-                if (productLicense.pricing_id === pricing.getId()) {
+                if (productLicense.plan_id === plan.getId()) {
+                    // extend current plan
                     Object.assign(productLicense, {
                         expiry_date: this.getExpiryDate(plan, pricing, moment(productLicense.expiry_date)),
                         status: 1,
                         last_invoice: DateTimeHelper.getCurrentDate(),
                         created_by: user.getId(),
                         updated_by: user.getId()
-                    })
+                    });
                 } else {
+                    // adjust plan
                     Object.assign(productLicense, {
                         // base_url: [],
                         plan_id: plan.getId(),
                         // has_user: [],
-                        purchase_date: DateTimeHelper.getCurrentDate(),
+                        // purchase_date: DateTimeHelper.getCurrentDate(),
                         product_id: product.getId(),
                         // product_version: "",
                         addition_entity: plan.getAdditionEntity(),
@@ -63,9 +65,10 @@ export class LicenseHelper {
                         last_invoice: DateTimeHelper.getCurrentDate(),
                         created_by: user.getId(),
                         updated_by: user.getId()
-                    })
+                    });
                 }
             } else {
+                // new product for this license
                 const hasProduct = license.getProducts();
                 hasProduct.push({
                     base_url: [],

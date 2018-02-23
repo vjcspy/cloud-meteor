@@ -36,7 +36,6 @@ export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterf
                 .getSale()
                 .create(transaction)
                 .then((result: any) => {
-                    console.log(result);
                     if (result.success) {
                         resolve({
                             type: PayResultType.PAY_SUCCESS,

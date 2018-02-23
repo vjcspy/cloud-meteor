@@ -1,4 +1,4 @@
 import {StoneEventManager} from "../../../code/core/app/event/stone-event-manager";
-import {ReducerCreditAfterCreatePlan} from "../observers/reducer-credit-after-create-plan";
+import {AddCreditAfterAdjustPlan} from "../observers/add-credit-after-adjust-plan";
 
-StoneEventManager.observer('sale_plan_save_after', 'reducer_store_credit_after_create_plan', new ReducerCreditAfterCreatePlan());
+StoneEventManager.observer('invoice_create_after', 'handle_create_invoice_to_add_credit', new AddCreditAfterAdjustPlan(), 2);

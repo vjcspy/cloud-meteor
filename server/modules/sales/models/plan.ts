@@ -78,6 +78,10 @@ export class Plan extends AbstractModel {
         return this.getData('credit_spent')
     }
 
+    getCreditEarn(): number {
+        return parseFloat(this.getData('credit_earn'));
+    }
+
     getUserId(): string {
         return this.getData('user_id');
     }
