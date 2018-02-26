@@ -39,7 +39,10 @@ export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterf
                     if (result.success) {
                         resolve({
                             type: PayResultType.PAY_SUCCESS,
-                            data: result
+                            data: {
+                                paymentId: 'braintree',
+                                transaction: result.transaction
+                            }
                         })
                     } else {
                         resolve({
