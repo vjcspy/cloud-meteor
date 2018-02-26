@@ -1,6 +1,6 @@
 export enum CreditTransactionReason {
-    USER_USED,
     ADD_CREDIT_WHEN_ADJUST_PLAN,
+    REDUCE_CREDIT_WHEN_CHECKOUT,
     MANUALLY_CHANGE
 }
 

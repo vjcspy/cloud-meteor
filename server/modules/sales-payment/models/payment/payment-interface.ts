@@ -6,7 +6,7 @@ export interface SalesPaymentDataInterface {
     pricing: Price;
     transactionType: string;
     transactionData: {
-        planId:string;
+        planId: string;
         price?: number;
         billingCycle?: number;
         discountAmount?: number;

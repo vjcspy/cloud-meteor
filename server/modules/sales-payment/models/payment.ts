@@ -12,6 +12,14 @@ import {User} from "../../account/models/user";
 import {License} from "../../retail/models/license";
 import {LicenseHasProductInterface} from "../../retail/api/license-interface";
 import {async} from "rxjs/scheduler/async";
+import {UserCredit} from "../../user-credit/models/user-credit";
+import {UserCreditTransaction} from "../../user-credit/models/user-credit-transaction";
+import {
+    CreditTransactionReason,
+    UserCreditTransactionInterface
+} from "../../user-credit/api/user-credit-transaction-interface";
+import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
+import {PlanHelper} from "../../sales/helper/plan-helper";
 
 export class Payment extends DataObject {
     protected plan: Plan;
@@ -23,9 +31,12 @@ export class Payment extends DataObject {
     async pay(plan: Plan, gatewayAdditionData: PaymentGatewayDataInterface): Promise<any> {
         this.plan = plan;
 
-        let invoice = OM.create<Invoice>(Invoice);
-        if (plan.getGrandtotal() === 0) {
-            return invoice.createInvoice(plan, {});
+        let invoice      = OM.create<Invoice>(Invoice);
+        const planHelper = OM.create<PlanHelper>(PlanHelper);
+        const totals     = planHelper.getPlanCheckoutData(plan);
+
+        if (totals.total === 0) {
+            return invoice.createInvoice(plan, {}, totals);
         } else {
             this.validatePlanPay(this.plan);
 
@@ -39,11 +50,11 @@ export class Payment extends DataObject {
                 throw new Meteor.Error("Error", 'can_not_find_payment_when_pay_plan');
             }
 
-            const result: PayResultInterface = await this.processPay(plan, payment['data'], gatewayAdditionData);
+            const result: PayResultInterface = await this.processPay(plan, payment['data'], gatewayAdditionData, totals.total);
 
             switch (result.type) {
                 case PayResultType.PAY_SUCCESS:
-                    return invoice.createInvoice(plan, result.data);
+                    return invoice.createInvoice(plan, result.data, totals);
                 case PayResultType.PAY_FAIL:
                     throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
                 case PayResultType.PAY_ERROR:
@@ -54,7 +65,7 @@ export class Payment extends DataObject {
         }
     }
 
-    protected processPay(plan: Plan, payment: PaymentData, gatewayAdditionData: PaymentGatewayDataInterface): Promise<PayResultInterface> {
+    protected async processPay(plan: Plan, payment: PaymentData, gatewayAdditionData: PaymentGatewayDataInterface, grandTotal): Promise<PayResultInterface> {
         let pricing = this.getPricing();
 
         if (pricing.getPriceType() === Price.TYPE_SUBSCRIPTION) {
@@ -68,8 +79,7 @@ export class Payment extends DataObject {
                 transactionData: {
                     planId: plan.getId(),
                     price: plan.getPrice(),
-                    discountAmount: plan.getDiscountAmount(),
-                    grandTotal: plan.getGrandtotal()
+                    grandTotal,
                 },
                 gatewayAdditionData
             });

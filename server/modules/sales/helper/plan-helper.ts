@@ -9,6 +9,7 @@ import {RequestPlan} from "../api/data/request-plan";
 import {User} from "../../account/models/user";
 import * as _ from 'lodash';
 import {LicenseHelper} from "../../retail/helper/license";
+import {UserCredit} from "../../user-credit/models/user-credit";
 
 export class PlanHelper {
 
@@ -31,6 +32,29 @@ export class PlanHelper {
         }
 
         return false;
+    }
+
+    getPlanCheckoutData(plan: Plan) {
+        let credit_balance = 0;
+        const userCredit   = OM.create<UserCredit>(UserCredit);
+        userCredit.load(plan.getUserId(), 'user_id');
+
+        if (userCredit.getId()) {
+            credit_balance = userCredit.getBalance();
+        }
+        let grand_total = 0;
+        if (!isNaN(plan.getData('grand_total'))) {
+            grand_total = parseFloat(plan.getData('grand_total'));
+        }
+        let credit_spent = Math.min(grand_total, credit_balance);
+        let total        = grand_total - credit_spent;
+
+        return {
+            credit_spent,
+            total,
+            credit_balance,
+            grand_total
+        }
     }
 
     getCurrentUser(userId): User {

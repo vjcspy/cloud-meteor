@@ -8,24 +8,26 @@ import {UserCreditTransaction} from "../models/user-credit-transaction";
 import {CreditTransactionReason, UserCreditTransactionInterface} from "../api/user-credit-transaction-interface";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
-export class ReducerCreditAfterCreatePlan implements ObserverInterface {
+export class ReducerCreditAfterCreateInvoice implements ObserverInterface {
     observe(dataObject: DataObject): void {
-        let plan: Plan    = dataObject.getData('data')['plan'];
-        const creditSpent = plan.getCreditSpent();
+        const data        = dataObject.getData('data');
+        let plan: Plan    = data['plan'];
         const userId      = plan.getUserId();
-        if (!!creditSpent) {
+        const totals      = data['totals'];
+        const creditSpent = totals['credit_spent'];
+        if (!isNaN(creditSpent) && parseFloat(creditSpent) > 0) {
             let userCredit = OM.create<UserCredit>(UserCredit);
             userCredit.load(userId, 'user_id');
-            
+
             if (!userCredit.getId()) {
                 throw new Meteor.Error("Error", 'can_not_find_user_credit');
             }
-            
+
             const currentBalance = userCredit.getBalance();
             if (currentBalance < creditSpent) {
                 throw new Meteor.Error("Error", 'current_balance_not_enough');
             }
-            
+
             userCredit.setData('balance', NumberHelper.round(currentBalance - creditSpent, 2))
                       .save()
                       .then(() => {
@@ -33,12 +35,12 @@ export class ReducerCreditAfterCreatePlan implements ObserverInterface {
                           let transaction: UserCreditTransactionInterface = {
                               user_id: plan.getUserId(),
                               plan_id: plan.getId(),
-                              description: "Reduce credit after create plan",
-                              reason: CreditTransactionReason.ADD_CREDIT_WHEN_ADJUST_PLAN,
+                              description: "Reduce credit after create invoice",
+                              reason: CreditTransactionReason.REDUCE_CREDIT_WHEN_CHECKOUT,
                               amount: -creditSpent,
                               created_at: DateTimeHelper.getCurrentDate(),
                           };
-                
+
                           userCreditTransaction.addData(transaction)
                                                .save();
                       });
