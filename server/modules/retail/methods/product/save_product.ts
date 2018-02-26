@@ -25,14 +25,14 @@ new ValidatedMethod({
                             }
         
                             if (!_.isArray(productData['versions']) || productData['versions'].length == 0) {
-                                throw new Meteor.Error("Create Error", "Product need at least one version");
+                                throw new Meteor.Error("Create Error", "Product should have at least 1 version applied for all licenses");
                             }
                             let versionForAll;
                              versionForAll = _.find(productData['versions'], (v) => {
                                 return v['license_compatible'].length < 1;
                             });
                             if (!versionForAll) {
-                                throw new Meteor.Error("Create Error", "Product need at least one version apply for all licenses");
+                                throw new Meteor.Error("Create Error", "Product should have at least 1 version applied for all licenses");
                             }
                             productModel.addData(productData)
                                         .save()
