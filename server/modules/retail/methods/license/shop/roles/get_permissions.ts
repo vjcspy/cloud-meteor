@@ -77,13 +77,13 @@ new ValidatedMethod({
                                                     is_active: false
                                                 },
                                                 {
-                                                    name: "View And Generate Sale Report",
-                                                    permission: "view_and_generate_sale_report",
+                                                    name: "View Dashboard",
+                                                    permission: "view_dashboard",
                                                     is_active: false
                                                 },
                                                 {
-                                                    name: "View And Generate Payment Report",
-                                                    permission: "view_and_generate_payment_report",
+                                                    name: "View And Generate Sale Report",
+                                                    permission: "view_and_generate_sale_report",
                                                     is_active: false
                                                 },
                                                 {
