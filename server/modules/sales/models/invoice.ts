@@ -19,7 +19,7 @@ export class Invoice extends AbstractModel {
         }
 
         this.setData('user_id', plan.getUserId())
-            .setData('plan_id', plan.getUserId())
+            .setData('plan_id', plan.getId())
             .setData('grand_total', plan.getGrandtotal())
             .setData('totals', JSON.stringify(totals))
             .setData('payment_data', JSON.stringify(data));
