@@ -41,7 +41,7 @@ export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterf
                             type: PayResultType.PAY_SUCCESS,
                             data: {
                                 paymentId: 'braintree',
-                                transaction: result.transaction
+                                transaction: Object.assign({}, ...JSON.parse(JSON.stringify(result.transaction)))
                             }
                         })
                     } else {
