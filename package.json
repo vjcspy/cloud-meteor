@@ -7,7 +7,7 @@
     "debug": "export MONGO_URL=mongodb://localhost:27017/cloud && meteor debug",
     "meteor-client:bundle": "meteor-client bundle -c bundler.config.json",
     "meteor": "export MONGO_URL=mongodb://localhost:27017/xcloud && export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587 && export ROOT_URL='https://accounts.connectpos.com/' && export PORT=2005 && meteor run --settings server/settings.json --port 2005",
-    "local": "export MONGO_URL=mongodb://localhost:27017/cloud2 && export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587 && export ROOT_URL='http://cloud.local/' && export PORT=2005 && meteor run --settings server/settings.json --port 2005"
+    "local": "export MONGO_URL=mongodb://localhost:27017/cloud1 && export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587 && export ROOT_URL='http://cloud.local/' && export PORT=2005 && meteor run --settings server/settings.json --port 2005"
   },
   "dependencies": {
     "@types/lodash": "^4.14.104",
@@ -19,6 +19,7 @@
     "meteor-node-stubs": "^0.2.6",
     "meteor-rxjs": "^0.4.7",
     "moment": "^2.17.1",
+    "mongodb": "^3.0.3",
     "q": "^1.4.1",
     "rxjs": "^5.1.1",
     "simpl-schema": "^0.2.2",
