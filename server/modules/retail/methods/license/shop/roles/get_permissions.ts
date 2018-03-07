@@ -128,12 +128,7 @@ new ValidatedMethod({
                                             name: "Customer",
                                             permissions: [
                                                 {
-                                                    name: "Create New Customer",
-                                                    permission: "create_new_customer",
-                                                    is_active: false
-                                                },
-                                                {
-                                                    name: "Change Customer Information",
+                                                    name: "Update Customer Data",
                                                     permission: "change_customer_information",
                                                     is_active: false
                                                 },

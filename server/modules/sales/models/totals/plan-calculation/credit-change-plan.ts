@@ -20,8 +20,10 @@ export class CreditChangePlan extends CalculateAbstract implements CalculateInte
 
             // FIXME: will calculate wrong credit amount when apply discount, promo ....
             if (remainingMonth > 0) {
+                const costMonthly = productLicense.billing_cycle === ProductLicenseBillingCycle.MONTHLY ? currentPricing.cost_monthly : currentPricing.cost_annually / 12;
+
                 this.getTotals()
-                    .setData(this.total, NumberHelper.round(remainingMonth * currentPricing.cost_annually / 12 * productLicense.addition_entity, 2));
+                    .setData(this.total, NumberHelper.round(remainingMonth * costMonthly * productLicense.addition_entity, 2));
 
                 return;
             } else {
