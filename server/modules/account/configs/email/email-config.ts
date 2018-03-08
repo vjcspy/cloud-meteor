@@ -30,11 +30,10 @@ function prepareTextEmail(user, status) {
         regardVar     = "Thank you so much!<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "verify") {
-        greetVar      = "Hello ";
-        welcomeMsgVar = "Welcome to ConnectPOS!<br>Your account has just been created.<br>Please click the link below to varify your account.";
+        greetVar      = `Hello ${getUserName(user)} `;
+        welcomeMsgVar = "Welcome to ConnectPOS!<br>We are pleased to inform you, <br>"+"that your account has been successfully created.";
         btnTextVar    = "Verify your account";
-        beforeMsgVar  = "To protect the security of your account,<br> this link will expire in 48 hours.<br>If you did not request this,<br>please let us" +
-                        " know immediately by replying to this email.";
+        beforeMsgVar  = "This is an automatic reply although,<br>If you did not request this,<br>please let us know immediately by replying to this email.";
         regardVar     = "Thank you so much!<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "enroll") {
@@ -97,6 +96,49 @@ function buildEmailHtml(status) {
     };
 }
 
+function buildEmailHtml2(status) {
+    return function (user) {
+
+        prepareTextEmail(user, status);
+        var subject;
+        if (status == "verify") {
+            subject = "Verify Email";
+        }
+
+        return `
+               <table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+               <tbody>
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                    <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px 0 10px 25px;" align="left" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/new_logo_resized.png"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
+                                  <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                                      <tbody>
+                                          <tr>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold;">${greetVar}</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;">${welcomeMsgVar}</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;">${beforeMsgVar} <br /> ${regardVar}</td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+              </td></tr></tbody></table>
+               `;
+    };
+}
+
 function getUserName(user) {
     return (user.profile && !!user.profile.first_name) ? (user.profile.first_name) : ( user['username'] ? user['username'] : "");
 }
@@ -113,6 +155,8 @@ function buildEmailText(status) {
     }
 }
 
+
+
 Accounts.emailTemplates = {
     from: "no-reply@connectpos.com",
     siteName: Meteor.absoluteUrl().replace(/^https?:\/\//, '').replace(/\/$/, ''),
@@ -125,9 +169,9 @@ Accounts.emailTemplates = {
     },
     verifyEmail: {
         subject: function (user) {
-            return "How to verify email address on " + Accounts.emailTemplates.siteName;
+            return "Your ConnectPOS account is activated " + Accounts.emailTemplates.siteName;
         },
-        html: buildEmailHtml("verify"),
+        html: buildEmailHtml2("verify"),
         text: buildEmailText("verify")
     },
     enrollAccount: {
