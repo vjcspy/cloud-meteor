@@ -43,7 +43,7 @@ export class LicenseHelper {
                     // extend current plan
                     Object.assign(productLicense, {
                         expiry_date: this.getExpiryDate(plan, pricing, moment(productLicense.expiry_date)),
-                        status: 1,
+                        // status: 1,
                         last_invoice: DateTimeHelper.getCurrentDate(),
                         created_by: user.getId(),
                         updated_by: user.getId()
@@ -61,7 +61,7 @@ export class LicenseHelper {
                         pricing_id: pricing.getId(),
                         billing_cycle: pricing.getPriceType() === Price.TYPE_TRIAL ? null : plan.getPricingCycle(),
                         expiry_date: this.getExpiryDate(plan, pricing),
-                        status: 1,
+                        // status: 1,
                         last_invoice: DateTimeHelper.getCurrentDate(),
                         created_by: user.getId(),
                         updated_by: user.getId()
