@@ -8,7 +8,6 @@ new ValidatedMethod({
                         validate: function () {
                         },
                         run: (data: Object) => {
-                            console.log(data);
                             if(!data.hasOwnProperty('license_key') || data['license_key'] === '') {
                                 return;
                             }
@@ -24,7 +23,7 @@ new ValidatedMethod({
                                                 return baseUrl['url'] === data['url'];
                                             });
                                             if(!!url) {
-                                                url['api_version'] === data['api_version'];
+                                                url['api_version'] = data['api_version'];
                                             } else {
                                                 l['base_url'].push({
                                                                        'in_use': true,
