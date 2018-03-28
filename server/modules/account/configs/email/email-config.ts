@@ -7,6 +7,9 @@ var btnTextVar;
 var beforeMsgVar;
 var regardVar;
 var followMsgVar;
+var cloud;
+var connectpos;
+var api;
 
 Accounts.urls.resetPassword = function (token) {
     return Meteor.absoluteUrl('#/account/reset/' + token);
@@ -33,9 +36,12 @@ function prepareTextEmail(user, status) {
         greetVar      = `Hello ${getUserName(user)} `;
         welcomeMsgVar = "Welcome to ConnectPOS!<br>We are pleased to inform you, <br>"+"that your account has been successfully created.";
         btnTextVar    = "Verify your account";
-        beforeMsgVar  = "This is an automatic reply although,<br>If you did not request this,<br>please let us know immediately by replying to this email.";
+        beforeMsgVar  = "This is an automatic reply although<br>If you did not request this<br>Please let us know immediately by replying to this email.";
         regardVar     = "Thank you so much!<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
+        cloud         = "Address Of Cloud: " + "http://accounts.connectpos.com";
+        connectpos    = "Address Of Connectpos: " + "http://sales.connectpos.com/#/account/login";
+        api           = "Link To Download API Package: " + "http://accounts.connectpos.com/package/connectpos-latest-api.zip";
     } else if (status == "enroll") {
         greetVar      = `Hi ${user['username']},`;
         welcomeMsgVar = "We have just created an account for you,<br>if it was you click the button above.";
@@ -126,7 +132,7 @@ function buildEmailHtml2(status) {
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;">${welcomeMsgVar}</td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;">${beforeMsgVar} <br /> ${regardVar}</td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;">${beforeMsgVar} <br />${cloud} <br /> ${connectpos}<br />${api} <br /> ${regardVar}</td>
                                           </tr>
                                       </tbody>
                                   </table>
