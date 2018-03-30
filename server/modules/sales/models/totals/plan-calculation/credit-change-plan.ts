@@ -16,7 +16,7 @@ export class CreditChangePlan extends CalculateAbstract implements CalculateInte
         if (productLicense) {
             const current        = DateTimeHelper.getCurrentMoment();
             const expired        = moment(productLicense.expiry_date);
-            const remainingMonth = Math.floor(moment.duration(expired.diff(current)).asMonths() - 1);
+            const remainingMonth = Math.floor(moment.duration(expired.diff(current)).asMonths());
 
             // FIXME: will calculate wrong credit amount when apply discount, promo ....
             if (remainingMonth > 0) {

@@ -29,18 +29,18 @@ export const BraintreeConfig = {
     }
 };
 
-// export const BraintreeGateway = braintree.connect({
-//     environment: braintree.Environment.Sandbox,
-//     merchantId: BraintreeConfig.sandbox.merchantId,
-//     publicKey: BraintreeConfig.sandbox.publicKey,
-//     privateKey: BraintreeConfig.sandbox.privateKey
-// });
-
 export const BraintreeGateway = braintree.connect({
-    environment: braintree.Environment.Production,
-    merchantId: BraintreeConfig.production.merchantId,
-    publicKey: BraintreeConfig.production.publicKey,
-    privateKey: BraintreeConfig.production.privateKey
+    environment: braintree.Environment.Sandbox,
+    merchantId: BraintreeConfig.sandbox.merchantId,
+    publicKey: BraintreeConfig.sandbox.publicKey,
+    privateKey: BraintreeConfig.sandbox.privateKey
 });
+
+// export const BraintreeGateway = braintree.connect({
+//     environment: braintree.Environment.Production,
+//     merchantId: BraintreeConfig.production.merchantId,
+//     publicKey: BraintreeConfig.production.publicKey,
+//     privateKey: BraintreeConfig.production.privateKey
+// });
 
 BraintreeGateway.config.timeout = 10000;
