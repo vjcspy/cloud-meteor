@@ -190,7 +190,6 @@ export class LicenseHelper {
                 has_product: [],
                 has_roles: [],
             };
-
             _.forEach(hasProduct, (licenseHasProduct) => {
                 if (licenseHasProduct['checked'] === true) {
                     let licenseHasProductData: LicenseHasProductInterface = {
@@ -224,7 +223,7 @@ export class LicenseHelper {
                 if (licenseHasProduct) {
                     Object.assign(licenseHasProduct, {
                         base_url: _d['base_url'],
-                        plan_id: null,
+                        plan_id: licenseHasProduct['plan_id'],
                         addition_entity: _d['addition_entity'],
                         pricing_id: _d['pricing_id'],
                         product_version: _d['product_version'],
