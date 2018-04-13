@@ -9,8 +9,9 @@ new ValidatedMethod({
                         name: "license.shop_save_product_license",
                         validate: function () {
                         },
-                        run: function (licenseHasProduct: Object) {
+                        run: function (data) {
                             return new Promise((resolve, reject) => {
+                                const {licenseHasProduct, baseUrl} = data;
                                 const $license = Stone.getInstance().s('$license') as LicenseHelper;
                                 let user: User = OM.create<User>(User).loadById(this.userId);
                                 const license  = $license.getLicenseOfUser(user);
@@ -28,14 +29,20 @@ new ValidatedMethod({
                                                          })
                                                          .value();
                     
-                                        _.forEach(licenseHasProduct['base_url'], (baseUrl) => {
-                                            if (baseUrl['request'] === true) {
+                                        _.forEach(licenseHasProduct['base_url'], (baseUrlItem) => {
+                                            if (baseUrlItem['request'] === true) {
                                                 l['base_url'].push({
-                                                                       'in_use': true,
+                                                                       'in_use': !baseUrlItem['in_use'],
                                                                        'is_valid': false,
-                                                                       'url': baseUrl['url'],
+                                                                       'url': baseUrlItem['url'],
                                                                        'api_version': ''
                                                                    });
+                                            }
+                                        });
+
+                                        _.forEach(l['base_url'], (baseUrlItem) => {
+                                            if (!!baseUrl && baseUrlItem['url'] === baseUrl['url']) {
+                                                baseUrlItem['in_use'] = !baseUrl['in_use'];
                                             }
                                         });
                                     }
