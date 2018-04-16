@@ -9,12 +9,10 @@ new ValidatedMethod({
                         },
                         run: function (userData: Object) {
                             return new Promise((resolve, reject) => {
-                                let user = OM.create<User>(User).loadById(this.userId);
-            
                                 if (!!userData['password']) {
-                                    Accounts.setPassword(user.getId(), userData['password'], {logout: false});
+                                    Accounts.setPassword(userData['_id'], userData['password'], {logout: false});
                                 }
-            
+                                let user = OM.create<User>(User).loadById(this.userId);
                                 user.setData('profile', Object.assign({}, user.getProfile(),
                                                                       {
                                                                           first_name: userData['profile']['first_name'],
