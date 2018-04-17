@@ -20,6 +20,9 @@ new ValidatedMethod({
         
                             let cashier: User = OM.create<User>(User);
                             if (!!cashierData['_id']) {
+                                if (!!cashierData['password']) {
+                                    Accounts.setPassword(cashierData['_id'], cashierData['password'], {logout: false});
+                                }
                                 cashier.loadById(cashierData['_id']);
             
                             } else {
