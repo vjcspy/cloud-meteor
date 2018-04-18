@@ -28,7 +28,8 @@ export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterf
                 options: {
                     submitForSettlement: false,
                     storeInVaultOnSuccess: false
-                }
+                },
+                merchantAccountId: "smartoscpteltdUSD" //fix for currency
             };
 
 
