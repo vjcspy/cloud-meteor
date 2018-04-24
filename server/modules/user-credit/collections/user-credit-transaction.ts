@@ -6,7 +6,10 @@ export const userCreditTransactionSchema     = new SimpleSchema(
     {
         _id: String,
         user_id: String,
-        plan_id: String,
+        plan_id: {
+            type: String,
+            optional: true
+        },
         reason: SimpleSchema.Integer,
         description: String,
         amount: Number,

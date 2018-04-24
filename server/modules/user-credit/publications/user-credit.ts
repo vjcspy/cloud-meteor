@@ -12,7 +12,7 @@ Meteor.publishComposite('user_credit', function (): PublishCompositeConfig<UserC
     if (userModel.isInRoles([Role.ADMIN, Role.SUPERADMIN, Role.SALES])) {
         return {
             find: () => {
-                return null;
+                return UserCreditCollection.collection.find();
             }
         };
     } else if (userModel.isInRoles(Role.USER)) {
