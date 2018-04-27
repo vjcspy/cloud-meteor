@@ -8,8 +8,7 @@ Meteor.startup(() => {
     Stone.getInstance().bootstrap();
     
     initSupperAdminAccount();
-    
-    // SyncedCron.start();
+    SyncedCron.start();
 });
 
 const initSupperAdminAccount = () => {
