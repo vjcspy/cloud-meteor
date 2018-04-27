@@ -1,4 +1,4 @@
-export interface ClientStoragesClientStorageInterface {
+export interface ClientStorageInterface {
   license: String,
   base_url: String,
   data: {

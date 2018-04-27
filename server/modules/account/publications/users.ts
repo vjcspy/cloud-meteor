@@ -31,7 +31,7 @@ Meteor.publishComposite('users', function (): PublishCompositeConfig<UserInterfa
                 find: () => {
                     // return Users.collection.find({_id: {$in: _.concat(licenseModel.getUserIds(), [this.userId])}},
                     //                              {fields: {_id: 1, emails: 1, has_license: 1, roles: 1, username: 1, profile: 1}});
-                    return Users.collection.find({has_license: {$elemMatch: {license_id: licenseModel.getId()}}},
+                    return Users.collection.find({has_license: {$elemMatch: {license_id: license[0].license_id}}},
                         {fields: {_id: 1, emails: 1, has_license: 1, roles: 1, username: 1, profile: 1}});
                 }
             }
