@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import {Product} from "../models/product";
 import {StringHelper} from "../../../code/Framework/StringHelper";
 import {SelectOptionsInterface} from "../../base/api/data-provider/select-options";
+import {StoneEventManager} from "../../../code/core/app/event/stone-event-manager";
 
 export class LicenseHelper {
     async updateLicense(plan: Plan) {
@@ -255,7 +256,9 @@ export class LicenseHelper {
                 }
             });
 
-            await license.setData('has_product', licenseHasProducts).save();
+            await license.setData('has_product', licenseHasProducts).save().then(() => {
+                StoneEventManager.dispatch("admin_mannualy_change_license", {license});
+            });
         }
     }
 
