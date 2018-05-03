@@ -1,7 +1,7 @@
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../account/models/user";
 import {Role} from "../../../account/models/role";
-import {updateExpireDate} from "../../models/updateExpireDate";
+import {updateExpireDate} from "../../jobs/update-expire-date";
 
 new ValidatedMethod ({
                     name: "license.refresh_expire_date",

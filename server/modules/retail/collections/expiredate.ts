@@ -4,7 +4,7 @@ import {ExpireDateInterface} from "../api/expire-date-interface";
 
 export const ExpireDateCollection = CollectionMaker.make<ExpireDateInterface>("expire_date", new SimpleSchema({
     license_id: String,
-    shop_owner_id: {
+    email: {
         type: String,
         optional: true
     },
