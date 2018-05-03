@@ -21,6 +21,16 @@ new ValidatedMethod({
                                     Accounts.setPassword(data['_id'], data['password'], {logout: false});
                                 }
                                 user.loadById(data['_id']);
+                            } else {
+                                // register new user
+                                let newUserId = Accounts.createUser({
+                                                                           username: data['username'],
+                                                                           email: data['email'],
+                                                                           password: !!data['password'] ? data['password'] : User.DEFAULT_PASSWORD_USER,
+                                                                       });
+                                !data['password'] ? Accounts.sendEnrollmentEmail(newUserId) : '';
+    
+                                user.loadById(newUserId);
                             }
     
                             if (!user.getId()) {
