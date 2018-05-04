@@ -8,7 +8,6 @@ new ValidatedMethod({
     validate: data => {
     },
     run: (data) => {
-        console.log(data);
         const requestTrial: RequestTrial = OM.create(RequestTrial);
         if (!_.isObject(data) || !data['email']) {
             return {
