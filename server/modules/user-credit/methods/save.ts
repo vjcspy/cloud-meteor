@@ -38,8 +38,10 @@ new ValidatedMethod({
                                     amount: amount,
                                     created_at: DateTimeHelper.getCurrentDate(),
                                 };
-                                userCreditTransaction.addData(transaction)
-                                                     .save();
+                                if(amount != 0) {
+                                    userCreditTransaction.addData(transaction)
+                                                         .save();
+                                }
                             })
                               .then(() => {
                                   return defer.resolve();
