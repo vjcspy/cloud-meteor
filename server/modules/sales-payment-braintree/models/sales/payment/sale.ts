@@ -9,6 +9,7 @@ import {ProductLicenseBillingCycle} from "../../../../retail/api/license-interfa
 import {SaleBraintreePaymentData} from "../../../repositories/braintree/sale";
 import {Braintree} from "../../../repositories/braintree";
 import {Stone} from "../../../../../code/core/stone";
+import {BRAINTREE_ENVIROMENT} from "../../../etc/braintree.config";
 
 export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterface {
     place(data: SalesPaymentDataInterface): Promise<PayResultInterface> {
@@ -29,8 +30,11 @@ export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterf
                     submitForSettlement: false,
                     storeInVaultOnSuccess: false
                 },
-                merchantAccountId: "smartoscpteltdUSD" //fix for currency
             };
+
+            if (BRAINTREE_ENVIROMENT !== "SANDBOX") {
+                transaction['merchantAccountId'] = "smartoscpteltdUSD";
+            }
 
 
             (Stone.getInstance().s('braintree') as Braintree)

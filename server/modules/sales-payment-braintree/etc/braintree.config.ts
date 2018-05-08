@@ -29,18 +29,27 @@ export const BraintreeConfig = {
     }
 };
 
-export const BraintreeGateway = braintree.connect({
-    environment: braintree.Environment.Sandbox,
-    merchantId: BraintreeConfig.sandbox.merchantId,
-    publicKey: BraintreeConfig.sandbox.publicKey,
-    privateKey: BraintreeConfig.sandbox.privateKey
-});
+export const BRAINTREE_ENVIROMENT = "SANDBOX";
+// export const BRAINTREE_ENVIROMENT = "PRODUCTION";
 
-// export const BraintreeGateway = braintree.connect({
-//     environment: braintree.Environment.Production,
-//     merchantId: BraintreeConfig.production.merchantId,
-//     publicKey: BraintreeConfig.production.publicKey,
-//     privateKey: BraintreeConfig.production.privateKey
-// });
+export const BraintreeGateway = getBraintreeGateway();
+
+function getBraintreeGateway() {
+    if (BRAINTREE_ENVIROMENT === "SANDBOX") {
+        return braintree.connect({
+            environment: braintree.Environment.Sandbox,
+            merchantId: BraintreeConfig.sandbox.merchantId,
+            publicKey: BraintreeConfig.sandbox.publicKey,
+            privateKey: BraintreeConfig.sandbox.privateKey
+        });
+    } else {
+        return braintree.connect({
+            environment: braintree.Environment.Production,
+            merchantId: BraintreeConfig.production.merchantId,
+            publicKey: BraintreeConfig.production.publicKey,
+            privateKey: BraintreeConfig.production.privateKey
+        });
+    }
+}
 
 BraintreeGateway.config.timeout = 10000;

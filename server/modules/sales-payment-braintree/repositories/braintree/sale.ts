@@ -8,7 +8,7 @@ export interface SaleBraintreePaymentData {
         submitForSettlement: boolean,
         storeInVaultOnSuccess: boolean
     },
-    merchantAccountId: string
+    merchantAccountId?: string
 }
 
 export class Sale {
