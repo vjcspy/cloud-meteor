@@ -25,6 +25,8 @@ new ValidatedMethod({
                             if (userCreditData['_id']) {
                                 userCreditModel.loadById(userCreditData['_id']);
                                 amount = userCreditData['balance'] - userCreditModel.getBalance();
+                            } else {
+                                amount = userCreditData['balance'];
                             }
     
                             userCreditModel.addData(userCreditData)
