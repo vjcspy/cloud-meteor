@@ -1,5 +1,4 @@
 import * as $q from "q";
-import * as _ from "lodash";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {User} from "../../account/models/user";
 import {Role} from "../../account/models/role";
@@ -25,6 +24,8 @@ new ValidatedMethod({
                             if (userCreditData['_id']) {
                                 userCreditModel.loadById(userCreditData['_id']);
                                 amount = userCreditData['balance'] - userCreditModel.getBalance();
+                            } else {
+                                amount = userCreditData['balance'];
                             }
     
                             userCreditModel.addData(userCreditData)
