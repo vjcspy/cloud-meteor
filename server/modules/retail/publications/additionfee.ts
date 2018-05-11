@@ -15,5 +15,11 @@ Meteor.publishComposite("addition_fee", function (): PublishCompositeConfig <Add
                 return AdditionFeeCollection.collection.find({});
             }
         }
+    } else if (user.isInRoles(Role.USER)) {
+        return {
+            find: () => {
+                return AdditionFeeCollection.collection.find({user_id: this.userId});
+            }
+        }
     }
 });
