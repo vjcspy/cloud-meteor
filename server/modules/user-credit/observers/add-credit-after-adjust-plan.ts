@@ -33,7 +33,7 @@ export class AddCreditAfterAdjustPlan implements ObserverInterface {
                     plan_id: plan.getId(),
                     reason: CreditTransactionReason.ADD_CREDIT_WHEN_ADJUST_PLAN
                 });
-                if (existedTransaction && existedTransaction['_id']) {
+                if ((existedTransaction && existedTransaction['_id']) || plan.getCreditEarn() === 0) {
                     return;
                 } else {
                     let transaction: UserCreditTransactionInterface = {
