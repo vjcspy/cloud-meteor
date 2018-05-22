@@ -106,4 +106,42 @@ export class Customer {
                 })
         });
     }
+    
+    makeDefault(token: string) {
+        return new Promise((res, rej) => {
+            BraintreeGateway.paymentMethod.update(token, {
+                options: {
+                    makeDefault: true
+                }
+            }, function (err, result) {
+                if (err) {
+                    if (err['type'] === 'notFoundError') {
+                        return res(null);
+                    } else {
+                        rej(err);
+                    }
+                }
+                else {
+                    return res(result);
+                }
+            });
+        });
+    }
+    
+    deleteMethod(token: string) {
+        return new Promise((res, rej) => {
+            BraintreeGateway.paymentMethod.delete(token, function (err, result) {
+                if (err) {
+                    if (err['type'] === 'notFoundError') {
+                        return res(null);
+                    } else {
+                        rej(err);
+                    }
+                }
+                else {
+                    return res(result);
+                }
+            });
+        });
+    }
 }
