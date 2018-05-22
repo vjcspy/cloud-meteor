@@ -29,7 +29,7 @@ export class Customer {
                 userId = user.getId();
             }
             BraintreeGateway.customer.find(userId, function (err, customer) {
-                customer.paymentMethods; // array of PaymentMethod objects
+                // customer.paymentMethods; // array of PaymentMethod objects
                 if (err) {
                     if (err['type'] === 'notFoundError') {
                         return resolve(null);
