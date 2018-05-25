@@ -37,8 +37,8 @@ new ValidatedMethod({
                                 throw new Meteor.Error('user.save', 'can_not_find_user');
                             }
     
-                            if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN], Role.GROUP_CLOUD)) {
-                                throw  new Meteor.Error('user.save', 'sorry_this_method_not_support_update_admin_data');
+                            if (user.isInRoles([Role.SUPERADMIN], Role.GROUP_CLOUD)) {
+                                throw  new Meteor.Error('user.save', 'sorry_this_method_not_support_update_super_admin_data');
                             }
     
                             let profile           = user.getProfile() || {};
