@@ -85,8 +85,6 @@ export class PlanCalculation {
                                         throw new Meteor.Error("Error", "you_can_not_apply_trial_pricing");
                                     }
                                 }
-                            } else {
-                                throw new Meteor.Error("Error", "can_not_find_pricing_of_product_license");
                             }
                         }
                     } else {
