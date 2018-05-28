@@ -32,9 +32,9 @@ export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterf
                 },
             };
 
-            if (BRAINTREE_ENVIROMENT !== "SANDBOX") {
+            // if (BRAINTREE_ENVIROMENT !== "SANDBOX") {
                 transaction['merchantAccountId'] = "smartoscpteltdUSD";
-            }
+            // }
 
 
             (Stone.getInstance().s('braintree') as Braintree)
