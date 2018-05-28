@@ -34,7 +34,7 @@ new ValidatedMethod({
                                 let userCreditTransaction                       = OM.create<UserCreditTransaction>(UserCreditTransaction);
                                 let transaction: UserCreditTransactionInterface = {
                                     user_id: userCreditData['user_id'],
-                                    description: "Admin add credit",
+                                    description: "Admin manually change credit",
                                     reason: CreditTransactionReason.MANUALLY_CHANGE,
                                     amount: amount,
                                     created_at: DateTimeHelper.getCurrentDate(),
