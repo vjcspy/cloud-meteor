@@ -12,7 +12,6 @@ import {AdditionFee} from "../../retail/models/additionfee";
 export class ReducerCreditAfterCreateInvoice implements ObserverInterface {
     observe(dataObject: DataObject): void {
         const data        = dataObject.getData('data');
-        console.log(data);
         let plan: Plan    = data['plan'];
         let additionFee: AdditionFee = data['additionFee'];
         let userId;
@@ -24,7 +23,6 @@ export class ReducerCreditAfterCreateInvoice implements ObserverInterface {
             userId      = additionFee.getUserId();
             entityId    = additionFee.getId();
         }
-        console.log(userId);
         const totals      = data['totals'];
         const creditSpent = totals['credit_spent'];
         if (!isNaN(creditSpent) && parseFloat(creditSpent) > 0) {
