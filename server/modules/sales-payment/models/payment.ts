@@ -55,7 +55,6 @@ export class Payment extends DataObject {
                 }
         
                 const result: PayResultInterface = await this.processPay(plan, null, payment['data'], gatewayAdditionData, totals.total);
-                console.log(result.type);
                 switch (result.type) {
                     case PayResultType.PAY_SUCCESS:
                         return invoice.createInvoice(plan, null, result.data, totals);
