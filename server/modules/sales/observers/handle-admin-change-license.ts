@@ -16,9 +16,10 @@ export class HandleAdminChangeLicense implements ObserverInterface {
         const {license}          = dataObject.getData('data');
         const license1            = OM.create<License>(License).load(license.getData('key'), 'key');
         const licenseHasProducts = license1.getProducts();
+        let calculator = OM.create<PlanCalculation>(PlanCalculation);
         const user               = OM.create<User>(User);
         user.load(license1.getData('shop_owner_username'), 'username');
-
+    
         _.forEach(licenseHasProducts, (_d) => {
             if (!_d['plan_id']) {
                 // if license_product haven't had plan_id yet, we must create it now
@@ -29,7 +30,6 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                     num_of_cycle: 1,
                     pricing_id: _d['pricing_id']
                 }
-                let calculator = OM.create<PlanCalculation>(PlanCalculation);
                 const totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId());
                 let newPlan: PlanInterface = {
                     user_id: user.getId(),
@@ -68,7 +68,6 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                         num_of_cycle: oldPlan['num_of_cycle'],
                         pricing_id: _d['pricing_id']
                     }
-                    let calculator = OM.create<PlanCalculation>(PlanCalculation);
                     const totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId());
                     let newPlan: PlanInterface = {
                         user_id: user.getId(),
