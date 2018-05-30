@@ -3,10 +3,10 @@ import {PayResultInterface} from "./pay-result-interface";
 import {Price} from "../../../retail/models/price";
 
 export interface SalesPaymentDataInterface {
-    pricing: Price;
-    transactionType: string;
+    pricing?: Price;
+    transactionType?: string;
     transactionData: {
-        planId: string;
+        entityId: string;
         price?: number;
         billingCycle?: number;
         discountAmount?: number;

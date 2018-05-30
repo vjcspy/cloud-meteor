@@ -41,7 +41,7 @@ export class AddCreditAfterAdjustPlan implements ObserverInterface {
                         amount: plan.getCreditEarn(),
                         created_at: DateTimeHelper.getCurrentDate(),
                         description: "add credit point when user adjust plan",
-                        plan_id: plan.getId(),
+                        entity_id: plan.getId(),
                         reason: CreditTransactionReason.ADD_CREDIT_WHEN_ADJUST_PLAN
                     };
                     await userCreditTransaction.addData(transaction).save();

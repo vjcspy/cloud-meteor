@@ -3,6 +3,7 @@ import {Payment} from "../models/payment";
 import {Plan} from "../../sales/models/plan";
 import {PlanHelper} from "../../sales/helper/plan-helper";
 import {Invoice} from "../../sales/models/invoice";
+import {AdditionFee} from "../../retail/models/additionfee";
 
 new ValidatedMethod({
     name: 'sales-payment.pay',
@@ -14,12 +15,14 @@ new ValidatedMethod({
     run: function (checkoutData) {
         let payment                       = OM.create <Payment>(Payment);
         const {data, gatewayAdditionData} = checkoutData;
-        const {planId}                    = data;
-
-        let plan = OM.create<Plan>(Plan);
-        plan.loadById(planId);
-
-        return payment.pay(plan, gatewayAdditionData);
+        const {entityId}                    = data;
+        let plan = OM.create<Plan>(Plan).loadById(entityId);
+        let additionFee = OM.create<AdditionFee>(AdditionFee).loadById(entityId);
+        if(plan) {
+            return payment.pay(plan, null, gatewayAdditionData);
+        } else if(additionFee) {
+            return payment.pay(null, additionFee, gatewayAdditionData);
+        }
     }
 });
 

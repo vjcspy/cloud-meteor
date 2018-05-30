@@ -25,16 +25,16 @@ export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterf
             let transaction: SaleBraintreePaymentData = {
                 amount: data.transactionData.grandTotal.toFixed(2) + "",
                 paymentMethodNonce: data.gatewayAdditionData['paymentMethodNonce'],
-                orderId: data.transactionData.planId,
+                orderId: data.transactionData.entityId,
                 options: {
                     submitForSettlement: false,
                     storeInVaultOnSuccess: false
                 },
             };
 
-            // if (BRAINTREE_ENVIROMENT !== "SANDBOX") {
+            if (BRAINTREE_ENVIROMENT !== "SANDBOX") {
                 transaction['merchantAccountId'] = "smartoscpteltdUSD";
-            // }
+            }
 
 
             (Stone.getInstance().s('braintree') as Braintree)
