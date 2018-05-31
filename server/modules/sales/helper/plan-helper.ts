@@ -34,7 +34,7 @@ export class PlanHelper {
         return false;
     }
 
-    getPlanCheckoutData(plan: Plan) {
+    getCheckoutData(plan: Plan) {
         let credit_balance = 0;
         const userCredit   = OM.create<UserCredit>(UserCredit);
         userCredit.load(plan.getUserId(), 'user_id');

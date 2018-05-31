@@ -13,8 +13,12 @@ import {UserCredit} from "../models/user-credit";
 export class AddCreditAfterAdjustPlan implements ObserverInterface {
     async observe(dataObject: DataObject) {
         const data       = dataObject.getData('data');
-        const plan: Plan = data['plan'];
-        const userId     = plan.getUserId();
+        const typePay = data['typePay'];
+        if (typePay !== 0) {
+            return;
+        }
+        const entity: Plan = data['entity'];
+        const userId     = entity.getUserId();
 
         let user = OM.create<User>(User);
         user.loadById(userId);
@@ -30,18 +34,18 @@ export class AddCreditAfterAdjustPlan implements ObserverInterface {
                 // We just add credit one time. So we need check plan id has existed in user_credit_transactions
                 const userCreditTransaction = OM.create<UserCreditTransaction>(UserCreditTransaction);
                 const existedTransaction    = userCreditTransaction.getMongoCollection().findOne({
-                    plan_id: plan.getId(),
+                    plan_id: entity.getId(),
                     reason: CreditTransactionReason.ADD_CREDIT_WHEN_ADJUST_PLAN
                 });
-                if ((existedTransaction && existedTransaction['_id']) || plan.getCreditEarn() === 0) {
+                if ((existedTransaction && existedTransaction['_id']) || entity.getCreditEarn() === 0) {
                     return;
                 } else {
                     let transaction: UserCreditTransactionInterface = {
-                        user_id: plan.getUserId(),
-                        amount: plan.getCreditEarn(),
+                        user_id: entity.getUserId(),
+                        amount: entity.getCreditEarn(),
                         created_at: DateTimeHelper.getCurrentDate(),
                         description: "add credit point when user adjust plan",
-                        entity_id: plan.getId(),
+                        entity_id: entity.getId(),
                         reason: CreditTransactionReason.ADD_CREDIT_WHEN_ADJUST_PLAN
                     };
                     await userCreditTransaction.addData(transaction).save();
@@ -49,12 +53,12 @@ export class AddCreditAfterAdjustPlan implements ObserverInterface {
                     let userCredit = OM.create<UserCredit>(UserCredit);
                     userCredit.load(userId, 'user_id');
                     if (userCredit.getId()) {
-                        await userCredit.setBalance(userCredit.getBalance() + plan.getCreditEarn()).save();
+                        await userCredit.setBalance(userCredit.getBalance() + entity.getCreditEarn()).save();
                     } else {
                         userCredit = OM.create<UserCredit>(UserCredit);
                         await userCredit.addData({
                             user_id: userId,
-                            balance: plan.getCreditEarn()
+                            balance: entity.getCreditEarn()
                         }).save();
                     }
                 }
@@ -63,7 +67,7 @@ export class AddCreditAfterAdjustPlan implements ObserverInterface {
             }
         }
         catch (e) {
-            StoneLogger.error("We can not add credit when adjust planÏ, please check", {plan, e})
+            StoneLogger.error("We can not add credit when adjust plan, please check", {entity, e})
         }
     }
 }

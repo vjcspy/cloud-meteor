@@ -12,7 +12,7 @@ import {UserCredit} from "../../user-credit/models/user-credit";
 
 export class AdditionFeeHelper {
     
-    getAdditionFeeCheckoutData(additionFee: AdditionFee) {
+    getCheckoutData(additionFee: AdditionFee) {
         let credit_balance = 0;
         const userCredit   = OM.create<UserCredit>(UserCredit);
         userCredit.load(additionFee.getUserId(), 'user_id');

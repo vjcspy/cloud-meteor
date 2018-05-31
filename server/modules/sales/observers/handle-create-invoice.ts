@@ -15,7 +15,11 @@ import {Stone} from "../../../code/core/stone";
 export class HandleCreateInvoice implements ObserverInterface {
     async observe(dataObject: DataObject) {
         const data       = dataObject.getData('data');
-        const plan: Plan = data['plan'];
+        const typePay    = data['typePay'];
+        if(typePay !== 0) {
+            return;
+        }
+        const plan: Plan = data['entity'];
         const userId     = plan.getUserId();
 
         let user = OM.create<User>(User);

@@ -12,70 +12,51 @@ import {AdditionFeeStatus} from "../../retail/api/addition-fee-interface";
 
 export class Invoice extends AbstractModel {
     protected $collection: string = 'sales_invoice';
-    protected plan: Plan;
+    protected entity;
     protected pricing: Price;
-    protected additionFee: AdditionFee;
-    async createInvoice(plan: Plan, additionFee: AdditionFee, data: Object, totals = {}): Promise<any> {
-        if(plan) {
-            this.plan = plan;
-            if (!plan.canInvoice()) {
-                throw new Meteor.Error('Error', 'can_not_invoice_plan');
+    async createInvoice(entity:Plan|AdditionFee, data: Object, totals = {}, typePay): Promise<any> {
+            this.entity = entity;
+            if (!entity.canInvoice()) {
+                throw new Meteor.Error('Error', 'can_not_invoice');
             }
-    
-            this.setData('user_id', plan.getUserId())
-                .setData('entity_id', plan.getId())
-                .setData('grand_total', plan.getGrandtotal())
-                .setData('totals', JSON.stringify(totals))
-                .setData('type', InvoiceType.TYPE_PLAN)
-                .setData('payment_data', JSON.stringify(data));
-    
-            StoneEventManager.dispatch('invoice_create_before', {
-                plan, data, totals
-            });
-    
-            await this.save();
-    
-            if (plan.getPricingCycle() === ProductLicenseBillingCycle.LIFE_TIME || this.getPricing().isTrial()) {
-                plan.setData('status', PlanStatus.SALE_COMPLETE)
-            } else if (this.getPricing().isSubscriptionType()) {
-                plan.setData('status', PlanStatus.SUBSCRIPTION_ACTIVE);
-            } else {
-                StoneLogger.error('can_not_update_plan_status', {plan});
+            if(typePay === 0) {
+                this.setData('user_id', entity.getUserId())
+                    .setData('entity_id', entity.getId())
+                    .setData('grand_total', entity.getGrandtotal())
+                    .setData('totals', JSON.stringify(totals))
+                    .setData('type', InvoiceType.TYPE_PLAN)
+                    .setData('payment_data', JSON.stringify(data));
+                    StoneEventManager.dispatch('invoice_create_before', {
+                    entity, data, totals
+                    });
+                    await this.save();
+                if (entity.getData('pricing_cycle') === ProductLicenseBillingCycle.LIFE_TIME || this.getPricing().isTrial()) {
+                        entity.setData('status', PlanStatus.SALE_COMPLETE)
+                    } else if (this.getPricing().isSubscriptionType()) {
+                        entity.setData('status', PlanStatus.SUBSCRIPTION_ACTIVE);
+                    } else {
+                        StoneLogger.error('can_not_update_plan_status', {entity});
+                    }
+                    await entity.save();
+                StoneEventManager.dispatch('invoice_create_after', {entity, invoice: this, totals, typePay});
+            } else if (typePay === 1) {
+                this.setData('user_id', entity.getUserId())
+                    .setData('entity_id', entity.getId())
+                    .setData('grand_total', entity.getGrandtotal())
+                    .setData('totals', JSON.stringify(totals))
+                    .setData('type', InvoiceType.TYPE_ADDITIONFEE)
+                    .setData('payment_data', JSON.stringify(data));
+                await this.save();
+                entity.setData('status', AdditionFeeStatus.SALE_COMPLETE);
+                await entity.save();
+                StoneEventManager.dispatch('invoice_create_after', {entity, invoice: this, totals, typePay});
             }
-    
-            await plan.save();
-    
-            StoneEventManager.dispatch('invoice_create_after', {plan, invoice: this, totals});
-        } else if (additionFee) {
-            this.additionFee = additionFee;
-            if (!additionFee.canInvoice()) {
-                throw new Meteor.Error('Error', 'can_not_invoice_for_addition_fee');
-            }
-    
-            this.setData('user_id', additionFee.getUserId())
-                .setData('entity_id', additionFee.getId())
-                .setData('grand_total', additionFee.getCost())
-                .setData('totals', JSON.stringify(totals))
-                .setData('type', InvoiceType.TYPE_ADDITIONFEE)
-                .setData('payment_data', JSON.stringify(data));
-            
-            StoneEventManager.dispatch('invoice_create_before', {
-                additionFee, data, totals
-            });
-            await this.save();
-            
-            additionFee.setData('status', AdditionFeeStatus.SALE_COMPLETE);
-            await additionFee.save();
-            StoneEventManager.dispatch('invoice_create_after', {additionFee, invoice: this, totals});
-    
-        }
-        
     }
 
     protected getPricing(): Price {
         if (typeof this.pricing === 'undefined') {
             this.pricing = OM.create<Price>(Price);
-            this.pricing.loadById(this.plan.getPricingId());
+            this.pricing.loadById(this.entity.getPricingId());
 
             if (!this.pricing.getId()) {
                 throw new Meteor.Error("payment_pay", "can_not_find_price");

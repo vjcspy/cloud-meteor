@@ -16,13 +16,14 @@ new ValidatedMethod({
         let payment                       = OM.create <Payment>(Payment);
         const {data, gatewayAdditionData} = checkoutData;
         const {entityId}                    = data;
-        let plan = OM.create<Plan>(Plan).loadById(entityId);
-        let additionFee = OM.create<AdditionFee>(AdditionFee).loadById(entityId);
-        if(plan) {
-            return payment.pay(plan, null, gatewayAdditionData);
-        } else if(additionFee) {
-            return payment.pay(null, additionFee, gatewayAdditionData);
+        const {typePay}                     = data;
+        let entity
+        if(typePay === 0) {
+            entity = OM.create<Plan>(Plan).loadById(entityId);
+        } else if (typePay === 1) {
+            entity = OM.create<AdditionFee>(AdditionFee).loadById(entityId);
         }
+            return payment.pay(entity, gatewayAdditionData, typePay);
     }
 });
 

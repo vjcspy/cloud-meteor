@@ -6,13 +6,17 @@ import {OM} from "../../../code/Framework/ObjectManager";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
 export class AdditionFee extends  AbstractModel {
-    protected $collection = 'addition_fee';
+    protected $collection: string = 'addition_fee';
 
     getName(){
         return this.getData('name');
     }
     getUserId(): string {
         return this.getData('user_id');
+    }
+    
+    getGrandtotal():number{
+        return this.getCost();
     }
     getCost(): number {
         return parseFloat(this.getData('cost'));

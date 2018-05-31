@@ -29,7 +29,7 @@ new ValidatedMethod({
                                 }
             
                                 totals = {
-                                    total: additionFeeHelper.getAdditionFeeCheckoutData(additionFee)
+                                    total: additionFeeHelper.getCheckoutData(additionFee)
                                 };
                             } else {
                                 throw new Meteor.Error("can_find_addition_fee");

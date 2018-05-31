@@ -14,7 +14,6 @@ new ValidatedMethod({
     },
     run: function (data) {
         const {planId} = data;
-
         let salePaymentManager = <SalesPaymentManager>Stone.getInstance().s('sales-payment-manager');
         const payments         = salePaymentManager.getPayments();
 
@@ -29,7 +28,7 @@ new ValidatedMethod({
             }
 
             totals = {
-                total: planHelper.getPlanCheckoutData(plan)
+                total: planHelper.getCheckoutData(plan)
             };
         } else {
             throw new Meteor.Error("can_find_plan");
