@@ -22,6 +22,7 @@ import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 import {PlanHelper} from "../../sales/helper/plan-helper";
 import {AdditionFee} from "../../retail/models/additionfee";
 import {AdditionFeeHelper} from "../../retail/helper/addition-fee-helper";
+import {InvoiceType} from "../../sales/api/invoice-interface";
 
 export class Payment extends DataObject {
     protected entity: Plan | AdditionFee;
@@ -36,15 +37,15 @@ export class Payment extends DataObject {
             let invoice      = OM.create<Invoice>(Invoice);
             const planHelper = OM.create<PlanHelper>(PlanHelper);
             const additionFeeHelper = OM.create<AdditionFeeHelper>(AdditionFeeHelper);
-            if (typePay === 0) {
+            if (typePay === InvoiceType.TYPE_PLAN) {
                 this.totals     = planHelper.getCheckoutData((entity as Plan));
-            } else if (typePay === 1) {
+            } else if (typePay === InvoiceType.TYPE_ADDITIONFEE) {
                 this.totals     = additionFeeHelper.getCheckoutData((entity as AdditionFee));
             }
         if (this.totals.total === 0) {
                 return invoice.createInvoice(entity, {}, this.totals, typePay);
             } else {
-                if(typePay === 0) {
+                if(typePay === InvoiceType.TYPE_PLAN) {
                     this.validatePlanPay(entity as Plan);
                 }
                 const paymentId = gatewayAdditionData.id;
@@ -71,17 +72,18 @@ export class Payment extends DataObject {
     }
 
     protected async processPay(entity: Plan|AdditionFee, payment: PaymentData, gatewayAdditionData: PaymentGatewayDataInterface, grandTotal, typePay): Promise<PayResultInterface> {
-        if(typePay === 0) {
-            let pricing = this.getPricing();
-    
-            if (pricing.getPriceType() === Price.TYPE_SUBSCRIPTION) {
+            let pricing;
+            if(typePay === InvoiceType.TYPE_PLAN) {
+                pricing = this.getPricing();
+            }
+            if ((typePay === InvoiceType.TYPE_PLAN && pricing.getPriceType() === Price.TYPE_SUBSCRIPTION) || typePay === InvoiceType.TYPE_ADDITIONFEE) {
                 if (!payment.sale) {
                     throw new Meteor.Error('payment_pay', 'payment_not_support_sale_transaction');
                 }
         
                 return payment.sale.place({
                                               pricing: pricing,
-                                              transactionType: Price.TYPE_SUBSCRIPTION,
+                                              transactionType: typePay === InvoiceType.TYPE_PLAN ? Price.TYPE_SUBSCRIPTION : '',
                                               transactionData: {
                                                   entityId: entity.getId(),
                                                   price: entity.getData('price'),
@@ -89,23 +91,9 @@ export class Payment extends DataObject {
                                               },
                                               gatewayAdditionData
                                           });
-            } else if (pricing.getPriceType() === Price.TYPE_LIFETIME) {
+            } else if ( typePay === InvoiceType.TYPE_PLAN && pricing.getPriceType() === Price.TYPE_LIFETIME) {
                 throw new Meteor.Error("payment_pay", 'not_yet_support_life_time_sale');
             }
-        } else if (typePay === 1) {
-            if (!payment.sale) {
-                throw new Meteor.Error('payment_pay', 'payment_not_support_sale_transaction');
-            }
-    
-            return payment.sale.place({
-                                          transactionData: {
-                                              entityId: entity.getId(),
-                                              grandTotal,
-                                          },
-                                          gatewayAdditionData
-                                      });
-        }
-
         throw new Meteor.Error("payment_pay", 'some_thing_went_wrong');
     }
 
