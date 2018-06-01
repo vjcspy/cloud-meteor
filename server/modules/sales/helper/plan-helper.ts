@@ -34,7 +34,7 @@ export class PlanHelper {
         return false;
     }
 
-    getPlanCheckoutData(plan: Plan) {
+    getCheckoutData(plan: Plan) {
         let credit_balance = 0;
         const userCredit   = OM.create<UserCredit>(UserCredit);
         userCredit.load(plan.getUserId(), 'user_id');
@@ -78,7 +78,7 @@ export class PlanHelper {
                 .then((planId) => {
                         if (plan.getGrandtotal() === 0) {
                             let payment = OM.create<Payment>(Payment);
-                            payment.pay(plan, null)
+                            payment.pay(plan, null, null)
                                    .then(() => resolve({
                                            planId,
                                            sameAsOld: false

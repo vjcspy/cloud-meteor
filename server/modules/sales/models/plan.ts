@@ -41,7 +41,7 @@ export class Plan extends AbstractModel {
     canInvoice(): boolean {
         // if order is sale -> status = Pending and not any invoice created
         if (this.getStatus() === PlanStatus.SALE_PENDING) {
-            const existedInvoice = InvoiceCollection.collection.find({plan_id: this.getId()}).count();
+            const existedInvoice = InvoiceCollection.collection.find({entity_id: this.getId()}).count();
 
             return existedInvoice <= 0;
         }

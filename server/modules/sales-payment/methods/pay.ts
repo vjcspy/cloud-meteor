@@ -1,8 +1,8 @@
 import {OM} from "../../../code/Framework/ObjectManager";
 import {Payment} from "../models/payment";
 import {Plan} from "../../sales/models/plan";
-import {PlanHelper} from "../../sales/helper/plan-helper";
-import {Invoice} from "../../sales/models/invoice";
+import {AdditionFee} from "../../retail/models/additionfee";
+import {InvoiceType} from "../../sales/api/invoice-interface";
 
 new ValidatedMethod({
     name: 'sales-payment.pay',
@@ -14,12 +14,15 @@ new ValidatedMethod({
     run: function (checkoutData) {
         let payment                       = OM.create <Payment>(Payment);
         const {data, gatewayAdditionData} = checkoutData;
-        const {planId}                    = data;
-
-        let plan = OM.create<Plan>(Plan);
-        plan.loadById(planId);
-
-        return payment.pay(plan, gatewayAdditionData);
+        const {entityId}                    = data;
+        const {typePay}                     = data;
+        let entity
+        if(typePay === InvoiceType.TYPE_PLAN) {
+            entity = OM.create<Plan>(Plan).loadById(entityId);
+        } else if (typePay === InvoiceType.TYPE_ADDITIONFEE) {
+            entity = OM.create<AdditionFee>(AdditionFee).loadById(entityId);
+        }
+            return payment.pay(entity, gatewayAdditionData, typePay);
     }
 });
 

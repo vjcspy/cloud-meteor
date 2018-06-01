@@ -1,8 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 import {CollectionMaker} from "../../../code/MeteorBase/CollectionMaker";
-import {PlanInterface} from "../api/plan-interface";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
-import {InvoiceInterface} from "../api/invoice-interface";
+import {InvoiceInterface,InvoiceType} from "../api/invoice-interface";
 
 export const invoiceSchema = new SimpleSchema(
     {
@@ -11,8 +10,8 @@ export const invoiceSchema = new SimpleSchema(
             optional: true
         },
         user_id: String,
-        plan_id: String,
-
+        entity_id: String,
+        type: Number,
         grand_total: Number,
         payment_data: String,
         totals: String,

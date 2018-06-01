@@ -8,7 +8,7 @@ export const AdditionFeeCollection = CollectionMaker.make<AdditionFeeInterface>(
     name: String,
     description: String ,
     cost : Number,
-    status: SimpleSchema.Integer,
+    status: Number,
     created_at: {
         type: Date,
         defaultValue: DateTimeHelper.getCurrentDate()
