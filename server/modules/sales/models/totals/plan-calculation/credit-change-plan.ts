@@ -6,11 +6,12 @@ import {DateTimeHelper} from "../../../../../code/Framework/DateTimeHelper";
 import * as moment from 'moment';
 import {NumberHelper} from "../../../../../code/Framework/NumberHelper";
 import {RequestPlan} from "../../../api/data/request-plan";
+import {CouponInterface} from "../../../../retail/api/coupon-interface";
 
 export class CreditChangePlan extends CalculateAbstract implements CalculateInterface {
     total: string = 'credit_earn';
 
-    collect(plan: RequestPlan, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): void {
+    collect(plan: RequestPlan, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface, coupon:CouponInterface): void {
         this.getTotals().setTotal(this.total, 0);
 
         if (productLicense) {

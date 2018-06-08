@@ -9,8 +9,8 @@ new ValidatedMethod({
                             }
                         },
                         run: function (data) {
-                            const {plan, product_id} = data;
-                            return OM.create<PlanCalculation>(PlanCalculation).getTotals(plan, product_id, this.userId);
+                            const {plan, product_id, coupon_id} = data;
+                            return OM.create<PlanCalculation>(PlanCalculation).getTotals(plan, product_id, this.userId , coupon_id);
                         }
                     });
 
