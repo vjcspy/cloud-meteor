@@ -4,11 +4,12 @@ import {PriceInterface} from "../../../../retail/api/price-interface";
 import {LicenseHasProductInterface, ProductLicenseBillingCycle} from "../../../../retail/api/license-interface";
 import {NumberHelper} from "../../../../../code/Framework/NumberHelper";
 import {RequestPlan} from "../../../api/data/request-plan";
+import {CouponInterface, CouponMethod} from "../../../../retail/api/coupon-interface";
 
 export class CostNewPlan extends CalculateAbstract implements CalculateInterface {
     total: string = 'price';
     
-    collect(plan: RequestPlan, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface): void {
+    collect(plan: RequestPlan, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface, coupon: CouponInterface): void {
         if (newPricing.type === 'trial') {
             this.getTotals().setTotal(this.total, 0);
             

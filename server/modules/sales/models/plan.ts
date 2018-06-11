@@ -117,7 +117,7 @@ export class Plan extends AbstractModel {
 
     protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string): PlanInterface {
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
-        const totals   = calculator.getTotals(requestPlan, product_id, userId);
+        const totals   = calculator.getTotals(requestPlan, product_id, userId, null);
 
         let newPlan: PlanInterface = {
             user_id: userId,

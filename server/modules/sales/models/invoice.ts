@@ -9,6 +9,7 @@ import {StoneLogger} from "../../../code/core/logger/logger";
 import {AdditionFee} from "../../retail/models/additionfee";
 import {InvoiceType} from "../api/invoice-interface";
 import {AdditionFeeStatus} from "../../retail/api/addition-fee-interface";
+import {Coupon} from "../../retail/models/coupon";
 
 export class Invoice extends AbstractModel {
     protected $collection: string = 'sales_invoice';
@@ -21,6 +22,7 @@ export class Invoice extends AbstractModel {
             }
             this.setData('user_id', entity.getUserId())
                 .setData('entity_id', entity.getId())
+                .setData('coupon_id', entity.getData('coupon_id'))
                 .setData('grand_total', entity.getGrandtotal())
                 .setData('type', typePay)
                 .setData('totals', JSON.stringify(totals))
@@ -36,6 +38,12 @@ export class Invoice extends AbstractModel {
                 entity.setData('status', PlanStatus.SUBSCRIPTION_ACTIVE);
             } else {
                 StoneLogger.error('can_not_update_plan_status', {entity});
+            }
+            const coupon_id = entity.getData('coupon_id');
+            if(coupon_id) {
+                let coupon = OM.create<Coupon>(Coupon).loadById(coupon_id);
+                coupon.setData('used', coupon.getData('used') + 1);
+                await coupon.save();
             }
         } else if (typePay === InvoiceType.TYPE_ADDITIONFEE) {
             entity.setData('status', AdditionFeeStatus.SALE_COMPLETE);

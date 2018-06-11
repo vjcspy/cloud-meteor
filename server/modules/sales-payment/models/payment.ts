@@ -33,7 +33,6 @@ export class Payment extends DataObject {
     protected totals;
     async pay(entity: Plan|AdditionFee, gatewayAdditionData: PaymentGatewayDataInterface, typePay): Promise<any> {
             this.entity = entity;
-    
             let invoice      = OM.create<Invoice>(Invoice);
             const planHelper = OM.create<PlanHelper>(PlanHelper);
             const additionFeeHelper = OM.create<AdditionFeeHelper>(AdditionFeeHelper);

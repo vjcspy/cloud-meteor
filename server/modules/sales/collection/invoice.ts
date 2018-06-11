@@ -11,6 +11,10 @@ export const invoiceSchema = new SimpleSchema(
         },
         user_id: String,
         entity_id: String,
+        coupon_id: {
+            type: String,
+            optional: true
+        },
         type: Number,
         grand_total: Number,
         payment_data: String,

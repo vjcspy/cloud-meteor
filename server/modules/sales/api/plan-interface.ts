@@ -14,7 +14,7 @@ export interface PlanInterface {
     user_id: string;
     license_id: string;
     product_id: string;
-
+    coupon_id?: string;
     pricing_id: string;
     pricing_cycle: ProductLicenseBillingCycle;
     num_of_cycle: number;

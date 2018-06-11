@@ -11,7 +11,10 @@ export const orderSchema = new SimpleSchema(
         },
         user_id: String,
         product_id: String,
-        
+        coupon_id: {
+            type: String,
+            optional: true
+        },
         pricing_id: String,
         pricing_cycle: Number,
         addition_entity: Number,

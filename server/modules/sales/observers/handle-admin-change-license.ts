@@ -30,7 +30,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                     num_of_cycle: 1,
                     pricing_id: _d['pricing_id']
                 }
-                const totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId());
+                const totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId(), null);
                 let newPlan: PlanInterface = {
                     user_id: user.getId(),
                     product_id: _d['product_id'],
@@ -68,7 +68,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                         num_of_cycle: oldPlan['num_of_cycle'],
                         pricing_id: _d['pricing_id']
                     }
-                    const totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId());
+                    const totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId(), null);
                     let newPlan: PlanInterface = {
                         user_id: user.getId(),
                         product_id: _d['product_id'],

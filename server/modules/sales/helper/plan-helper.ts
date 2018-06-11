@@ -10,6 +10,7 @@ import {User} from "../../account/models/user";
 import * as _ from 'lodash';
 import {LicenseHelper} from "../../retail/helper/license";
 import {UserCredit} from "../../user-credit/models/user-credit";
+import {InvoiceType} from "../api/invoice-interface";
 
 export class PlanHelper {
 
@@ -61,7 +62,7 @@ export class PlanHelper {
         return OM.create<User>(User).loadById(userId);
     }
 
-    submitPlan(requestPlan: RequestPlan, product_id: string, userId: string) {
+    submitPlan(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string) {
         return new Promise((resolve, reject) => {
             const planId = this.isSameAsCurrentPlan(requestPlan, product_id, userId);
             if (planId) {
@@ -71,14 +72,14 @@ export class PlanHelper {
                 });
             }
 
-            let newPlan = this.prepareNewPlanData(requestPlan, product_id, userId);
+            let newPlan = this.prepareNewPlanData(requestPlan, product_id, userId, coupon_id);
             let plan    = OM.create<Plan>(Plan);
 
             plan.createSalePlan(newPlan)
                 .then((planId) => {
                         if (plan.getGrandtotal() === 0) {
                             let payment = OM.create<Payment>(Payment);
-                            payment.pay(plan, null, null)
+                            payment.pay(plan, null, InvoiceType.TYPE_PLAN)
                                    .then(() => resolve({
                                            planId,
                                            sameAsOld: false
@@ -95,15 +96,15 @@ export class PlanHelper {
         });
     }
 
-    protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string): PlanInterface {
+    protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string): PlanInterface {
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
-        const totals   = calculator.getTotals(requestPlan, product_id, userId);
-
+        const totals   = calculator.getTotals(requestPlan, product_id, userId, coupon_id);
         let newPlan: PlanInterface = {
             user_id: userId,
             product_id,
             license_id: !!calculator.license ? calculator.license.getId() : null,
             pricing_id: calculator.newPricing.getId(),
+            coupon_id: coupon_id,
             pricing_cycle: requestPlan.cycle,
             num_of_cycle: requestPlan.num_of_cycle,
             addition_entity: requestPlan.addition_entity,
