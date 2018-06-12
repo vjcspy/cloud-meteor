@@ -6,7 +6,10 @@ import {AdditionFeeInterface} from "../api/addition-fee-interface";
 export const AdditionFeeCollection = CollectionMaker.make<AdditionFeeInterface>("addition_fee", new SimpleSchema({
     user_id: String,
     name: String,
-    description: String ,
+    description: {
+        type: String,
+        optional: true
+    } ,
     cost : Number,
     status: Number,
     created_at: {
