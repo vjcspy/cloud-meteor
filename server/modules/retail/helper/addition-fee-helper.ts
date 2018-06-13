@@ -24,6 +24,7 @@ export class AdditionFeeHelper {
         if (!isNaN(additionFee.getCost())) {
             grand_total = parseFloat(additionFee.getData('cost'));
         }
+        let discount_amount = 0;
         let credit_spent = Math.min(grand_total, credit_balance);
         let total        = grand_total - credit_spent;
         
@@ -31,7 +32,8 @@ export class AdditionFeeHelper {
             credit_spent,
             total,
             credit_balance,
-            grand_total
+            grand_total,
+            discount_amount
         }
     }
     
