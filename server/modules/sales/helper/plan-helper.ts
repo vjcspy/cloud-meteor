@@ -43,17 +43,30 @@ export class PlanHelper {
         if (userCredit.getId()) {
             credit_balance = userCredit.getBalance();
         }
-        let grand_total = 0;
-        if (!isNaN(plan.getData('grand_total'))) {
-            grand_total = parseFloat(plan.getData('grand_total'));
+        
+        let grand_total = 0
+        if (!isNaN(plan.getData('price'))) {
+            grand_total = parseFloat(plan.getData('price'));
         }
-        let credit_spent = Math.min(grand_total, credit_balance);
-        let total        = grand_total - credit_spent;
-
+        let discount_amount = 0
+        if (!isNaN(plan.getData('discount_amount'))) {
+            discount_amount = parseFloat(plan.getData('discount_amount'));
+        }
+       
+        let credit_spent = 0
+        if (!isNaN(plan.getData('credit_spent'))) {
+            credit_spent = parseFloat(plan.getData('credit_spent'));
+        }
+        let total = 0;
+        if (!isNaN(plan.getData('grand_total'))) {
+            total = parseFloat(plan.getData('grand_total'));
+        }
+     
         return {
-            credit_spent,
             total,
+            discount_amount,
             credit_balance,
+            credit_spent,
             grand_total
         }
     }
@@ -112,8 +125,8 @@ export class PlanHelper {
             prev_pricing_cycle: calculator.productLicense ? calculator.productLicense.billing_cycle : null,
             prev_addition_entity: calculator.productLicense ? calculator.productLicense.addition_entity : null,
             price: totals.total.price,
-            credit_earn: totals.data.credit_earn || 0,
-            credit_spent: totals.data.credit_spent || 0,
+            credit_earn: totals.total.credit_earn || 0,
+            credit_spent: totals.total.credit_spent || 0,
             discount_amount: totals.total.discount_amount || 0,
             grand_total: totals.total.grand_total,
 

@@ -13,6 +13,7 @@ import {Price} from "../../../retail/models/price";
 import {License} from "../../../retail/models/license";
 import {Coupon} from "../../../retail/models/coupon";
 import {CouponInterface} from "../../../retail/api/coupon-interface";
+import {CreditSpent} from "./plan-calculation/credit-spent";
 
 export class PlanCalculation {
     license: License;
@@ -32,6 +33,10 @@ export class PlanCalculation {
         {
             i: new DiscountCredit(),
             p: 50
+        },
+        {
+            i: new CreditSpent(),
+            p: 70
         },
         {
             i: new Grandtotal(),
