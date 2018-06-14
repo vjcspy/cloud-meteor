@@ -9,6 +9,7 @@ import {License} from "../../retail/models/license";
 import {PlanCollection} from "../collection/plan";
 import {ProductLicenseBillingCycle} from "../../retail/api/license-interface";
 import {PlanCalculation} from "../models/totals/plan-calculation";
+import {Price} from "../../retail/models/price";
 
 export class HandleAdminChangeLicense implements ObserverInterface {
     observe(dataObject: DataObject): any {
@@ -21,6 +22,8 @@ export class HandleAdminChangeLicense implements ObserverInterface {
         user.load(license1.getData('shop_owner_username'), 'username');
     
         _.forEach(licenseHasProducts, (_d) => {
+            let newPricing = OM.create<Price>(Price).loadById(_d['pricing_id']);
+    
             if (!_d['plan_id']) {
                 // if license_product haven't had plan_id yet, we must create it now
                 const plan = OM.create<Plan>(Plan);
@@ -30,7 +33,10 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                     num_of_cycle: 1,
                     pricing_id: _d['pricing_id']
                 }
-                const totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId(), null);
+                let totals;
+                if (!newPricing.isTrial()) {
+                    totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId(), null);
+                }
                 let newPlan: PlanInterface = {
                     user_id: user.getId(),
                     product_id: _d['product_id'],
@@ -42,11 +48,11 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                     prev_pricing_id: null,
                     prev_pricing_cycle: null,
                     prev_addition_entity: null,
-                    price: totals.total.price,
+                    price: !newPricing.isTrial() ? totals.total.price : 0,
                     credit_earn: 0,
                     credit_spent: 0,
                     discount_amount: 0,
-                    grand_total: totals.total.grand_total,
+                    grand_total: !newPricing.isTrial() ? totals.total.grand_total : 0,
 
                     status: PlanStatus.SALE_PENDING,
                     created_at: DateTimeHelper.getCurrentDate(),
@@ -68,7 +74,10 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                         num_of_cycle: oldPlan['num_of_cycle'],
                         pricing_id: _d['pricing_id']
                     }
-                    const totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId(), null);
+                    let totals;
+                    if(!newPricing.isTrial()) {
+                        totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId(), null);
+                    }
                     let newPlan: PlanInterface = {
                         user_id: user.getId(),
                         product_id: _d['product_id'],
@@ -80,11 +89,11 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                         prev_pricing_id: oldPlan['pricing_id'],
                         prev_pricing_cycle: oldPlan['pricing_cycle'],
                         prev_addition_entity: oldPlan['addition_entity'],
-                        price: totals.total.price,
+                        price: !newPricing.isTrial() ? totals.total.price : 0,
                         credit_earn: 0,
                         credit_spent: 0,
                         discount_amount: 0,
-                        grand_total: totals.total.grand_total,
+                        grand_total: !newPricing.isTrial() ? totals.total.grand_total : 0,
                         status: PlanStatus.SALE_PENDING,
                         created_at: DateTimeHelper.getCurrentDate(),
                         updated_at: DateTimeHelper.getCurrentDate()
