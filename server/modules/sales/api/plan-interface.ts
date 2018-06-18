@@ -31,7 +31,7 @@ export interface PlanInterface {
     grand_total: number;
 
     status: PlanStatus;
-
+    created_by_user_id?: String;
     created_at?: Date;
     updated_at?: Date
 }

@@ -55,6 +55,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                     grand_total: !newPricing.isTrial() ? totals.total.grand_total : 0,
 
                     status: PlanStatus.SALE_PENDING,
+                    created_by_user_id: Meteor.userId(),
                     created_at: DateTimeHelper.getCurrentDate(),
                     updated_at: DateTimeHelper.getCurrentDate()
                 };
@@ -95,6 +96,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                         discount_amount: 0,
                         grand_total: !newPricing.isTrial() ? totals.total.grand_total : 0,
                         status: PlanStatus.SALE_PENDING,
+                        created_by_user_id: Meteor.userId(),
                         created_at: DateTimeHelper.getCurrentDate(),
                         updated_at: DateTimeHelper.getCurrentDate()
                     };
