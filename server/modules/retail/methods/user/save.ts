@@ -46,6 +46,10 @@ new ValidatedMethod({
                             profile['last_name']  = data['profile']['last_name'];
                             profile['phone']      = data['profile']['phone'];
                             user.setData('profile', profile)
+                                // .setData('agency', null)
+                                // .setData('take_care_by_agency', null)
+                                // .setData('customer_type', null)
+                                // .setData('last_date_trial', null)
                                    .save()
                                 .then(() => {
                                 return user.setRoles(data['roles']['cloud_group'],Role.GROUP_CLOUD);

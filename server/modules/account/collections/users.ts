@@ -1,37 +1,54 @@
 import {CollectionMaker} from "../../../code/MeteorBase/CollectionMaker";
-import {UserInterface} from "../api/user-interface";
+import {Agency, CustomerType, UserInterface} from "../api/user-interface";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {User} from "../models/user";
 import {Role} from "../models/role";
 import SimpleSchema from 'simpl-schema';
 
 export const userSchema = new SimpleSchema({
-                                               _id: {
-                                                   type: String,
-                                                   optional: true
-                                               },
-                                               username: String,
-                                               services: {
-                                                   type: Object,
-                                                   optional: true
-                                               },
-                                               email: Array,
-                                               roles: {
-                                                   type: Object,
-                                                   optional: true
-                                               },
-                                               profile: {
-                                                   type: Object,
-                                                   optional: true
-                                               },
-                                               has_license: {
-                                                   type: Array,
-                                                   optional: true
-                                               },
-                                               "has_license.$": Object,
-                                               createdAt: Date
-                                           });
+    _id: {
+        type: String,
+        optional: true
+    },
+    username: String,
+    services: {
+        type: Object,
+        optional: true
+    },
+    email: Array,
+    roles: {
+        type: Object,
+        optional: true
+    },
+    profile: {
+        type: Object,
+        optional: true
+    },
+    has_license: {
+        type: Array,
+        optional: true
+    },
+    "has_license.$": Object,
+    createdAt: Date,
+    angency : {
+        type:Object,
+        optional:true
+    },
+    take_care_by_agency: {
+        type: String,
+        optional: true
+    },
+    customer_type: {
+        type: Number,
+        optional: true
+    },
+    last_date_trial: {
+        type: Date,
+        optional: true
+    }
+});
 export const Users      = CollectionMaker.makeFromExisting<UserInterface>(Meteor.users);
+
 
 // hook to add default role and send verify email
 CollectionMaker.hookAfterInsert('users', (userId, user) => {

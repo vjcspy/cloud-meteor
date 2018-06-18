@@ -30,6 +30,10 @@ export interface UserHasLicense {
 }
 
 
+/////////////////////////////
+////Update mode for Agency///
+/////////////////////////////
+
 export  interface  Agency {
     agencyType?: AgencyType;
     company?:String;
@@ -37,8 +41,6 @@ export  interface  Agency {
     commission?:Commission;
 }
 
-
-//Agency object
 export  enum CustomerType {
     Lead = "LEAD",
     Referral = "REFERRAL" ,
