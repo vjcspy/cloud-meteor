@@ -4,6 +4,12 @@ export interface UserInterface extends Meteor.User {
     has_license?: UserHasLicense[]; // Normal user has only one license. We support license as array to satisfy agency or sale role.
     created_at?: Date;
     updated_at?: Date;
+
+    //Agency
+    agency?: Agency;
+    take_care_by_agency?:String;
+    customer_type?:CustomerType;
+    last_date_trial?:Date;
 }
 
 export interface Profile {
@@ -22,3 +28,42 @@ export interface UserHasLicense {
     shop_role: string;
     status: number;
 }
+
+
+export  interface  Agency {
+    agencyType?: AgencyType;
+    company?:String;
+    status?:Boolean;
+    commission?:Commission;
+}
+
+
+//Agency object
+export  enum CustomerType {
+    Lead = "LEAD",
+    Referral = "REFERRAL" ,
+    Rejected = "REJECTED",
+    Referral_Expired = "REFERRAL_EXPIRED",
+    Trial = "TRIAL",
+    Exprired_Trial = "EXPRIRED_TRIAL",
+    Merchant = "MERCHANT",
+    Terminated = "TERMINATED",
+}
+
+export enum AgencyType {
+    Developer = "DEVELOPER",
+    Normal = "NORMAL"
+}
+
+export interface LevelCommission {
+    revenue_from?:Date;
+    revenue_to?:Date;
+    bonus?:Number;
+}
+
+export  interface  Commission {
+    commission_value?:Number;
+    level_commissions?: LevelCommission[];
+    receipt_date?: Date;
+}
+
