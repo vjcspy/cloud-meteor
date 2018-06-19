@@ -10,8 +10,8 @@ new ValidatedMethod({
                 Email.send({
                     to: `${expireDate['email']}`,
                     from: "",
-                    subject: " Expire Date ",
-                    text: "hello guy"
+                    subject: "[Action required] Please renew your ConnectPOS license!",
+                    text: `Hi ${expireDate['shop_owner_username']},`
                 })
 
     }
