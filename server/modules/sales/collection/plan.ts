@@ -40,7 +40,10 @@ export const orderSchema = new SimpleSchema(
         grand_total: Number,
         
         status: Number,
-        
+        created_by_user_id: {
+            type: String,
+            optional: true
+        },
         created_at: {
             type: Date,
             defaultValue: DateTimeHelper.getCurrentDate()
