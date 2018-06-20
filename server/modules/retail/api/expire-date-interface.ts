@@ -5,6 +5,6 @@ export interface ExpireDateInterface {
     product_id: String,
     purchase_date: String,
     expiry_date: String,
-    pricing_id: String
+    pricing_code: String
 
 }
