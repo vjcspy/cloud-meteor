@@ -409,7 +409,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Thank you so much for choosing and using ConnectPOS!</td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>This is an email to notify you that your ConnectPOS license<br>will be AUTOMATICALLY renewed on ${formatDate(data['expiry_date'])} for<br>( số tiền tương ứng ).</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an email to notify you that your ConnectPOS license<br>will be AUTOMATICALLY renewed on ${formatDate(data['expiry_date'])} for<br>( số tiền tương ứng ).</p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you have any questions, kindly contact us via<br>support@con-nectpos.com</p></td>

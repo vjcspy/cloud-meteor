@@ -12,7 +12,7 @@ import {PricingCollection} from "../collections/prices";
 SyncedCron.add({
                     name: "update expire date(00:00 everyday)",
                     schedule: function (parser) {
-                        return parser.text(' at 10:06 am ');
+                        return parser.text(' at 00:00 am ');
                     },
                     job: function () {
                             updateExpireDate();
