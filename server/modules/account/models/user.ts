@@ -1,7 +1,8 @@
 import {AbstractModel} from "../../../code/MeteorBase/AbstractModel";
-import {UserHasLicense} from "../api/user-interface";
+import {USER_EMAIL_TEMPLATE, UserHasLicense} from "../api/user-interface";
 import {Role} from "./role";
 import * as _ from 'lodash';
+import {ExtendEmailTemplate} from "../configs/email/email-config";
 
 export class User extends AbstractModel {
     protected $collection = "users";
@@ -77,5 +78,18 @@ export class User extends AbstractModel {
     getEmail(): string {
         return this.getData('emails')[0]['address'];
     }
+
+    sendData(data,type:USER_EMAIL_TEMPLATE){
+        if(type == USER_EMAIL_TEMPLATE.REQUEST_TRIAL){
+            Email.send(ExtendEmailTemplate.request_trial(data));
+        }else if(type == USER_EMAIL_TEMPLATE.TRIAL_EXPIRED){
+            Email.send(ExtendEmailTemplate.trial_expired(data));
+        }else if(type == USER_EMAIL_TEMPLATE.EXPIRED){
+            Email.send(ExtendEmailTemplate.expired(data));
+        }else if(type == USER_EMAIL_TEMPLATE.INVOICE){
+            Email.send(ExtendEmailTemplate.invoice(data));
+        }
+    }
+
 }
 
