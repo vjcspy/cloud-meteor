@@ -2,6 +2,8 @@ import * as _ from "lodash";
 import {RequestTrial} from "../models/request-trial";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {sales_emails} from "../configs/email/request_trial_emails";
+import {User} from "../models/user";
+import {USER_EMAIL_TEMPLATE} from "../api/user-interface";
 
 new ValidatedMethod({
     name: "client.request_trial",
@@ -21,16 +23,18 @@ new ValidatedMethod({
                     .setData("note", data['note'])
                     .setData("name", data['name'])
                     .save();
+        const user: User = OM.create(User);
+        user.sendData(requestTrial,USER_EMAIL_TEMPLATE.REQUEST_TRIAL);
 
         _.forEach(sales_emails, (e)=> {
                         Email.send({
                             to:`${e}`,
                             from: "",
-                            subject:" Request Trial ",
-                            text:   "Email: " + requestTrial.getData("email") + "\n" +
-                                    "Phone: " + requestTrial.getData("phone") + "\n" +
-                                    "Note: " + requestTrial.getData("note") + "\n" +
-                                    "Name: " + requestTrial.getData("name") + "\n"
+                            subject:"Request Trial From Customer",
+                            html:   `<span style="color: black;">Email: ${requestTrial.getData("email")}<br>
+                                     Phone: ${requestTrial.getData("phone")}<br>
+                                     Name: ${requestTrial.getData("name")}<br>
+                                     Note: ${requestTrial.getData("note")}<br></span>`
                         })
                     });
 

@@ -6,6 +6,8 @@ import {LicenseCollection} from "../collections/licenses";
 import {ExpireDateCollection} from "../collections/expiredate";
 import {Expiredate} from "../models/expiredate";
 import {User} from "../../account/models/user";
+import {USER_EMAIL_TEMPLATE} from "../../account/api/user-interface";
+import {PricingCollection} from "../collections/prices";
 
 SyncedCron.add({
                     name: "update expire date(00:00 everyday)",
@@ -14,36 +16,53 @@ SyncedCron.add({
                     },
                     job: function () {
                             updateExpireDate();
+                            sendEmailExpireDate();
+
 
                     }
                 });
                export const updateExpireDate = () => {
                     let expire_date: any[] =[];
                     const licenses = LicenseCollection.find().fetch();
+                    const pricingCollection = PricingCollection.find().fetch();
                     const user      = OM.create<User>(User);
                     let expire = OM.create<Expiredate>(Expiredate);
-                    _.forEach(licenses, (l) => {
+                    ExpireDateCollection.remove({});
+                   _.forEach(licenses, (l) => {
                         if (!!l['shop_owner_id']){
                             user.loadById(l['shop_owner_id']);
 
                             _.forEach(l['has_product'], (h) => {
+                                let pricing = _.find(pricingCollection, (p) => p['_id']==h['pricing_id']);
                                 let expireDate  = moment(h['expiry_date'], 'YYYY-MM-DD');
                                 let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
                                 let diff        = expireDate.diff(currentTime,'days');
                                 if (diff < 3) {
-                                    ExpireDateCollection.remove({});
                                     expire_date.push({
                                         license_id : l['_id'],
                                         email: user.getEmail(),
                                         shop_owner_username: user.getUsername(),
                                         product_id: h['product_id'],
                                         purchase_date: h['purchase_date'],
-                                        expiry_date: h['expiry_date']
+                                        expiry_date: h['expiry_date'],
+                                        pricing_code: pricing['code']
                                     });
 
                                 }
                             })
                         }
                     });
-                    expire.createrExpireDate(expire_date).then(()=>{},(e)=>{console.log(e)});
+
+                   expire.createrExpireDate(expire_date).then(()=>{},(e)=>{console.log(e)});
                 };
+               export const sendEmailExpireDate = () => {
+                      const expireDate = ExpireDateCollection.find().fetch();
+                        const user     = OM.create<User>(User);
+                      _.forEach(expireDate, (e) => {
+                          if(e['pricing_code'] === "cpos_trial"){
+                              user.sendData(e, USER_EMAIL_TEMPLATE.TRIAL_EXPIRED);
+                          } else {
+                            user.sendData(e, USER_EMAIL_TEMPLATE.EXPIRED);
+                          }
+                      })
+               };
