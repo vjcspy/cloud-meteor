@@ -8,7 +8,7 @@ new ValidatedMethod({
                         name: "user.save",
                         validate: function () {
                             const user = OM.create<User>(User).loadById(this.userId);
-                            if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN, Role.SALES], Role.GROUP_CLOUD)) {
+                            if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN, Role.SALES , Role.AGENCY], Role.GROUP_CLOUD)) {
                             } else {
                                 throw new Meteor.Error("user.edit_user_error", "Access denied");
                             }
