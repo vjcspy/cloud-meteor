@@ -46,9 +46,9 @@ function prepareTextEmail(user, status) {
         step2         = "<span style='font-weight: bold'>2.</span> From the side menu, go to <span style='font-weight: bold'>ConnectPOS Products</span> and click<br><span style='font-weight: bold'>Trial.</span>";
         step3         = "<span style='font-weight: bold'>3.</span> Complete the payment process of <span style='font-weight: bold'>USD 0</span> as instructed.";
         step4         = "<span style='font-weight: bold'>4.</span> From the side menu, go to <span style='font-weight: bold'>Account > License > View Details ><br>Download API</span> version, then select the latest version and down-<br>load.";
-        step5         = "<span style='font-weight: bold'>5.</span> Install the <span style='font-weight: bold'>API</span> and activate it with the license key in your<br>Magento backend. For the installation instruction, please<br>download Installation Guide in Documentation.";
+        step5         = "<span style='font-weight: bold'>5.</span> Install the <span style='font-weight: bold'>API</span><span style='color: black'> and activate it with the license key in your<br>Magento backend. For the installation instruction, please<br>download</span> <a href='http://account.xcloud.smartosc.com/assets/ConnectPOS%20-%20Installation%20Guide.pdf' style='font-weight: bold'>Installation Guide in Documentation.</a>";
         noteMsgVar    = "If you have any questions, kindly contact us via<br><span style='font-weight: bold'>support@con-nectpos.com</span>";
-        regardVar     = "<span style='font-weight: bold'>Best regards</span>,<br>ConnectPOS Team.";
+        regardVar     = "<span style='font-weight: bold'>Many thanks</span>,<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "enroll") {
         greetVar      = `Hi ${getUserName(user)},`;
