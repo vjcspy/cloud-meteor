@@ -40,16 +40,17 @@ new ValidatedMethod({
                             if (user.isInRoles([Role.SUPERADMIN], Role.GROUP_CLOUD)) {
                                 throw  new Meteor.Error('user.save', 'sorry_this_method_not_support_update_super_admin_data');
                             }
-    
+
                             let profile           = user.getProfile() || {};
                             profile['first_name'] = data['profile']['first_name'];
                             profile['last_name']  = data['profile']['last_name'];
                             profile['phone']      = data['profile']['phone'];
+                            let agency = data['agency'];
+
                             user.setData('profile', profile)
-                                // .setData('agency', null)
-                                // .setData('take_care_by_agency', null)
-                                // .setData('customer_type', null)
-                                // .setData('last_date_trial', null)
+                                .setData('agency',agency)
+                                .setData('customer_type', data["customer_type"])
+                                .setData('last_date_trial', data["last_date_trial"])
                                    .save()
                                 .then(() => {
                                 return user.setRoles(data['roles']['cloud_group'],Role.GROUP_CLOUD);
