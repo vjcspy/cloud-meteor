@@ -34,13 +34,6 @@ export interface UserHasLicense {
 ////Update mode for Agency///
 /////////////////////////////
 
-export  interface  Agency {
-    agencyType?: AgencyType;
-    company?:String;
-    status?:Boolean;
-    commission?:Commission;
-}
-
 export  enum CustomerType {
     Lead = "LEAD",
     Referral = "REFERRAL" ,
@@ -52,14 +45,24 @@ export  enum CustomerType {
     Terminated = "TERMINATED",
 }
 
+
+export  interface  Agency {
+    agencyType?: AgencyType;
+    company?:String;
+    status?:Boolean;
+    commission?:Commission;
+}
+
+
 export enum AgencyType {
     Developer = "DEVELOPER",
     Normal = "NORMAL"
 }
 
 export interface LevelCommission {
-    revenue_from?:Date;
-    revenue_to?:Date;
+    level:Number;
+    revenue_from?:Number;
+    revenue_to?:Number;
     bonus?:Number;
 }
 
