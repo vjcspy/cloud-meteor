@@ -45,10 +45,9 @@ new ValidatedMethod({
                             profile['first_name'] = data['profile']['first_name'];
                             profile['last_name']  = data['profile']['last_name'];
                             profile['phone']      = data['profile']['phone'];
-                            let agency = data['agency'];
-
+                            profile['country']      = data['profile']['country'];
                             user.setData('profile', profile)
-                                .setData('agency',agency)
+                                .setData('agency',data['agency'])
                                 .setData('customer_type', data["customer_type"])
                                 .setData('last_date_trial', data["last_date_trial"])
                                    .save()
