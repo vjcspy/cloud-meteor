@@ -302,10 +302,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['_data']['name']},</td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Thank you so much for registering for our free trial!</td>
-                                          </tr>
-                                          <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an automated email to let you know that we've<br>received your trial request. One of our Account Manager<br>will contact you to help you finish trial setup within 12 hours.<br>In order to start the setup, please provide us the following<br>information:</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an automated email to let you know that we have<br>received your trial request. One of our Account Managers<br>will contact you to help you finish trial setup within 12 hours.<br>In order to start the setup, please provide us the following<br>information:</p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight:bold">1. Your website URLs</span> including live site and staging site/dev<br><span style="color:black">site. We will assign a license key to these URLs.</span></p></td>
@@ -323,7 +320,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight:bold">Magento backend:</span> http://magento2demo.connectpos.com/admin</p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>You can download our User Guide here <a href="http://account.xcloud.smartosc.com/assets/ConnectPOS%20-%20User%20Guide%20v1.0.1.pdf">link download User Guide</a></p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>You can download our User Guide here <a href="http://account.xcloud.smartosc.com/assets/ConnectPOS%20-%20User%20Guide%20v1.0.1.pdf">link download User Guide</a><br>for a full list of functions.</p></td>
                                           </tr>
                                            <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
