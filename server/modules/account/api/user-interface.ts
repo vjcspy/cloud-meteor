@@ -42,14 +42,14 @@ export interface UserHasLicense {
 /////////////////////////////
 
 export  enum CustomerType {
-    Lead = "LEAD",
-    Referral = "REFERRAL" ,
-    Rejected = "REJECTED",
-    Referral_Expired = "REFERRAL_EXPIRED",
-    Trial = "TRIAL",
-    Exprired_Trial = "EXPRIRED_TRIAL",
-    Merchant = "MERCHANT",
-    Terminated = "TERMINATED",
+    Lead ,
+    Referral  ,
+    Rejected ,
+    Referral_Expired ,
+    TrialCustomer,
+    Exprired_Trial ,
+    Merchant  ,
+    Terminated  ,
 }
 
 
@@ -62,8 +62,8 @@ export  interface  Agency {
 
 
 export enum AgencyType {
-    Developer = "DEVELOPER",
-    Normal = "NORMAL"
+    Developer  ,
+    Normal  ,
 }
 
 export interface LevelCommission {
