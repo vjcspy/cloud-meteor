@@ -48,7 +48,7 @@ function prepareTextEmail(user, status) {
         step3         = "<span style='font-weight: bold'>3.</span> Complete the payment process of <span style='font-weight: bold'>USD 0</span> as instructed.";
         step4         = "<span style='font-weight: bold'>4.</span> From the side menu, go to <span style='font-weight: bold'>Account > License > View Details ><br>Download API</span> version, then select the latest version and down-<br>load.";
         step5         = "<span style='font-weight: bold'>5.</span> Install the <span style='font-weight: bold'>API</span><span style='color: black'> and activate it with the license key in your<br>Magento backend. For the installation instruction, please<br>download</span> <a href='http://account.xcloud.smartosc.com/assets/ConnectPOS%20-%20Installation%20Guide.pdf' style='font-weight: bold'>Installation Guide in Documentation.</a>";
-        noteMsgVar    = "If you have any questions, kindly contact us via<br><span style='font-weight: bold'>support@con-nectpos.com</span>";
+        noteMsgVar    = "If you have any questions, kindly contact us via<br><span style='font-weight: bold'>support@connectpos.com</span>";
         regardVar     = "<span style='font-weight: bold'>Many thanks</span>,<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "enroll") {
@@ -57,7 +57,7 @@ function prepareTextEmail(user, status) {
         username      = `<span style="font-weight: bold">Username:</span> ${user['username']}`;
         password      = "<span style='font-weight: bold'>Password:</span> smartosc123";
         beforeMsgVar  = "(After logging in, please change the password to keep your<br>account safe)";
-        noteMsgVar    = "If you have any questions, kindly contact us via<br>support@con-nectpos.com"
+        noteMsgVar    = "If you have any questions, kindly contact us via<br>support@connectpos.com"
         regardVar     = "<span style='font-weight: bold'>Cheers</span>,<br>ConnectPOS Team.";
 
     }
@@ -259,7 +259,7 @@ Accounts.emailTemplates = {
     siteName: Meteor.absoluteUrl().replace(/^https?:\/\//, '').replace(/\/$/, ''),
     resetPassword: {
         subject: function (user) {
-            return "[Connect-POS] Password Reset Confirmation";
+            return "[ConnectPOS] Password Reset Confirmation";
         },
         html: buildHtmlResetPW("resetpwd"),
         text: buildEmailText("resetpwd"),
@@ -411,7 +411,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an email to notify you that your ConnectPOS license<br>will be AUTOMATICALLY renewed on ${formatDate(data['expiry_date'])} for<br>( số tiền tương ứng ).</p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you have any questions, kindly contact us via<br>support@con-nectpos.com</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you have any questions, kindly contact us via<br>support@connectpos.com</p></td>
                                           </tr>
                                            <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Many thanks,</span><br>ConnectPOS Team</p></td>
@@ -473,7 +473,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Status: <span style="font-weight: bold">${data[0]['order_status']}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Please note that this is an automated email.If you<br>have any questions, kindly contact us via<br>support@con-nectpos.com</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Please note that this is an automated email.If you<br>have any questions, kindly contact us via<br>support@connectpos.com</p></td>
                                           </tr>
                                            <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
