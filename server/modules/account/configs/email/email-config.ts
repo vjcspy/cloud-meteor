@@ -58,7 +58,8 @@ function prepareTextEmail(user, status) {
         password      = "<span style='font-weight: bold'>Password:</span> smartosc123";
         beforeMsgVar  = "(After logging in, please change the password to keep your<br>account safe)";
         noteMsgVar    = "If you have any questions, kindly contact us via<br>support@con-nectpos.com"
-        regardVar     = "<span style='font-weight: bold'>Best regards</span>,<br>ConnectPOS Team.";
+        regardVar     = "<span style='font-weight: bold'>Cheers</span>,<br>ConnectPOS Team.";
+
     }
 }
 
@@ -265,14 +266,14 @@ Accounts.emailTemplates = {
     },
     verifyEmail: {
         subject: function (user) {
-            return "[ConnectPOS] Welcome on board! Please follow the next steps" + Accounts.emailTemplates.siteName;
+            return "[ConnectPOS] Welcome on board! Please follow the next steps";
         },
         html: buildHtmlVerify("verify"),
         text: buildEmailText("verify")
     },
     enrollAccount: {
         subject: function (user) {
-            return "An account has been created for you on " + Accounts.emailTemplates.siteName;
+            return `${getCreateby(user)} has invited you to join ConnectPOS `;
         },
         html: buildHtmlEnroll("enroll"),
         text: buildEmailText("enroll")
