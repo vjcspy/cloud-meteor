@@ -374,7 +374,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you still wonder if ConnectPOS is the right one for you,<br>we'll be happy to help with any questions. Chat with us,<br>send an email to support@smartosc.com or submit a ticket<br>via our Help Center. We'll get back to you asap.</p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Many thanks,</span><br>ConnectPOS Team</p></td>
                                           </tr>
                                       </tbody>
                                   </table>
