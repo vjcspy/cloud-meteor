@@ -3,6 +3,7 @@ import {Meteor} from 'meteor/meteor';
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../models/user";
 import {Role} from "../../models/role";
+import toNumber = require("lodash/fp/toNumber");
 
 var greetVar;
 var welcomeMsgVar;
@@ -37,7 +38,7 @@ function prepareTextEmail(user, status) {
         welcomeMsgVar = "You have recently requested to reset your password.";
         beforeMsgVar  = "(If clicking the link did not work, try copying and pasting it<br>into your browser)";
         noteMsgVar    = "If you did not request to reset your password, please disregard<br>this message. This link will automatically expire within 24<br>hours."
-        regardVar     = "<span style='font-weight: bold'>Best regards</span>,<br>ConnectPOS Team.";
+        regardVar     = "<span style='font-weight: bold'>Many thanks</span>,<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "verify") {
         greetVar      = `Hi ${getUserName(user)},`;
@@ -46,9 +47,9 @@ function prepareTextEmail(user, status) {
         step2         = "<span style='font-weight: bold'>2.</span> From the side menu, go to <span style='font-weight: bold'>ConnectPOS Products</span> and click<br><span style='font-weight: bold'>Trial.</span>";
         step3         = "<span style='font-weight: bold'>3.</span> Complete the payment process of <span style='font-weight: bold'>USD 0</span> as instructed.";
         step4         = "<span style='font-weight: bold'>4.</span> From the side menu, go to <span style='font-weight: bold'>Account > License > View Details ><br>Download API</span> version, then select the latest version and down-<br>load.";
-        step5         = "<span style='font-weight: bold'>5.</span> Install the <span style='font-weight: bold'>API</span> and activate it with the license key in your<br>Magento backend. For the installation instruction, please<br>download Installation Guide in Documentation.";
+        step5         = "<span style='font-weight: bold'>5.</span> Install the <span style='font-weight: bold'>API</span><span style='color: black'> and activate it with the license key in your<br>Magento backend. For the installation instruction, please<br>download</span> <a href='http://account.xcloud.smartosc.com/assets/ConnectPOS%20-%20Installation%20Guide.pdf' style='font-weight: bold'>Installation Guide in Documentation.</a>";
         noteMsgVar    = "If you have any questions, kindly contact us via<br><span style='font-weight: bold'>support@con-nectpos.com</span>";
-        regardVar     = "<span style='font-weight: bold'>Best regards</span>,<br>ConnectPOS Team.";
+        regardVar     = "<span style='font-weight: bold'>Many thanks</span>,<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "enroll") {
         greetVar      = `Hi ${getUserName(user)},`;
@@ -57,7 +58,8 @@ function prepareTextEmail(user, status) {
         password      = "<span style='font-weight: bold'>Password:</span> smartosc123";
         beforeMsgVar  = "(After logging in, please change the password to keep your<br>account safe)";
         noteMsgVar    = "If you have any questions, kindly contact us via<br>support@con-nectpos.com"
-        regardVar     = "<span style='font-weight: bold'>Best regards</span>,<br>ConnectPOS Team.";
+        regardVar     = "<span style='font-weight: bold'>Cheers</span>,<br>ConnectPOS Team.";
+
     }
 }
 
@@ -264,14 +266,14 @@ Accounts.emailTemplates = {
     },
     verifyEmail: {
         subject: function (user) {
-            return "[ConnectPOS] Welcome on board! Please follow the next steps" + Accounts.emailTemplates.siteName;
+            return "[ConnectPOS] Welcome on board! Please follow the next steps";
         },
         html: buildHtmlVerify("verify"),
         text: buildEmailText("verify")
     },
     enrollAccount: {
         subject: function (user) {
-            return "An account has been created for you on " + Accounts.emailTemplates.siteName;
+            return `${getCreateby(user)} has invited you to join ConnectPOS `;
         },
         html: buildHtmlEnroll("enroll"),
         text: buildEmailText("enroll")
@@ -372,7 +374,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you still wonder if ConnectPOS is the right one for you,<br>we'll be happy to help with any questions. Chat with us,<br>send an email to support@smartosc.com or submit a ticket<br>via our Help Center. We'll get back to you asap.</p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Many thanks,</span><br>ConnectPOS Team</p></td>
                                           </tr>
                                       </tbody>
                                   </table>
@@ -415,7 +417,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you have any questions, kindly contact us via<br>support@con-nectpos.com</p></td>
                                           </tr>
                                            <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Many thanks,</span><br>ConnectPOS Team</p></td>
                                           </tr>
                                       </tbody>
                                   </table>
@@ -459,7 +461,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing Plan: <span style="font-weight: bold">${data[0]['pricing_plan']}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Total Amount: <span style="font-weight: bold">${data[0]['total_amount']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Total Amount: <span style="font-weight: bold">$ ${data[0]['total_amount'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Transaction Date: <span style="font-weight: bold">${formatDate(data[0]['transaction_date'])}</span></p></td>
