@@ -44,7 +44,8 @@ new ValidatedMethod({
                             if (user.isInRoles([Role.SUPERADMIN], Role.GROUP_CLOUD)) {
                                 throw  new Meteor.Error('user.save', 'sorry_this_method_not_support_update_super_admin_data');
                             }
-                            user.setData('take_care_by_agency',data['take_care_by_agency'])
+                            user.setData('profile',profile)
+                                .setData('take_care_by_agency',data['take_care_by_agency'])
                                 .setData('agency',data['agency'])
                                 .setData('customer_type', data["customer_type"])
                                 .setData('company_name', data["company_name"])
