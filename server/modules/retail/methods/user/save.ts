@@ -47,6 +47,8 @@ new ValidatedMethod({
                             user.setData('take_care_by_agency',data['take_care_by_agency'])
                                 .setData('agency',data['agency'])
                                 .setData('customer_type', data["customer_type"])
+                                .setData('company_name', data["company_name"])
+                                .setData('url_customer_domain', data["url_customer_domain"])
                                 .setData('last_date_trial', data["last_date_trial"])
                                    .save()
                                 .then(() => {

@@ -42,6 +42,14 @@ export const userSchema = new SimpleSchema({
         type: Number,
         optional: true
     },
+    company_name: {
+        type: String,
+        optional: true
+    },
+    url_customer_domain: {
+        type: String,
+        optional: true
+    },
     last_date_trial: {
         type: Date,
         optional: true
