@@ -3,7 +3,6 @@ import {Meteor} from 'meteor/meteor';
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../models/user";
 import {Role} from "../../models/role";
-import toNumber = require("lodash/fp/toNumber");
 
 var greetVar;
 var welcomeMsgVar;
