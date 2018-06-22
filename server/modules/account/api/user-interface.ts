@@ -21,6 +21,7 @@ export interface UserInterface extends Meteor.User {
 
     //has just when user has role is agency
     agency?: Agency;
+    submission_status?: SubmissionStatus;
 }
 
 export interface Profile {
@@ -54,6 +55,13 @@ export  enum CustomerType {
     Exprired_Trial ,
     Merchant  ,
     Terminated  ,
+}
+
+
+export  enum SubmissionStatus {
+    Waiting_For_Approval,
+    Approved  ,
+    Rejected ,
 }
 
 

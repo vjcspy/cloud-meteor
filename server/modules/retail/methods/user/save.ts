@@ -51,7 +51,8 @@ new ValidatedMethod({
                                 .setData('company_name', data["company_name"])
                                 .setData('url_customer_domain', data["url_customer_domain"])
                                 .setData('last_date_trial', data["last_date_trial"])
-                                   .save()
+                                .setData('submission_status', data["submission_status"])  // Waiting_For_Approval, Approved  , Rejected
+                                .save()
                                 .then(() => {
                                 return user.setRoles(data['roles']['cloud_group'],Role.GROUP_CLOUD);
                                 })

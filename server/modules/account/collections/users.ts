@@ -50,6 +50,10 @@ export const userSchema = new SimpleSchema({
         type: String,
         optional: true
     },
+    submission_status : {
+        type: Number,
+        optional: true
+    },
     last_date_trial: {
         type: Date,
         optional: true
