@@ -12,11 +12,15 @@ export interface UserInterface extends Meteor.User {
     created_at?: Date;
     updated_at?: Date;
 
-    //Agency
-    agency?: Agency;
+
     take_care_by_agency?:String;
     customer_type?:CustomerType;
     last_date_trial?:Date;
+    company_name?:String;
+    url_customer_domain?:String;
+
+    //has just when user has role is agency
+    agency?: Agency;
 }
 
 export interface Profile {
