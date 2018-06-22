@@ -11,7 +11,11 @@ new ValidatedMethod({
     run: (data) => {
                 const  expireDate = ExpireDateCollection.findOne({ _id: data['data'] });
                 const user: User = OM.create(User);
-                user.sendData(expireDate, USER_EMAIL_TEMPLATE.EXPIRED);
+                if(expireDate['pricing_code']==="cpos_trial"){
+                    user.sendData(expireDate, USER_EMAIL_TEMPLATE.TRIAL_EXPIRED);
+                } else {
+                    user.sendData(expireDate, USER_EMAIL_TEMPLATE.EXPIRED);
+                }
 
     }
 });
