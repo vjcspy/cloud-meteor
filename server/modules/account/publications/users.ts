@@ -20,7 +20,7 @@ Meteor.publishComposite('users', function (): PublishCompositeConfig<UserInterfa
     } else if (userModel.isInRoles([Role.AGENCY])) {
         return {
             find: () => {
-                return Users.collection.find({_id: this.userId});
+                return Users.collection.find({ $or: [ { _id: this.user_id }, {  take_care_by_agency: this.user_id } ] });
             }
         }
     } else if (userModel.isInRoles(Role.USER)) {
