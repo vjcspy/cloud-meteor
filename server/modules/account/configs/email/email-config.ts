@@ -37,7 +37,7 @@ function prepareTextEmail(user, status) {
         welcomeMsgVar = "You have recently requested to reset your password.";
         beforeMsgVar  = "(If clicking the link did not work, try copying and pasting it<br>into your browser)";
         noteMsgVar    = "If you did not request to reset your password, please disregard<br>this message. This link will automatically expire within 24<br>hours."
-        regardVar     = "<span style='font-weight: bold'>Best regards</span>,<br>ConnectPOS Team.";
+        regardVar     = "<span style='font-weight: bold'>Many thanks</span>,<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "verify") {
         greetVar      = `Hi ${getUserName(user)},`;
