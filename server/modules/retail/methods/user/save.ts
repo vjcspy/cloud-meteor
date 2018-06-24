@@ -22,13 +22,25 @@ new ValidatedMethod({
                             profile['phone']      = data['profile']['phone'];
                             profile['country']      = data['profile']['country'];
                             profile['created_by'] = Meteor.userId();
+                            // Did you check user exist in system
+                            // Case1 : existed       ==> reset password , email ==> Today systen just only support 1 user have - 1 email
+                            // Case2 : do''nt exist  ==> create new user
                             if (!!data['_id']) {
                                 if (!!data['password']) {
                                     Accounts.setPassword(data['_id'], data['password'], {logout: false});
                                 }
+                                if (!!data['email']) {
+                                    if ( null != data['emails'][0]) {
+                                        if (data['emails'][0]['address'] !== data['email']) {
+                                            Accounts.addEmail(data['_id'], data['email'], false);
+                                            Accounts.removeEmail(data['_id'], data['emails'][0]['address']);
+                                        }
+                                    }else {
+                                        Accounts.addEmail(data['_id'], data['email'], false);
+                                    }
+                                }
                                 user.loadById(data['_id']);
                             } else {
-                                // register new user
                                 let newUserId = Accounts.createUser({
                                                                            username: data['username'],
                                                                            email: data['email'],
@@ -54,13 +66,10 @@ new ValidatedMethod({
                                 .setData('submission_status', data["submission_status"])  // Waiting_For_Approval, Approved  , Rejected
                                 .save()
                                 .then(() => {
-                                return user.setRoles(data['roles']['cloud_group'],Role.GROUP_CLOUD);
-                                })
-                                   .then(() => {
-                                       return defer.resolve();
-                                   })
-                                   .catch((err) => defer.reject(err));
-    
+                                    return user.setRoles(data['roles']['cloud_group'],Role.GROUP_CLOUD);})
+                                .then(() => {
+                                    return defer.resolve();
+                                }).catch((err) => defer.reject(err));
                             return defer.promise;
                         }
                     });

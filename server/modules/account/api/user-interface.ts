@@ -48,20 +48,19 @@ export interface UserHasLicense {
 
 export  enum CustomerType {
     Lead ,
-    Referral  ,
-    Rejected ,
-    Referral_Expired ,
+    Referral,
+    Rejected,
+    Referral_Expired,
     TrialCustomer,
-    Exprired_Trial ,
-    Merchant  ,
-    Terminated  ,
+    Exprired_Trial,
+    Merchant,
+    Terminated,
 }
-
 
 export  enum SubmissionStatus {
     Waiting_For_Approval,
-    Approved  ,
-    Rejected ,
+    Approved,
+    Rejected,
 }
 
 

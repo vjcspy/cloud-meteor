@@ -2,7 +2,6 @@ import {Stone} from "../../../../code/core/stone";
 import {SalesPaymentManager} from "../../../sales-payment/repositories/sales-payment-manager";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {Plan} from "../../models/plan";
-import {UserCredit} from "../../../user-credit/models/user-credit";
 import {PlanHelper} from "../../helper/plan-helper";
 
 new ValidatedMethod({
