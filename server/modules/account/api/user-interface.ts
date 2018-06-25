@@ -66,7 +66,7 @@ export  enum SubmissionStatus {
 
 
 export  interface  Agency {
-    agencyType?: AgencyType;
+    agency_type?: AgencyType;
     company?:String;
     status?:Boolean;
     commission?:Commission;
