@@ -30,6 +30,10 @@ export const userSchema = new SimpleSchema({
     },
     "has_license.$": Object,
     createdAt: Date,
+    created_by_user_id: {
+    type: String,
+        optional: true
+    },
     angency : {
         type:Object,
         optional:true

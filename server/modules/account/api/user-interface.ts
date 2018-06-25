@@ -12,6 +12,7 @@ export interface UserInterface extends Meteor.User {
     created_at?: Date;
     updated_at?: Date;
 
+    created_by_user_id?:String;
 
     take_care_by_agency?:String;
     customer_type?:CustomerType;
