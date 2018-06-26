@@ -3,7 +3,8 @@ import {OM} from "../../../code/Framework/ObjectManager";
 import {Role} from "../../account/models/role";
 import {InvoiceInterface} from "../api/invoice-interface";
 import {InvoiceCollection} from "../collection/invoice";
-
+import {Users} from "../../account/collections/users";
+import * as _ from "lodash";
 Meteor.publishComposite("sales_invoice", function (): PublishCompositeConfig<InvoiceInterface> {
     if (!this.userId) {
         return;
@@ -13,6 +14,16 @@ Meteor.publishComposite("sales_invoice", function (): PublishCompositeConfig<Inv
         return {
             find: () => {
                 return InvoiceCollection.collection.find({user_id: user.getId()});
+            }
+        }
+    }
+
+    if (user.isInRoles([Role.AGENCY], Role.GROUP_CLOUD)) {
+        return {
+            find: () => {
+                const  users = Users.collection.find({ $or: [{  take_care_by_agency: Meteor.userId() } ,  {  created_by_user_id: Meteor.userId() }] }).fetch();
+                let ids = _.map(users, (user) => user['_id']);
+                return InvoiceCollection.collection.find({user_id:  {$in : ids}});
             }
         }
     }
