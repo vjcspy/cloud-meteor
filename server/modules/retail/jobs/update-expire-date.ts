@@ -16,7 +16,7 @@ SyncedCron.add({
                     },
                     job: function () {
                             updateExpireDate();
-                            sendEmailExpireDate();
+                            // sendEmailExpireDate();
 
 
                     }
