@@ -103,6 +103,9 @@ function buildHtmlResetPW(status) {
                                   </table>
                                 </td>
                             </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                            </tr>
                     </tbody>
                 </table>
               </td></tr></tbody></table>
@@ -156,6 +159,9 @@ function buildHtmlEnroll(status) {
                                       </tbody>
                                   </table>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -217,6 +223,9 @@ function buildHtmlVerify(status) {
                                       </tbody>
                                   </table>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -330,6 +339,9 @@ export const ExtendEmailTemplate = {
                                   </table>
                                 </td>
                             </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                            </tr>
                     </tbody>
                 </table>
               </td></tr></tbody></table>`,
@@ -376,6 +388,9 @@ export const ExtendEmailTemplate = {
                                   </table>
                                 </td>
                             </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                            </tr>
                     </tbody>
                 </table>
               </td></tr></tbody></table>`,
@@ -419,6 +434,9 @@ export const ExtendEmailTemplate = {
                                   </table>
                                 </td>
                             </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                            </tr>
                     </tbody>
                 </table>
               </td></tr></tbody></table>`,
@@ -426,7 +444,6 @@ export const ExtendEmailTemplate = {
         }
     },
     invoice: (data)=>{
-        console.log(data);
         return {
             to: `${data[0]['email']}`,
             from: '',
@@ -480,6 +497,9 @@ export const ExtendEmailTemplate = {
                                       </tbody>
                                   </table>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
                             </tr>
                     </tbody>
                 </table>

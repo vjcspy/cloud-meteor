@@ -9,8 +9,8 @@ import {LicenseHelper} from "../../retail/helper/license";
 import {StoneLogger} from "../../../code/core/logger/logger";
 import {Stone} from "../../../code/core/stone";
 import {ProductCollection} from "../../retail/collections/products";
+import {USER_EMAIL_TEMPLATE} from "../../account/api/email-interface";
 import {PricingCollection} from "../../retail/collections/prices";
-import {USER_EMAIL_TEMPLATE} from "../../account/api/user-interface";
 import {Users} from "../../account/collections/users";
 
 /**
@@ -36,6 +36,7 @@ export class HandleCreateInvoice implements ObserverInterface {
         braintree.push({
             user_name  : users['username'],
            product_name: product['name'],
+           product_id  : data['entity']['_data']['product_id'],
            pricing_plan: pricing['display_name'],
            total_amount: data['totals']['total'],
            email       : user.getEmail(),
@@ -44,6 +45,7 @@ export class HandleCreateInvoice implements ObserverInterface {
            order_number: data['invoice']['_data']['_id'],
            order_status: 'Complete'
         });
+        console.log(braintree);
         user.sendData(braintree,USER_EMAIL_TEMPLATE.INVOICE);
         try {
             if (!user.getId()) {

@@ -1,10 +1,3 @@
-export enum USER_EMAIL_TEMPLATE  {
-    REQUEST_TRIAL,
-    SALE,
-    TRIAL_EXPIRED,
-    EXPIRED,
-    INVOICE
-};
 export interface UserInterface extends Meteor.User {
     status?: Number;
     profile?: Profile;

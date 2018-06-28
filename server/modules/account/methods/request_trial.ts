@@ -3,7 +3,7 @@ import {RequestTrial} from "../models/request-trial";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {sales_emails} from "../configs/email/request_trial_emails";
 import {User} from "../models/user";
-import {USER_EMAIL_TEMPLATE} from "../api/user-interface";
+import {USER_EMAIL_TEMPLATE} from "../api/email-interface";
 
 new ValidatedMethod({
     name: "client.request_trial",
