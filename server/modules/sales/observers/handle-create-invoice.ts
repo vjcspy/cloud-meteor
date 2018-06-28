@@ -45,7 +45,6 @@ export class HandleCreateInvoice implements ObserverInterface {
            order_number: data['invoice']['_data']['_id'],
            order_status: 'Complete'
         });
-        console.log(braintree);
         user.sendData(braintree,USER_EMAIL_TEMPLATE.INVOICE);
         try {
             if (!user.getId()) {

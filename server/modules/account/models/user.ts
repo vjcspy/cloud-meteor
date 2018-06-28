@@ -99,7 +99,7 @@ export class User extends AbstractModel {
         switch (type){
             case USER_EMAIL_TEMPLATE.REQUEST_TRIAL:{
                 Email.send(ExtendEmailTemplate.request_trial(data));
-                this.saveEmailCollection(data['_data'],type);
+                this.saveEmailCollection(data,type);
                 break;
             }
             case USER_EMAIL_TEMPLATE.EXPIRED:{

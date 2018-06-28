@@ -3,7 +3,7 @@ import {AbstractModel} from "../../../code/MeteorBase/AbstractModel";
 export class EmailModel extends AbstractModel {
     protected $collection = "email";
     async saveEmail (data, type ): Promise<any> {
-        if(!data || !type) {
+        if(!data) {
             throw new Meteor.Error('Error', 'can_not_save_email');
         }
         this.setData('email',data['email'])

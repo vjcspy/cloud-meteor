@@ -104,7 +104,7 @@ function buildHtmlResetPW(status) {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -161,7 +161,7 @@ function buildHtmlEnroll(status) {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -225,7 +225,7 @@ function buildHtmlVerify(status) {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -292,7 +292,7 @@ Accounts.emailTemplates = {
 export const ExtendEmailTemplate = {
     request_trial: (data)=>{
       return  {
-            to: `${data['_data']['email']}`,
+            to: `${data['email']}`,
             from: '',
             subject: "Thank you for registering for ConnectPOS trial!",
             html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
@@ -309,7 +309,7 @@ export const ExtendEmailTemplate = {
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['_data']['name']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['name']},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an automated email to let you know that we have<br>received your trial request. One of our Account Managers<br>will contact you to help you finish trial setup within 12 hours.<br>In order to start the setup, please provide us the following<br>information:</p></td>
@@ -340,7 +340,7 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -389,7 +389,7 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -435,7 +435,7 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -499,7 +499,7 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>

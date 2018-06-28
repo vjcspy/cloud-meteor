@@ -24,7 +24,7 @@ new ValidatedMethod({
                     .setData("name", data['name'])
                     .save();
         const user: User = OM.create(User);
-        user.sendData(requestTrial,USER_EMAIL_TEMPLATE.REQUEST_TRIAL);
+        user.sendData(requestTrial.getData(),USER_EMAIL_TEMPLATE.REQUEST_TRIAL);
 
         _.forEach(sales_emails, (e)=> {
                         Email.send({
