@@ -34,3 +34,4 @@ dynamic-import@0.2.0
 ostrio:logger
 ostrio:loggerconsole
 ostrio:loggermongo
+email

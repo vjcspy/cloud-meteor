@@ -9,6 +9,7 @@ import {ProductLicenseBillingCycle} from "../../../../retail/api/license-interfa
 import {SaleBraintreePaymentData} from "../../../repositories/braintree/sale";
 import {Braintree} from "../../../repositories/braintree";
 import {Stone} from "../../../../../code/core/stone";
+import {BRAINTREE_ENVIROMENT} from "../../../etc/braintree.config";
 
 export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterface {
     place(data: SalesPaymentDataInterface): Promise<PayResultInterface> {
@@ -24,12 +25,16 @@ export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterf
             let transaction: SaleBraintreePaymentData = {
                 amount: data.transactionData.grandTotal.toFixed(2) + "",
                 paymentMethodNonce: data.gatewayAdditionData['paymentMethodNonce'],
-                orderId: data.transactionData.planId,
+                orderId: data.transactionData.entityId,
                 options: {
                     submitForSettlement: false,
                     storeInVaultOnSuccess: false
-                }
+                },
             };
+
+            if (BRAINTREE_ENVIROMENT !== "SANDBOX") {
+                transaction['merchantAccountId'] = "smartoscpteltdUSD";
+            }
 
 
             (Stone.getInstance().s('braintree') as Braintree)

@@ -7,7 +7,7 @@ export enum CreditTransactionReason {
 export interface UserCreditTransactionInterface {
     _id?: string;
     user_id: string;
-    plan_id: string;
+    entity_id?: string;
     reason: CreditTransactionReason;
     amount: number;
     description: string;

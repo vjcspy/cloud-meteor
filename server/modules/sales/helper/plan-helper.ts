@@ -10,6 +10,7 @@ import {User} from "../../account/models/user";
 import * as _ from 'lodash';
 import {LicenseHelper} from "../../retail/helper/license";
 import {UserCredit} from "../../user-credit/models/user-credit";
+import {InvoiceType} from "../api/invoice-interface";
 
 export class PlanHelper {
 
@@ -34,7 +35,7 @@ export class PlanHelper {
         return false;
     }
 
-    getPlanCheckoutData(plan: Plan) {
+    getCheckoutData(plan: Plan) {
         let credit_balance = 0;
         const userCredit   = OM.create<UserCredit>(UserCredit);
         userCredit.load(plan.getUserId(), 'user_id');
@@ -42,17 +43,30 @@ export class PlanHelper {
         if (userCredit.getId()) {
             credit_balance = userCredit.getBalance();
         }
-        let grand_total = 0;
-        if (!isNaN(plan.getData('grand_total'))) {
-            grand_total = parseFloat(plan.getData('grand_total'));
+        
+        let grand_total = 0
+        if (!isNaN(plan.getData('price'))) {
+            grand_total = parseFloat(plan.getData('price'));
         }
-        let credit_spent = Math.min(grand_total, credit_balance);
-        let total        = grand_total - credit_spent;
-
+        let discount_amount = 0
+        if (!isNaN(plan.getData('discount_amount'))) {
+            discount_amount = parseFloat(plan.getData('discount_amount'));
+        }
+       
+        let credit_spent = 0
+        if (!isNaN(plan.getData('credit_spent'))) {
+            credit_spent = parseFloat(plan.getData('credit_spent'));
+        }
+        let total = 0;
+        if (!isNaN(plan.getData('grand_total'))) {
+            total = parseFloat(plan.getData('grand_total'));
+        }
+     
         return {
-            credit_spent,
             total,
+            discount_amount,
             credit_balance,
+            credit_spent,
             grand_total
         }
     }
@@ -61,7 +75,7 @@ export class PlanHelper {
         return OM.create<User>(User).loadById(userId);
     }
 
-    submitPlan(requestPlan: RequestPlan, product_id: string, userId: string) {
+    submitPlan(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string) {
         return new Promise((resolve, reject) => {
             const planId = this.isSameAsCurrentPlan(requestPlan, product_id, userId);
             if (planId) {
@@ -71,14 +85,14 @@ export class PlanHelper {
                 });
             }
 
-            let newPlan = this.prepareNewPlanData(requestPlan, product_id, userId);
+            let newPlan = this.prepareNewPlanData(requestPlan, product_id, userId, coupon_id);
             let plan    = OM.create<Plan>(Plan);
 
             plan.createSalePlan(newPlan)
                 .then((planId) => {
                         if (plan.getGrandtotal() === 0) {
                             let payment = OM.create<Payment>(Payment);
-                            payment.pay(plan, null)
+                            payment.pay(plan, null, InvoiceType.TYPE_PLAN)
                                    .then(() => resolve({
                                            planId,
                                            sameAsOld: false
@@ -95,15 +109,15 @@ export class PlanHelper {
         });
     }
 
-    protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string): PlanInterface {
+    protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string): PlanInterface {
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
-        const totals   = calculator.getTotals(requestPlan, product_id, userId);
-
+        const totals   = calculator.getTotals(requestPlan, product_id, userId, coupon_id);
         let newPlan: PlanInterface = {
             user_id: userId,
             product_id,
             license_id: !!calculator.license ? calculator.license.getId() : null,
             pricing_id: calculator.newPricing.getId(),
+            coupon_id: coupon_id,
             pricing_cycle: requestPlan.cycle,
             num_of_cycle: requestPlan.num_of_cycle,
             addition_entity: requestPlan.addition_entity,
@@ -112,7 +126,7 @@ export class PlanHelper {
             prev_addition_entity: calculator.productLicense ? calculator.productLicense.addition_entity : null,
             price: totals.total.price,
             credit_earn: totals.data.credit_earn || 0,
-            credit_spent: totals.data.credit_spent || 0,
+            credit_spent: totals.total.credit_spent || 0,
             discount_amount: totals.total.discount_amount || 0,
             grand_total: totals.total.grand_total,
 

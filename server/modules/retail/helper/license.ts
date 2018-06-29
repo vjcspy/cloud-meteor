@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import {Product} from "../models/product";
 import {StringHelper} from "../../../code/Framework/StringHelper";
 import {SelectOptionsInterface} from "../../base/api/data-provider/select-options";
+import {StoneEventManager} from "../../../code/core/app/event/stone-event-manager";
 
 export class LicenseHelper {
     async updateLicense(plan: Plan) {
@@ -43,7 +44,7 @@ export class LicenseHelper {
                     // extend current plan
                     Object.assign(productLicense, {
                         expiry_date: this.getExpiryDate(plan, pricing, moment(productLicense.expiry_date)),
-                        status: 1,
+                        // status: 1,
                         last_invoice: DateTimeHelper.getCurrentDate(),
                         created_by: user.getId(),
                         updated_by: user.getId()
@@ -61,7 +62,7 @@ export class LicenseHelper {
                         pricing_id: pricing.getId(),
                         billing_cycle: pricing.getPriceType() === Price.TYPE_TRIAL ? null : plan.getPricingCycle(),
                         expiry_date: this.getExpiryDate(plan, pricing),
-                        status: 1,
+                        // status: 1,
                         last_invoice: DateTimeHelper.getCurrentDate(),
                         created_by: user.getId(),
                         updated_by: user.getId()
@@ -190,7 +191,6 @@ export class LicenseHelper {
                 has_product: [],
                 has_roles: [],
             };
-
             _.forEach(hasProduct, (licenseHasProduct) => {
                 if (licenseHasProduct['checked'] === true) {
                     let licenseHasProductData: LicenseHasProductInterface = {
@@ -224,7 +224,7 @@ export class LicenseHelper {
                 if (licenseHasProduct) {
                     Object.assign(licenseHasProduct, {
                         base_url: _d['base_url'],
-                        plan_id: null,
+                        plan_id: licenseHasProduct['plan_id'],
                         addition_entity: _d['addition_entity'],
                         pricing_id: _d['pricing_id'],
                         product_version: _d['product_version'],
@@ -256,7 +256,9 @@ export class LicenseHelper {
                 }
             });
 
-            await license.setData('has_product', licenseHasProducts).save();
+            await license.setData('has_product', licenseHasProducts).save().then(() => {
+                StoneEventManager.dispatch("admin_mannualy_change_license", {license});
+            });
         }
     }
 

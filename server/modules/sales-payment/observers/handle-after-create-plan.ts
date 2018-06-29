@@ -9,7 +9,7 @@ export class HandleAfterCreatePlan implements ObserverInterface {
         
         if (plan.getGrandtotal() === 0) {
             let payment = OM.create<Payment>(Payment);
-            payment.pay(plan, null)
+            payment.pay(plan, null, null)
         }
     }
     

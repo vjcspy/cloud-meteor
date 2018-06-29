@@ -41,7 +41,7 @@ export class Plan extends AbstractModel {
     canInvoice(): boolean {
         // if order is sale -> status = Pending and not any invoice created
         if (this.getStatus() === PlanStatus.SALE_PENDING) {
-            const existedInvoice = InvoiceCollection.collection.find({plan_id: this.getId()}).count();
+            const existedInvoice = InvoiceCollection.collection.find({entity_id: this.getId()}).count();
 
             return existedInvoice <= 0;
         }
@@ -54,7 +54,7 @@ export class Plan extends AbstractModel {
     }
 
     planHasAlreadyPaid(): boolean {
-        if (this.getStatus() === PlanStatus.SALE_COMPLETE) {
+        if (this.getStatus() === PlanStatus.SALE_COMPLETE || this.getGrandtotal() === 0) {
             return true;
         }
         else {
@@ -117,7 +117,7 @@ export class Plan extends AbstractModel {
 
     protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string): PlanInterface {
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
-        const totals   = calculator.getTotals(requestPlan, product_id, userId);
+        const totals   = calculator.getTotals(requestPlan, product_id, userId, null);
 
         let newPlan: PlanInterface = {
             user_id: userId,

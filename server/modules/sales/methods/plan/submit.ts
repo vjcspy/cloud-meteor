@@ -9,10 +9,10 @@ new ValidatedMethod({
                             }
                         },
                         run: function (data) {
-                            const {plan, product_id} = data;
+                            const {plan, product_id, coupon_id} = data;
                             let planHelper           = OM.create<PlanHelper>(PlanHelper);
         
-                            return planHelper.submitPlan(plan, product_id, this.userId);
+                            return planHelper.submitPlan(plan, product_id, this.userId, coupon_id);
                         }
                     });
 

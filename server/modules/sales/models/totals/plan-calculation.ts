@@ -11,13 +11,16 @@ import {Grandtotal} from "./plan-calculation/grandtotal";
 import {SalesTotal} from "./sales-total";
 import {Price} from "../../../retail/models/price";
 import {License} from "../../../retail/models/license";
+import {Coupon} from "../../../retail/models/coupon";
+import {CouponInterface} from "../../../retail/api/coupon-interface";
+import {CreditSpent} from "./plan-calculation/credit-spent";
 
 export class PlanCalculation {
     license: License;
     productLicense: LicenseHasProductInterface;
     currentPricing: Price;
     newPricing: Price;
-
+    coupon;
     protected _totalCollector: any[] = [
         {
             i: new CreditChangePlan(),
@@ -32,12 +35,16 @@ export class PlanCalculation {
             p: 50
         },
         {
+            i: new CreditSpent(),
+            p: 70
+        },
+        {
             i: new Grandtotal(),
             p: 100
         }
     ];
 
-    protected calculate(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface, userId: string) {
+    protected calculate(plan: Object, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface, userId: string, coupon: CouponInterface) {
         let salesTotal = OM.create<SalesTotal>(SalesTotal);
 
         const totalCollectorSorted = _.sortBy(this._totalCollector, (t) => t['p']);
@@ -46,17 +53,19 @@ export class PlanCalculation {
             const i = t['i'];
             i.setUserId(userId)
              .setTotals(salesTotal)
-             .collect(plan, currentPricing, productLicense, newPricing);
+             .collect(plan, currentPricing, productLicense, newPricing, coupon);
         });
-
         return {data: salesTotal.getData(), total: salesTotal.getTotals(), totalObject: SalesTotal};
     }
 
-    public getTotals(plan, product_id, userId): any {
+    public getTotals(plan, product_id, userId, coupon_id): any {
         const user: User    = OM.create<User>(User).loadById(userId);
         this.currentPricing = OM.create<Price>(Price);
         this.newPricing     = OM.create<Price>(Price);
-
+        const coupon: Coupon         = OM.create<Coupon>(Coupon).loadById(coupon_id);
+        if(coupon) {
+            this.coupon = coupon.getData();
+        }
         if (_.size(user.getLicenses()) === 0 || user.isShopOwner()) {
             this.newPricing.loadById(plan['pricing_id']);
             let productLicense: LicenseHasProductInterface = null;
@@ -85,8 +94,6 @@ export class PlanCalculation {
                                         throw new Meteor.Error("Error", "you_can_not_apply_trial_pricing");
                                     }
                                 }
-                            } else {
-                                throw new Meteor.Error("Error", "can_not_find_pricing_of_product_license");
                             }
                         }
                     } else {
@@ -95,7 +102,7 @@ export class PlanCalculation {
                 }
             }
 
-            return this.calculate(plan, this.currentPricing.getData(), productLicense, this.newPricing.getData(), userId);
+            return this.calculate(plan, this.currentPricing.getData(), productLicense, this.newPricing.getData(), userId, this.coupon);
         }
     }
 }

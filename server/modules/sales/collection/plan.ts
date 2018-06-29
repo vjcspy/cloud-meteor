@@ -11,7 +11,10 @@ export const orderSchema = new SimpleSchema(
         },
         user_id: String,
         product_id: String,
-        
+        coupon_id: {
+            type: String,
+            optional: true
+        },
         pricing_id: String,
         pricing_cycle: Number,
         addition_entity: Number,
@@ -37,7 +40,10 @@ export const orderSchema = new SimpleSchema(
         grand_total: Number,
         
         status: Number,
-        
+        created_by_user_id: {
+            type: String,
+            optional: true
+        },
         created_at: {
             type: Date,
             defaultValue: DateTimeHelper.getCurrentDate()

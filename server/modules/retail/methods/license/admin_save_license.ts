@@ -19,7 +19,8 @@ new ValidatedMethod({
                             const {license, licenseHasProduct, user} = data;
         
                             const userModel = OM.create<User>(User);
-        
+                            const currentUser = OM.create<User>(User).loadById(this.userId);
+
                             if (license['shop_owner_id'] === 'createNew') {
                                 const newUserId = Accounts.createUser({
                                                                           username: user['username'],
@@ -27,7 +28,8 @@ new ValidatedMethod({
                                                                           password: User.DEFAULT_PASSWORD_USER,
                                                                           profile: {
                                                                               first_name: user['profile']['first_name'],
-                                                                              last_name: user['profile']['last_name']
+                                                                              last_name: user['profile']['last_name'],
+                                                                              created_by: currentUser.getId()
                                                                           }
                                                                       });
                                 Accounts.sendEnrollmentEmail(newUserId);

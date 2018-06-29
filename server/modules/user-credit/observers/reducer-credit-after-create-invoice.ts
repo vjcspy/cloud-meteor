@@ -7,12 +7,14 @@ import {NumberHelper} from "../../../code/Framework/NumberHelper";
 import {UserCreditTransaction} from "../models/user-credit-transaction";
 import {CreditTransactionReason, UserCreditTransactionInterface} from "../api/user-credit-transaction-interface";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
+import {AdditionFee} from "../../retail/models/additionfee";
 
 export class ReducerCreditAfterCreateInvoice implements ObserverInterface {
     observe(dataObject: DataObject): void {
         const data        = dataObject.getData('data');
-        let plan: Plan    = data['plan'];
-        const userId      = plan.getUserId();
+        let entity = data['entity'];
+        const userId  = entity.getUserId();
+        const entityId  = entity.getId();
         const totals      = data['totals'];
         const creditSpent = totals['credit_spent'];
         if (!isNaN(creditSpent) && parseFloat(creditSpent) > 0) {
@@ -33,8 +35,8 @@ export class ReducerCreditAfterCreateInvoice implements ObserverInterface {
                       .then(() => {
                           let userCreditTransaction                       = OM.create<UserCreditTransaction>(UserCreditTransaction);
                           let transaction: UserCreditTransactionInterface = {
-                              user_id: plan.getUserId(),
-                              plan_id: plan.getId(),
+                              user_id: userId,
+                              entity_id: entityId,
                               description: "Reduce credit after create invoice",
                               reason: CreditTransactionReason.REDUCE_CREDIT_WHEN_CHECKOUT,
                               amount: -creditSpent,

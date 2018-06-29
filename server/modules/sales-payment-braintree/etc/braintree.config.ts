@@ -7,6 +7,11 @@ export const BraintreeConfig = {
         publicKey: 'ty5t38gh52s5w2qs',
         privateKey: 'ec91ef68c14852d9b084ce604f8752e1',
     },
+    production: {
+        merchantId: 'xhn3rb92fxtq7rbs',
+        publicKey: 'r43bqndn4tcj5rbr',
+        privateKey: 'e15ebfb05956c2a6d3f635a547ba0a0a',
+    },
     subscription: {
         discountId: 'subscription_discount',
         linkPricingPlan: [
@@ -24,11 +29,27 @@ export const BraintreeConfig = {
     }
 };
 
-export const BraintreeGateway = braintree.connect({
-                                                      environment: braintree.Environment.Sandbox,
-                                                      merchantId: BraintreeConfig.sandbox.merchantId,
-                                                      publicKey: BraintreeConfig.sandbox.publicKey,
-                                                      privateKey: BraintreeConfig.sandbox.privateKey
-                                                  });
+export const BRAINTREE_ENVIROMENT = "SANDBOX";
+// export const BRAINTREE_ENVIROMENT = "PRODUCTION";
+
+export const BraintreeGateway = getBraintreeGateway();
+
+function getBraintreeGateway() {
+    if (BRAINTREE_ENVIROMENT === "SANDBOX") {
+        return braintree.connect({
+            environment: braintree.Environment.Sandbox,
+            merchantId: BraintreeConfig.sandbox.merchantId,
+            publicKey: BraintreeConfig.sandbox.publicKey,
+            privateKey: BraintreeConfig.sandbox.privateKey
+        });
+    } else {
+        return braintree.connect({
+            environment: braintree.Environment.Production,
+            merchantId: BraintreeConfig.production.merchantId,
+            publicKey: BraintreeConfig.production.publicKey,
+            privateKey: BraintreeConfig.production.privateKey
+        });
+    }
+}
 
 BraintreeGateway.config.timeout = 10000;
