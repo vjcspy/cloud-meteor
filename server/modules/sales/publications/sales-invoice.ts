@@ -5,6 +5,7 @@ import {InvoiceInterface, InvoiceType} from "../api/invoice-interface";
 import {InvoiceCollection} from "../collection/invoice";
 import {Users} from "../../account/collections/users";
 import * as _ from "lodash";
+import {ExpireDateCollection} from "../../retail/collections/expiredate";
 Meteor.publishComposite("sales_invoice", function (): PublishCompositeConfig<InvoiceInterface> {
     if (!this.userId) {
         return;
