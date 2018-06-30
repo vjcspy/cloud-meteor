@@ -28,5 +28,12 @@ Meteor.publishComposite("sales_invoice", function (): PublishCompositeConfig<Inv
         }
     }
 
+    if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN], Role.GROUP_CLOUD)) {
+        return {
+            find: () => {
+                return InvoiceCollection.collection.find({type: InvoiceType.TYPE_PLAN});
+            }
+        }
+    }
     return;
 });
