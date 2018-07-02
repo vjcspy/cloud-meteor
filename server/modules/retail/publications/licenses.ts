@@ -11,12 +11,21 @@ Meteor.publishComposite("licenses", function (): PublishCompositeConfig<LicenseI
     return;
   }
   const user: User = OM.create<User>(User).loadById(this.userId);
-  if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN,Role.AGENCY, Role.SALES], Role.GROUP_CLOUD)) {
+  if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN, Role.SALES], Role.GROUP_CLOUD)) {
     return {
       find: () => {
         return Licenses.collection.find({});
       },
     };
+  }else if (user.isInRoles([Role.AGENCY], Role.GROUP_CLOUD)) {
+      return {
+          find: () => {
+            // Step 1 :
+            const users = Users.collection.find({take_care_by_agency : Meteor.userId()}).fetch();
+            const  ids = _.map(users, '_id');
+            return Licenses.collection.find({shop_owner_id: {$in: ids}});
+          },
+      };
   } else if (user.isInRoles([Role.USER], Role.GROUP_CLOUD)) {
     return {
       find: () => {

@@ -6,8 +6,8 @@ import {LicenseCollection} from "../collections/licenses";
 import {ExpireDateCollection} from "../collections/expiredate";
 import {Expiredate} from "../models/expiredate";
 import {User} from "../../account/models/user";
-import {USER_EMAIL_TEMPLATE} from "../../account/api/user-interface";
 import {PricingCollection} from "../collections/prices";
+import {USER_EMAIL_TEMPLATE} from "../../account/api/email-interface";
 
 SyncedCron.add({
                     name: "update expire date(00:00 everyday)",
@@ -29,7 +29,7 @@ SyncedCron.add({
                     let expire = OM.create<Expiredate>(Expiredate);
                     ExpireDateCollection.remove({});
                    _.forEach(licenses, (l) => {
-                        if (!!l['shop_owner_id']){
+                        if (!!l['shop_owner_id'] && l['status'] == 1){
                             user.loadById(l['shop_owner_id']);
 
                             _.forEach(l['has_product'], (h) => {
@@ -37,7 +37,7 @@ SyncedCron.add({
                                 let expireDate  = moment(h['expiry_date'], 'YYYY-MM-DD');
                                 let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
                                 let diff        = expireDate.diff(currentTime,'days');
-                                if (diff < 3) {
+                                if (h['status'] == 1 && diff < 3) {
                                     expire_date.push({
                                         license_id : l['_id'],
                                         email: user.getEmail(),

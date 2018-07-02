@@ -1,7 +1,7 @@
 import {ExpireDateCollection} from "../../retail/collections/expiredate";
 import {User} from "../models/user";
 import {OM} from "../../../code/Framework/ObjectManager";
-import {USER_EMAIL_TEMPLATE} from "../api/user-interface";
+import {USER_EMAIL_TEMPLATE} from "../api/email-interface";
 
 new ValidatedMethod({
             name: "license.admin_send_emails",
