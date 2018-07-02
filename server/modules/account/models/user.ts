@@ -1,8 +1,14 @@
 import {AbstractModel} from "../../../code/MeteorBase/AbstractModel";
-import {USER_EMAIL_TEMPLATE, UserHasLicense} from "../api/user-interface";
+import {UserHasLicense} from "../api/user-interface";
+import {USER_EMAIL_TEMPLATE} from "../api/email-interface";
+import {EmailModel} from "./email";
+import {EmailCollection} from "../collections/email";
 import {Role} from "./role";
 import * as _ from 'lodash';
 import {ExtendEmailTemplate} from "../configs/email/email-config";
+import {OM} from "../../../code/Framework/ObjectManager";
+import moment = require("moment");
+import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
 export class User extends AbstractModel {
     protected $collection = "users";
@@ -78,17 +84,60 @@ export class User extends AbstractModel {
     getEmail(): string {
         return this.getData('emails')[0]['address'];
     }
+    getDiff(data) {
+        const created_at  = moment(data['created_at'],'YYYY-MM-DD');
+        const currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
+        return currentTime.diff(created_at, 'days');
+    }
+    saveEmailCollection(data,type) {
+        const emailModel = OM.create<EmailModel>(EmailModel);
+        emailModel.saveEmail(data,type).then(()=>{}, (e)=>{console.log(e)});
+    }
 
     sendData(data,type:USER_EMAIL_TEMPLATE){
-        if(type == USER_EMAIL_TEMPLATE.REQUEST_TRIAL){
-            Email.send(ExtendEmailTemplate.request_trial(data));
-        }else if(type == USER_EMAIL_TEMPLATE.TRIAL_EXPIRED){
-            Email.send(ExtendEmailTemplate.trial_expired(data));
-        }else if(type == USER_EMAIL_TEMPLATE.EXPIRED){
-            Email.send(ExtendEmailTemplate.expired(data));
-        }else if(type == USER_EMAIL_TEMPLATE.INVOICE){
-            Email.send(ExtendEmailTemplate.invoice(data));
+        const emailCollection = EmailCollection.find({email: data['email'], type: type, product_id: data['product_id']}).fetch();
+        switch (type){
+            case USER_EMAIL_TEMPLATE.REQUEST_TRIAL:{
+                Email.send(ExtendEmailTemplate.request_trial(data));
+                this.saveEmailCollection(data,type);
+                break;
+            }
+            case USER_EMAIL_TEMPLATE.EXPIRED:{
+                if (emailCollection.length == 0){
+                    Email.send(ExtendEmailTemplate.expired(data));
+                    this.saveEmailCollection(data,type);
+                } else {
+                    const lastEmail     = emailCollection[emailCollection.length-1];
+                        if (this.getDiff(lastEmail) > 29) {
+                            Email.send(ExtendEmailTemplate.expired(data));
+                            this.saveEmailCollection(data,type);
+                        }
+                }
+                break;
+            }
+            case USER_EMAIL_TEMPLATE.TRIAL_EXPIRED: {
+                if (emailCollection.length == 0){
+                    Email.send(ExtendEmailTemplate.trial_expired(data));
+                    this.saveEmailCollection(data,type);
+                } else {
+                    const lastEmail     = emailCollection[emailCollection.length-1];
+                        if (this.getDiff(lastEmail) > 29) {
+                            Email.send(ExtendEmailTemplate.trial_expired(data));
+                            this.saveEmailCollection(data,type);
+                        }
+                }
+                break;
+            }
+            case USER_EMAIL_TEMPLATE.INVOICE: {
+                 Email.send(ExtendEmailTemplate.invoice(data));
+                 this.saveEmailCollection(data[0],type);
+                break;
+            }
+            default: {
+                break;
+            }
         }
+
     }
 
 }

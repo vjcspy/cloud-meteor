@@ -3,7 +3,7 @@ import {RequestTrial} from "../models/request-trial";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {sales_emails} from "../configs/email/request_trial_emails";
 import {User} from "../models/user";
-import {USER_EMAIL_TEMPLATE} from "../api/user-interface";
+import {USER_EMAIL_TEMPLATE} from "../api/email-interface";
 
 new ValidatedMethod({
     name: "client.request_trial",
@@ -24,7 +24,7 @@ new ValidatedMethod({
                     .setData("name", data['name'])
                     .save();
         const user: User = OM.create(User);
-        user.sendData(requestTrial,USER_EMAIL_TEMPLATE.REQUEST_TRIAL);
+        user.sendData(requestTrial.getData(),USER_EMAIL_TEMPLATE.REQUEST_TRIAL);
 
         _.forEach(sales_emails, (e)=> {
                         Email.send({
