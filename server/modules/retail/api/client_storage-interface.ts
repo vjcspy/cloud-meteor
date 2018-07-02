@@ -7,5 +7,5 @@ export interface ClientStorageInterface {
     type_change: string
   },
   cache_time: Number,
-  created_at: String
+  created_at: Date
 }

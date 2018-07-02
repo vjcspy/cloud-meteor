@@ -11,5 +11,8 @@ export const ClientStorages = CollectionMaker.make<ClientStorageInterface>("clie
     type_change: String
   }),
   cache_time: Number,
-  created_at: String
+  created_at: {
+    type: Date,
+      defaultValue: DateTimeHelper.getCurrentDate()
+  },
 }));
