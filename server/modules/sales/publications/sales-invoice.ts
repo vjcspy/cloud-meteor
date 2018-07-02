@@ -28,9 +28,7 @@ Meteor.publishComposite("sales_invoice", function (): PublishCompositeConfig<Inv
             }
         }
     }
-
-<<<<<<< HEAD
-=======
+    
     if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN], Role.GROUP_CLOUD)) {
         return {
             find: () => {
@@ -38,6 +36,5 @@ Meteor.publishComposite("sales_invoice", function (): PublishCompositeConfig<Inv
             }
         }
     }
->>>>>>> 5432085b9fdb8f466cd6277fce04851af06e7fe0
     return;
 });
