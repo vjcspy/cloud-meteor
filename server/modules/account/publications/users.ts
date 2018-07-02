@@ -17,6 +17,12 @@ Meteor.publishComposite('users', function (): PublishCompositeConfig<UserInterfa
                 return Users.collection.find({});
             }
         };
+    } else if (userModel.isInRoles([Role.AGENCY])) {
+        return {
+            find: () => {
+                return Users.collection.find({ $or: [ { _id: Meteor.userId() }, {  take_care_by_agency: Meteor.userId() } ,  {  created_by_user_id: Meteor.userId() }] });
+            }
+        }
     } else if (userModel.isInRoles(Role.USER)) {
         let license: UserHasLicense[] = userModel.getLicenses();
         if (_.isArray(license)
@@ -29,8 +35,6 @@ Meteor.publishComposite('users', function (): PublishCompositeConfig<UserInterfa
             }
             return {
                 find: () => {
-                    // return Users.collection.find({_id: {$in: _.concat(licenseModel.getUserIds(), [this.userId])}},
-                    //                              {fields: {_id: 1, emails: 1, has_license: 1, roles: 1, username: 1, profile: 1}});
                     return Users.collection.find({has_license: {$elemMatch: {license_id: license[0].license_id}}},
                         {fields: {_id: 1, emails: 1, has_license: 1, roles: 1, username: 1, profile: 1}});
                 }
