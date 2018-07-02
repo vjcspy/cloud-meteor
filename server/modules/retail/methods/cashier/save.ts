@@ -19,6 +19,12 @@ new ValidatedMethod({
                             let license: License = OM.create<License>(License).load(license_id);
         
                             let cashier: User = OM.create<User>(User);
+                            let profile           = cashier.getProfile() || {};
+                            profile['first_name'] = cashierData['profile']['first_name'];
+                            profile['last_name']  = cashierData['profile']['last_name'];
+                            profile['phone']      = cashierData['profile']['phone'];
+                            profile['country']    = cashierData['profile']['country'];
+                            profile['created_by'] = Meteor.userId();
                             if (!!cashierData['_id']) {
                                 if (!!cashierData['password']) {
                                     Accounts.setPassword(cashierData['_id'], cashierData['password'], {logout: false});
@@ -31,6 +37,7 @@ new ValidatedMethod({
                                                                            username: cashierData['username'],
                                                                            email: cashierData['email'],
                                                                            password: !!cashierData['password'] ? cashierData['password'] : User.DEFAULT_PASSWORD_USER,
+                                                                           profile: profile
                                                                        });
                                 !cashierData['password'] ? Accounts.sendEnrollmentEmail(newCashierId) : '';
             
@@ -44,11 +51,7 @@ new ValidatedMethod({
                             if (cashier.isShopOwner()) {
                                 throw  new Meteor.Error('cashier.save', 'sorry_this_method_not_support_update_shop_owner_data');
                             }
-        
-                            let profile           = cashier.getProfile() || {};
-                            profile['first_name'] = cashierData['profile']['first_name'];
-                            profile['last_name']  = cashierData['profile']['last_name'];
-                            profile['phone']      = cashierData['profile']['phone'];
+                            
                             cashier.setData('profile', profile)
                                    .save()
                                    .then(() => {
