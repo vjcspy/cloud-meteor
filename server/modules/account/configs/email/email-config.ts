@@ -52,10 +52,9 @@ function prepareTextEmail(user, status) {
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "enroll") {
         greetVar      = `Hi ${getUserName(user)},`;
-        welcomeMsgVar = `<span style="font-weight: bold">${getCreateby(user)} has created an account for you on ConnectPOS.<br>Please log in to your account on http://accounts.connectpos.com<br>using the information below:</span>`;
-        username      = `<span style="font-weight: bold">Username:</span> ${user['username']}`;
-        password      = "<span style='font-weight: bold'>Password:</span> smartosc123";
-        beforeMsgVar  = "(After logging in, please change the password to keep your<br>account safe)";
+        welcomeMsgVar = `${getCreateby(user)} has created an account for you on ConnectPOS<br>with the username: <span style="font-weight: bold">${user['username']}</span>`;
+        password      = "Please click the following link to set the password for your account:";
+        beforeMsgVar  = "After that you can log in to your account on<br>http://accounts.connectpos.com using your username and password.";
         noteMsgVar    = "If you have any questions, kindly contact us via<br>support@connectpos.com"
         regardVar     = "<span style='font-weight: bold'>Cheers</span>,<br>ConnectPOS Team.";
 
@@ -142,10 +141,7 @@ function buildHtmlEnroll(status) {
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif; color: black">${welcomeMsgVar}</td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 20%; font-family: Arial, sans-serif; color: black"><p>${username}</p></td>
-                                          </tr>
-                                          <tr>
-                                              <td style="padding: 0 0 0 20%; font-family: Arial, sans-serif; color: black"><p>${password}</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><a href="${url}">${password}</a></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>${beforeMsgVar}</p></td>

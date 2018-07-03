@@ -47,7 +47,7 @@ new ValidatedMethod({
                                                                            password: !!data['password'] ? data['password'] : User.DEFAULT_PASSWORD_USER,
                                                                            profile: profile
                                                                        });
-                                !data['password'] ? Accounts.sendEnrollmentEmail(newUserId) : '';
+                                Accounts.sendEnrollmentEmail(newUserId);
                                 user.loadById(newUserId);
                             }
                             if (!user.getId()) {
