@@ -23,6 +23,7 @@ export interface History_Customer_Type {
     customer_type?: String;
     start_from?: Date;
     changed_by?: String,
+    reject_reson?: String,
 }
 
 

@@ -14,7 +14,6 @@ new ValidatedMethod({
         let ids_domain = [];
         let ids_company_name = [];
         let ids_phone = [];
-        console.log(listUsers.length);
         if(listUsers.length > 0) {
             for(let temp of listUsers) {
                 if(temp['_id'] === userData['_id']) {
