@@ -34,7 +34,7 @@ export const userSchema = new SimpleSchema({
     type: String,
         optional: true
     },
-    angency : {
+    agency : {
         type:Object,
         optional:true
     },
