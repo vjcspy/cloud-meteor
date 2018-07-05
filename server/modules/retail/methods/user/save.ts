@@ -65,7 +65,8 @@ new ValidatedMethod({
                                 .setData('last_date_trial', data["last_date_trial"])
                                 .setData('submission_status', data["submission_status"])  // Waiting_For_Approval, Approved  , Rejected
                                 .setData('history_customer_type', data["history_customer_type"])
-                                .setData('created_by_user_id', data["created_by_user_id"])
+                                .setData('assign_to_agency', data["assign_to_agency"])
+                                .setData('created_by_user_id', Meteor.userId())
                                 .save()
                                 .then(() => {
                                     return user.setRoles(data['roles']['cloud_group'],Role.GROUP_CLOUD);})
