@@ -21,7 +21,7 @@ Meteor.publishComposite("licenses", function (): PublishCompositeConfig<LicenseI
       return {
           find: () => {
             // Step 1 :
-            const users = Users.collection.find({take_care_by_agency : Meteor.userId()}).fetch();
+            const users = Users.collection.find({ $or: [ {  take_care_by_agency: Meteor.userId() } ,  {  created_by_user_id: Meteor.userId() }, {  assign_to_agency: Meteor.userId() }] }).fetch();
             const  ids = _.map(users, '_id');
             return Licenses.collection.find({shop_owner_id: {$in: ids}});
           },
