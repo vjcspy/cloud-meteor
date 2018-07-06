@@ -7,26 +7,14 @@ export interface UserInterface extends Meteor.User {
     created_by_user_id?: String;
     take_care_by_agency?: String;
     assign_to_agency?: String;
-    customer_type?:CustomerType;
-    last_date_trial?:Date;
     company_name?:String;
     url_customer_domain?:String;
 
     //has just when user has role is agency
     agency?: Agency;
     submission_status?: SubmissionStatus;
-    
-    //List history customer type change
-    history_customer_type?:History_Customer_Type[];
+    reject_reason?: String;
 }
-
-export interface History_Customer_Type {
-    customer_type?: String;
-    start_from?: Date;
-    changed_by?: String,
-    reject_reson?: String,
-}
-
 
 export interface Profile {
     first_name?: String;
@@ -49,17 +37,6 @@ export interface UserHasLicense {
 /////////////////////////////
 ////Update mode for Agency///
 /////////////////////////////
-
-export  enum CustomerType {
-    Lead ,
-    Referral,
-    Rejected,
-    Referral_Expired,
-    TrialCustomer,
-    Exprired_Trial,
-    Merchant,
-    Terminated,
-}
 
 export  enum SubmissionStatus {
     Waiting_For_Approval,

@@ -59,12 +59,9 @@ new ValidatedMethod({
                             user.setData('profile',profile)
                                 .setData('take_care_by_agency',data['take_care_by_agency'])
                                 .setData('agency',data['agency'])
-                                .setData('customer_type', data["customer_type"])
                                 .setData('company_name', data["company_name"])
                                 .setData('url_customer_domain', data["url_customer_domain"])
-                                .setData('last_date_trial', data["last_date_trial"])
                                 .setData('submission_status', data["submission_status"])  // Waiting_For_Approval, Approved  , Rejected
-                                .setData('history_customer_type', data["history_customer_type"])
                                 .setData('assign_to_agency', data["assign_to_agency"])
                                 .setData('created_by_user_id', Meteor.userId())
                                 .save()
