@@ -63,6 +63,7 @@ new ValidatedMethod({
                                 .setData('url_customer_domain', data["url_customer_domain"])
                                 .setData('submission_status', data["submission_status"])  // Waiting_For_Approval, Approved  , Rejected
                                 .setData('assign_to_agency', data["assign_to_agency"])
+                                .setData('reject_reason', data["reject_reason"])
                                 .setData('created_by_user_id', Meteor.userId())
                                 .save()
                                 .then(() => {
