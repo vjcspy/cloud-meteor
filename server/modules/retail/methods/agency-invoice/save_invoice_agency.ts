@@ -18,7 +18,9 @@ new ValidatedMethod({
         const  user_id = data['user_id'];
         let defer         = $q.defer();
         let agencyInvoiceModel = OM.create<AgencyInvoice>(AgencyInvoice);
-        const agency_invoice_data = {"user_id" : user_id, "month": invoice_agency_data['month'] ,  "year": invoice_agency_data['year'],"status":1  };
+
+        console.log(invoice_agency_data);
+        const agency_invoice_data = {"user_id" : user_id, "month": invoice_agency_data['month'] ,  "year": invoice_agency_data['year'],"status":1, "grand_total":invoice_agency_data['grand_total']  };
         agencyInvoiceModel.addData(agency_invoice_data)
             .save()
             .then(() => defer.resolve(), (err) => defer.reject(err));
