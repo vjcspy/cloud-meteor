@@ -10,7 +10,7 @@ new ValidatedMethod({
         const user = OM.create<User>(User).loadById(this.userId);
         if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN, Role.SALES], Role.GROUP_CLOUD)) {
         } else {
-            throw new Meteor.Error("agencyInvoice.create_product_error", "Access denied");
+            throw new Meteor.Error("agencyInvoice.create_agency_invoice_error", "Access denied");
         }
     },
     run: function (data: Object) {
