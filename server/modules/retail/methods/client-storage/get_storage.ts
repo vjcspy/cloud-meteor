@@ -4,6 +4,7 @@ import {ClientStorage} from "../../models/clientstorage";
 import {User} from "../../../account/models/user";
 import {Role} from "../../../account/models/role";
 import * as $q from "q";
+import {ClientStoragesCollection} from "../../collections/clientstorages";
 
 new ValidatedMethod({
                         name: "client-storage.get_storage",
@@ -14,13 +15,17 @@ new ValidatedMethod({
                                 throw new Meteor.Error("storage.get_storage_error", "Access denied");
                             }
                         },
-                        run: function (data: string) {
+                        run: function (data: Object) {
+                            console.log(data);
                             let defer     = $q.defer();
-                            const storage = OM.create<ClientStorage>(ClientStorage).loadAll(data['license'], 'license');
-                            if (!storage) {
-                                throw new Meteor.Error("storage.error_edit", "Storage Not Found");
-                            }
-                            storage.removeStorage(data).then(() => defer.resolve(), (err) => defer.reject(err));
+                            const storage = ClientStoragesCollection.find().fetch();
+                            const dataCount = _.countBy(storage, 'license');
+                            console.log(dataCount);
+                            // if (!storage) {
+                            //     throw new Meteor.Error("storage.error_edit", "Storage Not Found");
+                            // }
+                            // storage.addData(cStorage)
+                            // .save().then(() => defer.resolve(), (err) => defer.reject(err));
                             return defer.promise;
                         }
     

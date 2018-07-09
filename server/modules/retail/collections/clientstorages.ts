@@ -3,7 +3,7 @@ import {ClientStorageInterface} from "../api/client_storage-interface";
 import SimpleSchema from 'simpl-schema';
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
-export const ClientStorages = CollectionMaker.make<ClientStorageInterface>("client_storages", new SimpleSchema({
+export const ClientStoragesCollection = CollectionMaker.make<ClientStorageInterface>("client_storages", new SimpleSchema({
   license: String,
   base_url: String,
   data: new SimpleSchema({
