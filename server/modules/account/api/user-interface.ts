@@ -4,8 +4,9 @@ export interface UserInterface extends Meteor.User {
     has_license?: UserHasLicense[]; // Normal user has only one license. We support license as array to satisfy agency or sale role.
     created_at?: Date;
     updated_at?: Date;
-    created_by_user_id?:String;
-    take_care_by_agency?:String;
+    created_by_user_id?: String;
+    take_care_by_agency?: String;
+    assign_to_agency?: String;
     customer_type?:CustomerType;
     last_date_trial?:Date;
     company_name?:String;
@@ -23,6 +24,7 @@ export interface History_Customer_Type {
     customer_type?: String;
     start_from?: Date;
     changed_by?: String,
+    reject_reson?: String,
 }
 
 
