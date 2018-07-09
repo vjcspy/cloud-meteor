@@ -1,5 +1,5 @@
 import {CollectionMaker} from "../../../code/MeteorBase/CollectionMaker";
-import {Agency, CustomerType, UserInterface} from "../api/user-interface";
+import {Agency, UserInterface} from "../api/user-interface";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {User} from "../models/user";
 import {Role} from "../models/role";
@@ -46,10 +46,6 @@ export const userSchema = new SimpleSchema({
         type: String,
         optional: true
     },
-    customer_type: {
-        type: Number,
-        optional: true
-    },
     company_name: {
         type: String,
         optional: true
@@ -62,8 +58,8 @@ export const userSchema = new SimpleSchema({
         type: Number,
         optional: true
     },
-    last_date_trial: {
-        type: Date,
+    reject_reason : {
+        type: String,
         optional: true
     }
 });
