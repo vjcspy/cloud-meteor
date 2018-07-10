@@ -10,11 +10,11 @@ new ValidatedMethod({
         const {user_id} = data;
         const user: User = OM.create<User>(User).loadById(user_id);
         const userData = user.getData();
-        const listUsers = Users.find({has_license: {$elemMatch: {license_permission: 'owner'}}}).fetch();
+        const listUsers = Users.find().fetch();
         let username_company_names = [];
         let username_domains = [];
         let username_phones = [];
-        if(listUsers.length > 0) {
+        if(listUsers.length > 0 && null !== userData) {
             for(let temp of listUsers) {
                 if(temp['_id'] === userData['_id']) {
                     continue;
