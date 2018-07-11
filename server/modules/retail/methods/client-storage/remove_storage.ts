@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {ClientStorage} from "../../models/clientstorage";
 import {User} from "../../../account/models/user";
@@ -15,7 +14,6 @@ new ValidatedMethod({
                             }
                         },
                         run: function (data: Object) {
-                            console.log(data);
                             let defer     = $q.defer();
                             const storage = OM.create<ClientStorage>(ClientStorage).loadAll(data['license'], 'license');
                             if (!storage) {
