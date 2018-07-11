@@ -37,7 +37,7 @@ SyncedCron.add({
                                 let expireDate  = moment(h['expiry_date'], 'YYYY-MM-DD');
                                 let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
                                 let diff        = expireDate.diff(currentTime,'days');
-                                if (h['status'] == 1 && diff < 3) {
+                                if (h['status'] == 1 && (0 < diff < 3)) {
                                     expire_date.push({
                                         license_id : l['_id'],
                                         email: user.getEmail(),

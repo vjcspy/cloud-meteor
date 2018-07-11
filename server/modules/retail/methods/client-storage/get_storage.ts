@@ -16,17 +16,29 @@ new ValidatedMethod({
                             }
                         },
                         run: function (data: Object) {
-                            console.log(data);
-                            let defer     = $q.defer();
-                            const storage = ClientStoragesCollection.find().fetch();
-                            const dataCount = _.countBy(storage, 'license');
-                            console.log(dataCount);
-                            // if (!storage) {
-                            //     throw new Meteor.Error("storage.error_edit", "Storage Not Found");
-                            // }
-                            // storage.addData(cStorage)
-                            // .save().then(() => defer.resolve(), (err) => defer.reject(err));
-                            return defer.promise;
+                            let dataResolve = [];
+                            let storages = [];
+                            if ((!data['licenses'] || data['licenses'].length === 0) && !data['startTime'] && !data['endTime']) {
+                                storages = ClientStoragesCollection.find().fetch();
+                            } else if ((!data['licenses'] || data['licenses'].length === 0) && data['startTime'] && data['endTime']) {
+                                storages = ClientStoragesCollection.find({created_at: {$gte: data['startTime'], $lte: data['endTime']}}).fetch();
+                            } else {
+                                storages = ClientStoragesCollection.find({license: {$in: data['licenses']}, created_at: {$gte: data['startTime'], $lte: data['endTime']}}).fetch();
+                            }
+                            
+                            if (!storages) {
+                                throw new Meteor.Error("storage.error_edit", "Storage Not Found");
+                            }
+                            
+                            const dataCount = _.countBy(storages, 'license');
+                            _.forEach(dataCount, (value, key) => {
+                                dataResolve.push({
+                                                     license: key,
+                                                     records: value,
+                                                     startTime: data['startTime'] ? data['startTime'] : null,
+                                                     endTime: data['endTime'] ? data['endTime'] : null
+                                                 });
+                            });
+                            return dataResolve;
                         }
-    
                     });

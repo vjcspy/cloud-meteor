@@ -14,7 +14,8 @@ new ValidatedMethod({
                                 throw new Meteor.Error("storage.edit_storage_error", "Access denied");
                             }
                         },
-                        run: function (data: string) {
+                        run: function (data: Object) {
+                            console.log(data);
                             let defer     = $q.defer();
                             const storage = OM.create<ClientStorage>(ClientStorage).loadAll(data['license'], 'license');
                             if (!storage) {
