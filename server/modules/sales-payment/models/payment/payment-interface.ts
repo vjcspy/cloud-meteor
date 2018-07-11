@@ -5,6 +5,7 @@ import {Price} from "../../../retail/models/price";
 export interface SalesPaymentDataInterface {
     pricing: Price;
     transactionType: string;
+    customerId?: string;
     transactionData: {
         entityId: string;
         price?: number;

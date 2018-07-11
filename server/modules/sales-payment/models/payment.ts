@@ -48,11 +48,11 @@ export class Payment extends DataObject {
                     this.validatePlanPay(entity as Plan);
                 }
                 const paymentId = gatewayAdditionData.id;
-        
+
                 let paymentManager: SalesPaymentManager = Stone.getInstance().s('sales-payment-manager');
-        
+
                 const payment = paymentManager.getPayment(paymentId);
-        
+
                 if (!payment) {
                     throw new Meteor.Error("Error", 'can_not_find_payment_when_pay');
                 }
@@ -79,17 +79,19 @@ export class Payment extends DataObject {
                 if (!payment.sale) {
                     throw new Meteor.Error('payment_pay', 'payment_not_support_sale_transaction');
                 }
-        
+
                 return payment.sale.place({
-                                              pricing: pricing,
-                                              transactionType: typePay === InvoiceType.TYPE_PLAN ? Price.TYPE_SUBSCRIPTION : '',
-                                              transactionData: {
-                                                  entityId: entity.getId(),
-                                                  price: entity.getData('price'),
-                                                  grandTotal,
-                                              },
-                                              gatewayAdditionData
-                                          });
+                    pricing: pricing,
+                    transactionType: typePay === InvoiceType.TYPE_PLAN ? Price.TYPE_SUBSCRIPTION : '',
+                    customerId: entity.getUserId(),
+                    transactionData: {
+                        entityId: entity.getId(),
+                        price: entity.getData('price'),
+                        grandTotal,
+                    },
+                    gatewayAdditionData
+                });
+
             } else if ( typePay === InvoiceType.TYPE_PLAN && pricing.getPriceType() === Price.TYPE_LIFETIME) {
                 throw new Meteor.Error("payment_pay", 'not_yet_support_life_time_sale');
             }

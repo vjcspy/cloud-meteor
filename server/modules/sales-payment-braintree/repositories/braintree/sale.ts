@@ -2,7 +2,8 @@ import {BraintreeGateway} from "../../etc/braintree.config";
 
 export interface SaleBraintreePaymentData {
     amount: string,
-    paymentMethodNonce: string,
+    paymentMethodNonce?: string,
+    customerId?: string,
     orderId: string,
     options: {
         submitForSettlement: boolean,
