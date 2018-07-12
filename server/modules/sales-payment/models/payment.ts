@@ -43,13 +43,13 @@ export class Payment extends DataObject {
             this.totals = additionFeeHelper.getCheckoutData((entity as AdditionFee));
         }
 
-        this.processPay(entity, gatewayAdditionData, typePay);
+        return this.processPay(entity, gatewayAdditionData, typePay);
     }
 
     async extend(entity: Plan, gatewayAdditionData: PaymentGatewayDataInterface): Promise<any> {
         // re collect totals
 
-        this.processPay(entity, gatewayAdditionData, InvoiceType.TYPE_PLAN);
+        return this.processPay(entity, gatewayAdditionData, InvoiceType.TYPE_PLAN);
     }
 
     protected async processPay(entity: Plan | AdditionFee, gatewayAdditionData: PaymentGatewayDataInterface, typePay): Promise<any> {
