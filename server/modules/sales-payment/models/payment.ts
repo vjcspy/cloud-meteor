@@ -29,72 +29,85 @@ export class Payment extends DataObject {
     protected pricing: Price;
     protected user: User;
     protected license: License;
-    protected licenseProduct: LicenseHasProductInterface;
     protected totals;
-    async pay(entity: Plan|AdditionFee, gatewayAdditionData: PaymentGatewayDataInterface, typePay): Promise<any> {
-            this.entity = entity;
-            let invoice      = OM.create<Invoice>(Invoice);
-            const planHelper = OM.create<PlanHelper>(PlanHelper);
-            const additionFeeHelper = OM.create<AdditionFeeHelper>(AdditionFeeHelper);
-            if (typePay === InvoiceType.TYPE_PLAN) {
-                this.totals     = planHelper.getCheckoutData((entity as Plan));
-            } else if (typePay === InvoiceType.TYPE_ADDITIONFEE) {
-                this.totals     = additionFeeHelper.getCheckoutData((entity as AdditionFee));
-            }
-        if (this.totals.total === 0) {
-                return invoice.createInvoice(entity, {}, this.totals, typePay);
-            } else {
-                if(typePay === InvoiceType.TYPE_PLAN) {
-                    this.validatePlanPay(entity as Plan);
-                }
-                const paymentId = gatewayAdditionData.id;
 
-                let paymentManager: SalesPaymentManager = Stone.getInstance().s('sales-payment-manager');
+    async pay(entity: Plan | AdditionFee, gatewayAdditionData: PaymentGatewayDataInterface, typePay): Promise<any> {
+        this.entity = entity;
 
-                const payment = paymentManager.getPayment(paymentId);
+        const planHelper        = OM.create<PlanHelper>(PlanHelper);
+        const additionFeeHelper = OM.create<AdditionFeeHelper>(AdditionFeeHelper);
 
-                if (!payment) {
-                    throw new Meteor.Error("Error", 'can_not_find_payment_when_pay');
-                }
-                const result: PayResultInterface = await this.processPay(entity, payment['data'], gatewayAdditionData, this.totals.total, typePay);
-                switch (result.type) {
-                    case PayResultType.PAY_SUCCESS:
-                        return invoice.createInvoice(entity, result.data, this.totals, typePay);
-                    case PayResultType.PAY_FAIL:
-                        throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
-                    case PayResultType.PAY_ERROR:
-                        throw new Meteor.Error("payment_pay_error", "There was a problem processing your credit card; please double check your payment information and try again");
-                    default:
-                        throw new Meteor.Error("payment_pay", 'wrong_format_result');
-                }
-            }
+        if (typePay === InvoiceType.TYPE_PLAN) {
+            this.totals = planHelper.getCheckoutData((entity as Plan));
+        } else if (typePay === InvoiceType.TYPE_ADDITIONFEE) {
+            this.totals = additionFeeHelper.getCheckoutData((entity as AdditionFee));
+        }
+
+        this.processPay(entity, gatewayAdditionData, typePay);
     }
 
-    protected async processPay(entity: Plan|AdditionFee, payment: PaymentData, gatewayAdditionData: PaymentGatewayDataInterface, grandTotal, typePay): Promise<PayResultInterface> {
-            let pricing;
-            if(typePay === InvoiceType.TYPE_PLAN) {
-                pricing = this.getPricing();
-            }
-            if ((typePay === InvoiceType.TYPE_PLAN && pricing.getPriceType() === Price.TYPE_SUBSCRIPTION) || typePay === InvoiceType.TYPE_ADDITIONFEE) {
-                if (!payment.sale) {
-                    throw new Meteor.Error('payment_pay', 'payment_not_support_sale_transaction');
-                }
+    async extend(entity: Plan, gatewayAdditionData: PaymentGatewayDataInterface): Promise<any> {
+        // re collect totals
 
-                return payment.sale.place({
-                    pricing: pricing,
-                    transactionType: typePay === InvoiceType.TYPE_PLAN ? Price.TYPE_SUBSCRIPTION : '',
-                    customerId: entity.getUserId(),
-                    transactionData: {
-                        entityId: entity.getId(),
-                        price: entity.getData('price'),
-                        grandTotal,
-                    },
-                    gatewayAdditionData
-                });
+        this.processPay(entity, gatewayAdditionData, InvoiceType.TYPE_PLAN);
+    }
 
-            } else if ( typePay === InvoiceType.TYPE_PLAN && pricing.getPriceType() === Price.TYPE_LIFETIME) {
-                throw new Meteor.Error("payment_pay", 'not_yet_support_life_time_sale');
+    protected async processPay(entity: Plan | AdditionFee, gatewayAdditionData: PaymentGatewayDataInterface, typePay): Promise<any> {
+        let invoice = OM.create<Invoice>(Invoice);
+        if (this.totals.total === 0) {
+            return invoice.createInvoice(entity, {}, this.totals, typePay);
+        } else {
+            if (typePay === InvoiceType.TYPE_PLAN) {
+                this.validatePlanPay(entity as Plan);
             }
+            const paymentId = gatewayAdditionData.id;
+
+            let paymentManager: SalesPaymentManager = Stone.getInstance().s('sales-payment-manager');
+
+            const payment = paymentManager.getPayment(paymentId);
+
+            if (!payment) {
+                throw new Meteor.Error("Error", 'can_not_find_payment_when_pay');
+            }
+            const result: PayResultInterface = await this.placePayment(entity, payment['data'], gatewayAdditionData, this.totals.total, typePay);
+            switch (result.type) {
+                case PayResultType.PAY_SUCCESS:
+                    return invoice.createInvoice(entity, result.data, this.totals, typePay);
+                case PayResultType.PAY_FAIL:
+                    throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
+                case PayResultType.PAY_ERROR:
+                    throw new Meteor.Error("payment_pay_error", "There was a problem processing your credit card; please double check your payment information and try again");
+                default:
+                    throw new Meteor.Error("payment_pay", 'wrong_format_result');
+            }
+        }
+    }
+
+    protected async placePayment(entity: Plan | AdditionFee, payment: PaymentData, gatewayAdditionData: PaymentGatewayDataInterface, grandTotal, typePay): Promise<PayResultInterface> {
+        let pricing;
+        if (typePay === InvoiceType.TYPE_PLAN) {
+            pricing = this.getPricing();
+        }
+        if ((typePay === InvoiceType.TYPE_PLAN && pricing.getPriceType() === Price.TYPE_SUBSCRIPTION) || typePay === InvoiceType.TYPE_ADDITIONFEE) {
+            if (!payment.sale) {
+                throw new Meteor.Error('payment_pay', 'payment_not_support_sale_transaction');
+            }
+
+            return payment.sale.place({
+                pricing: pricing,
+                transactionType: typePay === InvoiceType.TYPE_PLAN ? Price.TYPE_SUBSCRIPTION : '',
+                customerId: entity.getUserId(),
+                transactionData: {
+                    entityId: entity.getId(),
+                    price: entity.getData('price'),
+                    grandTotal,
+                },
+                gatewayAdditionData
+            });
+
+        } else if (typePay === InvoiceType.TYPE_PLAN && pricing.getPriceType() === Price.TYPE_LIFETIME) {
+            throw new Meteor.Error("payment_pay", 'not_yet_support_life_time_sale');
+        }
         throw new Meteor.Error("payment_pay", 'some_thing_went_wrong');
     }
 

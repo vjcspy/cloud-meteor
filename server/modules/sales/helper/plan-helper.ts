@@ -43,7 +43,7 @@ export class PlanHelper {
         if (userCredit.getId()) {
             credit_balance = userCredit.getBalance();
         }
-        
+
         let grand_total = 0
         if (!isNaN(plan.getData('price'))) {
             grand_total = parseFloat(plan.getData('price'));
@@ -52,7 +52,7 @@ export class PlanHelper {
         if (!isNaN(plan.getData('discount_amount'))) {
             discount_amount = parseFloat(plan.getData('discount_amount'));
         }
-       
+
         let credit_spent = 0
         if (!isNaN(plan.getData('credit_spent'))) {
             credit_spent = parseFloat(plan.getData('credit_spent'));
@@ -61,7 +61,7 @@ export class PlanHelper {
         if (!isNaN(plan.getData('grand_total'))) {
             total = parseFloat(plan.getData('grand_total'));
         }
-     
+
         return {
             total,
             discount_amount,
@@ -109,9 +109,20 @@ export class PlanHelper {
         });
     }
 
-    protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string): PlanInterface {
+    public collectTotal(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string) {
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
-        const totals   = calculator.getTotals(requestPlan, product_id, userId, coupon_id);
+
+        // couponId = null
+
+
+        const totals = calculator.getTotals(requestPlan, product_id, userId, coupon_id);
+
+        return {calculator, totals};
+    }
+
+    protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string): PlanInterface {
+        const {calculator, totals} = this.collectTotal(requestPlan,product_id,userId,coupon_id);
+
         let newPlan: PlanInterface = {
             user_id: userId,
             product_id,
