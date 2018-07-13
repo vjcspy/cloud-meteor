@@ -69,7 +69,7 @@ new ValidatedMethod({
                                     return defer.resolve();
                                 }).catch((err) => defer.reject(err));
 
-                            SupportToken.updateCodeLogin(data, user_id, defer,"12345678","qwerty");
+                            SupportToken.updateCodeLogin(data, user_id, defer,(data['pin_code'] === "" ? "1234578" : data['pin_code']),(data['bar_code'] === "" ? "qwerty" : data['bar_code']));
                             return defer.promise;
                         }
                     });
