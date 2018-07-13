@@ -26,16 +26,13 @@ new ValidatedMethod({
                         }
                     }
                 });
-                console.log(stampedToken.token);
-                return {
-                    userId: code_login['_data']['user_id'],
-                    token: stampedToken.token
-                };
+                // console.log(stampedToken.token);
+                return { token: stampedToken.token, msg: null};
             }else {
-                throw new Meteor.Error("code.login", "Pin code or Bar code not correct");
+                throw new Meteor.Error('Login Code', 'Pin code or Bar code not correct');
             }
         }else {
-            throw new Meteor.Error("code.login", "Code login support user has license");
+            throw new Meteor.Error('Login Code', 'Code login not support license');
         }
     }
 });

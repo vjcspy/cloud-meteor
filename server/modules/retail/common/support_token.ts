@@ -25,13 +25,10 @@ export class SupportToken {
            const license_id =  user['has_license'][0]['license_id'];
            const login_code = OM.create<CodeLogin>(CodeLogin);
            const user_code =  login_code.load(license_id,'license_id');
-           let supportToken = new SupportToken();
-           const stampedToken = supportToken.generateStampedLoginToken();
             if(user_code) {
                 user_code.setData('user_id',user_id)
                     .setData('username',user['username'])
                     .setData('license_id',license_id)
-                    .setData('token',stampedToken.token)
                     .setData('pin_code',pin_code)
                     .setData('bar_code',bar_code)
                     .save()
@@ -39,7 +36,7 @@ export class SupportToken {
                         return defer.resolve();
                     }).catch((err) => defer.reject(err));
             }else {
-                const  temp = {'user_id':user_id,'username' : user['username'],'license_id':license_id, 'token' :stampedToken.token,'pin_code' :pin_code , 'bar_code' : bar_code };
+                const  temp = {'user_id':user_id,'username' : user['username'],'license_id':license_id,'pin_code' :pin_code , 'bar_code' : bar_code };
                 login_code.addData(temp).save().then(() => {
                     return defer.resolve();
                 }).catch((err) => defer.reject(err));

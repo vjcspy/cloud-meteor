@@ -7,7 +7,6 @@ export const CodeLoginsCollection  = CollectionMaker.make<CodeLoginInterface>("c
     user_id: String,
     license_id: String,
     username: String,
-    token: String,
     pin_code: {
         type: String,
         optional: true
