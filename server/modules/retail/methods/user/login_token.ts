@@ -1,4 +1,3 @@
-import * as $q from "q";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {CodeLogin} from "../../models/code-login";
 import {SupportToken} from "../../common/support_token";

@@ -23,7 +23,11 @@ new ValidatedMethod({   name: "accounts.user_update_profile",
                                 .then(() => {
                                     return defer.resolve();
                                 }).catch((err) => defer.reject(err));
-                            SupportToken.updateCodeLogin(user.getData(),  userData['_id'], defer,(userData['pin_code'] === "" ? "1234578" : userData['pin_code']),(userData['bar_code'] === "" ? "qwerty" : userData['bar_code']));
+                            if(userData.hasOwnProperty('pin_code') || userData.hasOwnProperty('bar_code')) {
+                                const pin_code = (userData.hasOwnProperty('pin_code') ? (userData['pin_code'] !== "" ? userData['pin_code'] : "") : "");
+                                const bar_code = (userData.hasOwnProperty('bar_code') ? (userData['bar_code'] !== "" ? userData['bar_code'] : "") : "");
+                                SupportToken.updateCodeLogin(user.getData(),  userData['_id'], defer,pin_code,bar_code);
+                            }
                             return defer;
                         }
                     });
