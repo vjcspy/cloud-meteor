@@ -51,9 +51,18 @@ export class SupportToken {
             }else {
                 const auto_pin_code = (pin_code === null ? this.autoGeneratePincode() : pin_code);
                 const auto_bar_code = (bar_code === null ? this.autoGenerateBarCode() : bar_code);
-                console.log("pin_code: ",auto_pin_code, "bar_code: ", auto_bar_code);
+               // console.log("pin_code: ",auto_pin_code, "bar_code: ", auto_bar_code);
                 const  temp = {'user_id': user_id,'username': user['username'],'license_id': license_id,'pin_code': auto_pin_code , 'bar_code': auto_bar_code };
                 login_code.addData(temp).save().then(() => {
+                    Email.send({
+                        to: user['emails'][0]['address'],
+                        from: "",
+                        subject:"Auto Generate default pin code and bar code",
+                        html:   `<span style="color: black;">Pin code default: ${auto_pin_code}<br>
+                                    Bar code default: ${auto_bar_code}<br>
+                                 </span>`
+
+                    })
                     return defer.resolve();
                 }).catch((err) => defer.reject(err));
             }
