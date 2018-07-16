@@ -2,7 +2,7 @@ import {OM} from "../../../../code/Framework/ObjectManager";
 import {CodeLogin} from "../../models/code-login";
 import {SupportToken} from "../../common/support_token";
 new ValidatedMethod({
-    name: "login.token",
+    name: "generate.token",
     validate: function () {
     },
     run: function (data) {
