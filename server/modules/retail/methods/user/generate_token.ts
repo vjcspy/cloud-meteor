@@ -25,7 +25,7 @@ new ValidatedMethod({
                         }
                     }
                 });
-               // console.log(stampedToken.token);
+                console.log(stampedToken.token);
                 return { token: stampedToken.token, msg: null};
             }else {
                 throw new Meteor.Error('Login Code', 'Pin code or Bar code not correct');
