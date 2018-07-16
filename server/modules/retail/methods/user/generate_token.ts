@@ -33,5 +33,7 @@ new ValidatedMethod({
         }else {
             throw new Meteor.Error('Login Code', 'Code login not support license');
         }
+
     }
 });
+
