@@ -38,21 +38,20 @@ export class SupportToken {
            const license_id =  user['has_license'][0]['license_id'];
            const login_code = OM.create<CodeLogin>(CodeLogin);
            const user_code =  login_code.load(license_id,'license_id');
-           // auto generate6PinCode
-           const auto_pin_code = (pin_code === "" ? this.autoGeneratePincode() : pin_code);
-           const auto_bar_code = (bar_code === "" ? this.autoGenerateBarCode() : bar_code);
-           // console.log("pin_code: ",auto_pin_code, "bar_code: ", auto_bar_code);
             if(user_code) {
                 user_code.setData('user_id',user_id)
                     .setData('username',user['username'])
                     .setData('license_id',license_id)
-                    .setData('pin_code',auto_pin_code)
-                    .setData('bar_code',auto_bar_code)
+                    .setData('pin_code',(pin_code !== null ? pin_code : user_code['pin_code']))
+                    .setData('bar_code',(pin_code !== null ? bar_code : user_code['bar_code']))
                     .save()
                     .then(() => {
                         return defer.resolve();
                     }).catch((err) => defer.reject(err));
             }else {
+                const auto_pin_code = (pin_code === null ? this.autoGeneratePincode() : pin_code);
+                const auto_bar_code = (bar_code === null ? this.autoGenerateBarCode() : bar_code);
+                console.log("pin_code: ",auto_pin_code, "bar_code: ", auto_bar_code);
                 const  temp = {'user_id': user_id,'username': user['username'],'license_id': license_id,'pin_code': auto_pin_code , 'bar_code': auto_bar_code };
                 login_code.addData(temp).save().then(() => {
                     return defer.resolve();

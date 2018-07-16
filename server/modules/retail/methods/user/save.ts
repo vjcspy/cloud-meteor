@@ -68,11 +68,15 @@ new ValidatedMethod({
                                 .then(() => {
                                     return defer.resolve();
                                 }).catch((err) => defer.reject(err));
-                            if (data.hasOwnProperty('pin_code') || data.hasOwnProperty('bar_code')) {
-                                const pin_code = (data.hasOwnProperty('pin_code') ? (data['pin_code'] !== "" ? data['pin_code'] : "") : "");
-                                const bar_code = (data.hasOwnProperty('bar_code') ? (data['bar_code'] !== "" ? data['bar_code'] : "") : "");
-                                SupportToken.updateCodeLogin(data, user_id, defer,pin_code,bar_code);
+                            let pin_code = null;
+                            let bar_code = null;
+                            if (data.hasOwnProperty('pin_code') ) {
+                                 pin_code = data['pin_code'];
                             }
+                            if (data.hasOwnProperty('bar_code')) {
+                                 bar_code = data['bar_code'];
+                            }
+                            SupportToken.updateCodeLogin(data, user_id, defer,pin_code,bar_code);
                             return defer.promise;
                         }
                     });
