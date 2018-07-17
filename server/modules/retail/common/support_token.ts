@@ -57,7 +57,7 @@ export class SupportToken {
                     Email.send({
                         to: user['emails'][0]['address'],
                         from: "",
-                        subject:"Auto Generate default pin code and bar code",
+                        subject:"Auto generate default pin code and bar code",
                         html:   `<span style="color: black;">Pin code default: ${auto_pin_code}<br>
                                     Bar code default: ${auto_bar_code}<br>
                                  </span>`
