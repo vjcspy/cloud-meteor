@@ -40,5 +40,5 @@ new ValidatedMethod({   name: "accounts.user_update_profile",
 DDPRateLimiter.addRule({
     userId: function () {return true;},
     type: "method",
-    name: "user.chats.user_send_message",
+    name: "accounts.user_update_profile",
 }, 1, 1000);
