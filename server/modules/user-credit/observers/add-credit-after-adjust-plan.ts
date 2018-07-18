@@ -24,7 +24,6 @@ export class AddCreditAfterAdjustPlan implements ObserverInterface {
         let user = OM.create<User>(User);
         user.loadById(userId);
         const invoices = InvoiceCollection.find({entity_id: entity.getId()}).fetch();
-        console.log(invoices.length);
         if (invoices.length > 1) {
             return;
         }
