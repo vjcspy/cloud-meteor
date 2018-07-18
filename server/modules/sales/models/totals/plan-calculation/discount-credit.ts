@@ -1,18 +1,25 @@
 import {CalculateAbstract} from "./calculate-abstract";
 import {CalculateInterface} from "./calculate-interface";
 import {PriceInterface} from "../../../../retail/api/price-interface";
-import {LicenseHasProductInterface, ProductLicenseBillingCycle} from "../../../../retail/api/license-interface";
+import {LicenseHasProductInterface} from "../../../../retail/api/license-interface";
 import * as _ from 'lodash';
-import {UserCredit} from "../../../../user-credit/models/user-credit";
 import {RequestPlan} from "../../../api/data/request-plan";
 import {CouponInterface, CouponMethod} from "../../../../retail/api/coupon-interface";
 import {NumberHelper} from "../../../../../code/Framework/NumberHelper";
+import {InvoiceCollection} from "../../../collection/invoice";
+import * as moment from "moment";
+import {LicenseCollection} from "../../../../retail/collections/licenses";
 
 export class DiscountCredit extends CalculateAbstract implements CalculateInterface {
     total: string = 'discount_amount';
 
     collect(plan: RequestPlan, currentPricing: PriceInterface, productLicense: LicenseHasProductInterface, newPricing: PriceInterface, coupon: CouponInterface): void {
-        if(!coupon) {
+        let cost = parseInt(this.getTotals().getTotals()['price']);
+        let couponChecked;
+        if(coupon) {
+            couponChecked = this.checkCoupon(cost, this.getUserId(), coupon);
+        }
+        if(!couponChecked) {
             this.getTotals().setTotal(this.total, 0);
             return;
         } else {
@@ -21,36 +28,52 @@ export class DiscountCredit extends CalculateAbstract implements CalculateInterf
         
                 return;
             }
-            else if (newPricing.type === 'life_time') {
-                if (coupon['method'] === CouponMethod.FIXED_AMOUNT) {
-                    this.getTotals().setTotal(this.total, coupon['amount']);
-                } else if (coupon && coupon['method'] === CouponMethod.PERCENTAGE) {
-                    this.getTotals().setTotal(this.total, NumberHelper.round((newPricing.lifetime_cost * (plan.addition_entity) * coupon['amount']/100), 2));
-                }
-                return;
-            } else {
-                let costSubscribe;
-                if (parseInt(plan.cycle + '') === ProductLicenseBillingCycle.MONTHLY) {
-                    costSubscribe = parseFloat(newPricing.cost_monthly + '') * parseFloat(plan.num_of_cycle + '');
-                } else if (parseInt(plan.cycle + '') === ProductLicenseBillingCycle.ANNUALLY) {
-                    costSubscribe = parseFloat(newPricing.cost_annually + '') * parseFloat(plan.num_of_cycle + '');
-                }
-        
-                if (typeof costSubscribe === 'undefined') {
-                    throw new Meteor.Error("Error", "can_not_find_price_of_new_pricing");
-                }
-                if (coupon && coupon['method'] === CouponMethod.FIXED_AMOUNT) {
-                    if ( coupon['amount'] < (costSubscribe * (plan.addition_entity))) {
-                        this.getTotals().setTotal(this.total, coupon['amount']);
+            else {
+                if (couponChecked && couponChecked['method'] === CouponMethod.FIXED_AMOUNT) {
+                    if ( couponChecked['amount'] < cost) {
+                        this.getTotals().setTotal(this.total, couponChecked['amount']);
                     } else  {
-                        this.getTotals().setTotal(this.total, NumberHelper.round((costSubscribe * (plan.addition_entity)), 2));
+                        this.getTotals().setTotal(this.total, NumberHelper.round(cost, 2));
                     }
-                } else if (coupon && coupon['method'] === CouponMethod.PERCENTAGE) {
-                    this.getTotals().setTotal(this.total, NumberHelper.round((costSubscribe * (plan.addition_entity) * (coupon['amount']/100)), 2));
+                } else if (couponChecked && couponChecked['method'] === CouponMethod.PERCENTAGE) {
+                    this.getTotals().setTotal(this.total, NumberHelper.round((cost * (couponChecked['amount']/100)), 2));
                 }
                 return;
             }
         }
     }
-
+    
+    checkCoupon(cost, userId, coupon) {
+        const now      = moment().toDate();
+        const invoices = InvoiceCollection.find({user_id: userId, coupon_id: coupon['_id']}).fetch();
+        const license = LicenseCollection.findOne({shop_owner_id: userId});
+        const userUsed = _.reduce(invoices, (result, invoice) => {
+            return result += invoice['coupon_id'] === coupon['_id'] ? 1 : 0;
+        }, 0);
+        if (!!coupon['quantity_user'] && (userUsed >= coupon['quantity_user'])) {
+            return null;
+        }
+        if (_.size(coupon['license_compatible']) > 0) {
+            const licenseCompatible = _.find(coupon['license_compatible'], (lc) => lc['license_id'] === license['_id']);
+            if (!licenseCompatible) {
+                return null;
+            }
+        }
+        if (!!coupon['min_total']) {
+            if ((cost ? cost : 0) < coupon['min_total']) {
+                return null;
+            }
+        }
+    
+        if (!!coupon['from_date'] && !!coupon['to_date']) {
+            if ((now < coupon['from_date']) || (now > coupon['to_date'])) {
+                return null;
+            }
+        }
+    
+        if (!!coupon['quantity'] && (coupon['used'] >= coupon['quantity'])) {
+            return null;
+        }
+        return coupon;
+    }
 }
