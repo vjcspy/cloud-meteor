@@ -15,7 +15,7 @@ new ValidatedMethod({
                         },
                         run: function (data: Object) {
                             let defer     = $q.defer();
-                            const storage = OM.create<ClientStorage>(ClientStorage).loadAll(data['license'], 'license');
+                            const storage = OM.create<ClientStorage>(ClientStorage);
                             if (!storage) {
                                 throw new Meteor.Error("storage.error_edit", "Storage Not Found");
                             }

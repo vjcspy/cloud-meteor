@@ -27,12 +27,6 @@ export abstract class AbstractModel extends DataObject {
       return !!_data ? this.addData(_data) : null;
     }
   }
-    loadAll(value: any, field: any): any {
-            let _selector    = {};
-            _selector[field] = value;
-            let _data        = this.getMongoCollection().find(_selector).fetch();
-            return !!_data ? this.addData(_data) : null;
-    }
   save(): Promise<any> {
     if (!this.getMongoCollection())
       throw new Error("Can't get collection name from model");
