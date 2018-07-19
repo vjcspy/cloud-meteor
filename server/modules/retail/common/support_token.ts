@@ -42,8 +42,8 @@ export class SupportToken {
                 user_code.setData('user_id',user_id)
                     .setData('username',user['username'])
                     .setData('license_id',license_id)
-                    .setData('pin_code',(pin_code !== null ? pin_code : user_code['pin_code']))
-                    .setData('bar_code',(pin_code !== null ? bar_code : user_code['bar_code']))
+                    .setData('pin_code',(pin_code !== null ? (pin_code.length >= 4 ? pin_code : user_code['pin_code']) : user_code['pin_code']))
+                    .setData('bar_code',(bar_code !== null ? (bar_code !== "" ? bar_code : user_code['bar_code']) : user_code['bar_code']))
                     .save()
                     .then(() => {
                         return defer.resolve();
@@ -57,7 +57,7 @@ export class SupportToken {
                     Email.send({
                         to: user['emails'][0]['address'],
                         from: "",
-                        subject:"Auto Generate default pin code and bar code",
+                        subject:"Auto generate default pin code and bar code",
                         html:   `<span style="color: black;">Pin code default: ${auto_pin_code}<br>
                                     Bar code default: ${auto_bar_code}<br>
                                  </span>`

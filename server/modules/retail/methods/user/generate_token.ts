@@ -16,15 +16,7 @@ new ValidatedMethod({
                 let supportToken = new SupportToken();
                 const stampedToken = supportToken.generateStampedLoginToken();
                 var hashStampedToken = supportToken.hashStampedToken(stampedToken);
-                Meteor.users.update(code_login['_data']['user_id'],{
-                    $push: {
-                        "services.resume.loginTokens": {
-                            $each: [hashStampedToken],
-                            $sort: {when: -1},
-                            $slice: 1,
-                        }
-                    }
-                });
+                Meteor.users.update(code_login['_data']['user_id'], {$push: { "services.resume.loginTokens": {$each: [hashStampedToken], $sort: {when: -1}, $slice: 1,}}});
                 // console.log(stampedToken.token);
                 return { token: stampedToken.token, username:code_login['_data']['username'] , msg: null};
             }else {
