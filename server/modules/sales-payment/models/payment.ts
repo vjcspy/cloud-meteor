@@ -10,19 +10,12 @@ import {DataObject} from "../../../code/Framework/DataObject";
 import {LicenseHelper} from "../../retail/helper/license";
 import {User} from "../../account/models/user";
 import {License} from "../../retail/models/license";
-import {LicenseHasProductInterface} from "../../retail/api/license-interface";
-import {async} from "rxjs/scheduler/async";
 import {UserCredit} from "../../user-credit/models/user-credit";
-import {UserCreditTransaction} from "../../user-credit/models/user-credit-transaction";
-import {
-    CreditTransactionReason,
-    UserCreditTransactionInterface
-} from "../../user-credit/api/user-credit-transaction-interface";
-import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 import {PlanHelper} from "../../sales/helper/plan-helper";
 import {AdditionFee} from "../../retail/models/additionfee";
 import {AdditionFeeHelper} from "../../retail/helper/addition-fee-helper";
 import {InvoiceType} from "../../sales/api/invoice-interface";
+import {RequestPlan} from "../../sales/api/data/request-plan";
 
 export class Payment extends DataObject {
     protected entity: Plan | AdditionFee;
@@ -46,10 +39,33 @@ export class Payment extends DataObject {
         return this.processPay(entity, gatewayAdditionData, typePay);
     }
 
-    async extend(entity: Plan, gatewayAdditionData: PaymentGatewayDataInterface): Promise<any> {
+    async extend(entity: Plan, gatewayAdditionData: PaymentGatewayDataInterface, product_id, userId, coupon_id): Promise<any> {
         // re collect totals
-
-        return this.processPay(entity, gatewayAdditionData, InvoiceType.TYPE_PLAN);
+        this.entity = entity;
+        const planHelper        = OM.create<PlanHelper>(PlanHelper);
+        const requestPlan: RequestPlan = {
+            pricing_id: this.entity.getPricingId(),
+            cycle: this.entity.getPricingCycle(),
+            num_of_cycle: 1,
+            addition_entity: this.entity.getAdditionEntity()
+        };
+        const {calculator, totals} = planHelper.collectTotal(requestPlan, product_id, userId, coupon_id);
+        let credit = 0;
+        const userCredit   = OM.create<UserCredit>(UserCredit).load(userId, 'user_id');
+        if (userCredit) {
+            credit = userCredit.getBalance();
+        }
+        this.totals = {
+            grand_total: totals.total.price,
+            credit_balance: credit,
+            discount_amount: totals.total.discount_amount,
+            credit_spent: totals.total.credit_spent,
+            total: totals.total.grand_total
+        };
+        if (parseInt(this.totals.discount_amount) === 0) {
+            this.entity.setData('coupon_id', null);
+        }
+        return this.processPay(this.entity, gatewayAdditionData, InvoiceType.TYPE_PLAN);
     }
 
     protected async processPay(entity: Plan | AdditionFee, gatewayAdditionData: PaymentGatewayDataInterface, typePay): Promise<any> {
