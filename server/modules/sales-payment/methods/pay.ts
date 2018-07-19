@@ -31,5 +31,5 @@ DDPRateLimiter.addRule({
         return true;
     },
     type: "method",
-    name: "sales-payment.get_sale_payment",
+    name: "sales-payment.pay",
 }, 3, 1000);

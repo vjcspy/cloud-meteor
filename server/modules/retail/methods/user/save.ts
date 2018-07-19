@@ -1,8 +1,8 @@
 import * as $q from "q";
-import * as _ from "lodash";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../account/models/user";
 import {Role} from "../../../account/models/role";
+import {SupportToken} from "../../common/support_token";
 
 new ValidatedMethod({
                         name: "user.save",
@@ -22,9 +22,7 @@ new ValidatedMethod({
                             profile['phone']      = data['profile']['phone'];
                             profile['country']      = data['profile']['country'];
                             profile['created_by'] = Meteor.userId();
-                            // Did you check user exist in system
-                            // Case1 : existed       ==> reset password , email ==> Today systen just only support 1 user have - 1 email
-                            // Case2 : do''nt exist  ==> create new user
+                            var user_id = ""
                             if (!!data['_id']) {
                                 if (!!data['password']) {
                                     Accounts.setPassword(data['_id'], data['password'], {logout: false});
@@ -40,15 +38,13 @@ new ValidatedMethod({
                                     }
                                 }
                                 user.loadById(data['_id']);
+                                user_id = data['_id'];
                             } else {
-                                let newUserId = Accounts.createUser({
-                                                                           username: data['username'],
-                                                                           email: data['email'],
-                                                                           password: !!data['password'] ? data['password'] : User.DEFAULT_PASSWORD_USER,
-                                                                           profile: profile
-                                                                       });
+                                let newUserId = Accounts.createUser({username: data['username'], email: data['email'], password: !!data['password'] ? data['password'] : User.DEFAULT_PASSWORD_USER, profile: profile});
                                 Accounts.sendEnrollmentEmail(newUserId);
                                 user.loadById(newUserId);
+                                // Create pin code and bar-code
+                                user_id = newUserId;
                             }
                             if (!user.getId()) {
                                 throw new Meteor.Error('user.save', 'can_not_find_user');
@@ -56,6 +52,7 @@ new ValidatedMethod({
                             if (user.isInRoles([Role.SUPERADMIN], Role.GROUP_CLOUD)) {
                                 throw  new Meteor.Error('user.save', 'sorry_this_method_not_support_update_super_admin_data');
                             }
+
                             user.setData('profile',profile)
                                 .setData('take_care_by_agency',data['take_care_by_agency'])
                                 .setData('agency',data['agency'])
@@ -71,6 +68,16 @@ new ValidatedMethod({
                                 .then(() => {
                                     return defer.resolve();
                                 }).catch((err) => defer.reject(err));
+                            let pin_code = null;
+                            let bar_code = null;
+                            if (data.hasOwnProperty('pin_code') ) {
+                                 pin_code = data['pin_code'];
+                            }
+                            if (data.hasOwnProperty('bar_code')) {
+                                 bar_code = data['bar_code'];
+                            }
+                            SupportToken.updateCodeLogin(data, user_id, defer,pin_code,bar_code);
                             return defer.promise;
                         }
                     });
+

@@ -24,13 +24,19 @@ export class BraintreeSale extends PaymentAbstract implements SalesPaymentInterf
             }
             let transaction: SaleBraintreePaymentData = {
                 amount: data.transactionData.grandTotal.toFixed(2) + "",
-                paymentMethodNonce: data.gatewayAdditionData['paymentMethodNonce'],
                 orderId: data.transactionData.entityId,
                 options: {
                     submitForSettlement: false,
                     storeInVaultOnSuccess: false
                 },
             };
+
+            if (_.isString(data.gatewayAdditionData['paymentMethodNonce'])) {
+                transaction['paymentMethodNonce'] = data.gatewayAdditionData['paymentMethodNonce'];
+            } else {
+                // use default payment method of customer
+                transaction['customerId'] = data.customerId;
+            }
 
             if (BRAINTREE_ENVIROMENT !== "SANDBOX") {
                 transaction['merchantAccountId'] = "smartoscpteltdUSD";

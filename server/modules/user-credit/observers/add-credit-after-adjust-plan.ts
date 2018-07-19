@@ -9,6 +9,7 @@ import {UserCreditTransaction} from "../models/user-credit-transaction";
 import {CreditTransactionReason, UserCreditTransactionInterface} from "../api/user-credit-transaction-interface";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 import {UserCredit} from "../models/user-credit";
+import {InvoiceCollection} from "../../sales/collection/invoice";
 
 export class AddCreditAfterAdjustPlan implements ObserverInterface {
     async observe(dataObject: DataObject) {
@@ -22,7 +23,10 @@ export class AddCreditAfterAdjustPlan implements ObserverInterface {
 
         let user = OM.create<User>(User);
         user.loadById(userId);
-
+        const invoices = InvoiceCollection.find({entity_id: entity.getId()}).fetch();
+        if (invoices.length > 1) {
+            return;
+        }
         try {
             if (!user.getId()) {
                 throw new Meteor.Error('Error', 'can_not_found_user_when_upgrade_plan');

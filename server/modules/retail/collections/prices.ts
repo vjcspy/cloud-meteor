@@ -33,6 +33,9 @@ export const Prices            = CollectionMaker.make<PriceInterface>("prices",
                 type: String,
                 optional: true
             },
-            allow_customer: Number
+            allow_customer: {
+                type: Number,
+                optional: true
+            }
         }));
 export const PricingCollection = Prices;

@@ -7,7 +7,6 @@ import {StoneEventManager} from "../../../code/core/app/event/stone-event-manage
 import {Payment} from "../../sales-payment/models/payment";
 import {RequestPlan} from "../api/data/request-plan";
 import {User} from "../../account/models/user";
-import * as _ from 'lodash';
 import {LicenseHelper} from "../../retail/helper/license";
 import {UserCredit} from "../../user-credit/models/user-credit";
 import {InvoiceType} from "../api/invoice-interface";
@@ -24,7 +23,6 @@ export class PlanHelper {
                 if (plan) {
                     if (plan.getData('pricing_id') === requestPlan.pricing_id
                         && parseInt(plan.getData('pricing_cycle')) === parseInt(requestPlan.cycle + '')
-                        && parseInt(plan.getData('num_of_cycle')) === parseInt(requestPlan.num_of_cycle + '')
                         && parseInt(plan.getData('addition_entity')) === parseInt(requestPlan.addition_entity + '')) {
                         return plan.getId();
                     }
@@ -43,17 +41,17 @@ export class PlanHelper {
         if (userCredit.getId()) {
             credit_balance = userCredit.getBalance();
         }
-        
-        let grand_total = 0
+
+        let grand_total = 0;
         if (!isNaN(plan.getData('price'))) {
             grand_total = parseFloat(plan.getData('price'));
         }
-        let discount_amount = 0
+        let discount_amount = 0;
         if (!isNaN(plan.getData('discount_amount'))) {
             discount_amount = parseFloat(plan.getData('discount_amount'));
         }
-       
-        let credit_spent = 0
+
+        let credit_spent = 0;
         if (!isNaN(plan.getData('credit_spent'))) {
             credit_spent = parseFloat(plan.getData('credit_spent'));
         }
@@ -61,7 +59,7 @@ export class PlanHelper {
         if (!isNaN(plan.getData('grand_total'))) {
             total = parseFloat(plan.getData('grand_total'));
         }
-     
+
         return {
             total,
             discount_amount,
@@ -109,9 +107,16 @@ export class PlanHelper {
         });
     }
 
-    protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string): PlanInterface {
+    public collectTotal(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string) {
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
-        const totals   = calculator.getTotals(requestPlan, product_id, userId, coupon_id);
+        let totals = calculator.getTotals(requestPlan, product_id, userId, coupon_id);
+
+        return {calculator, totals};
+    }
+
+    protected prepareNewPlanData(requestPlan: RequestPlan, product_id: string, userId: string, coupon_id: string): PlanInterface {
+        const {calculator, totals} = this.collectTotal(requestPlan,product_id,userId,coupon_id);
+
         let newPlan: PlanInterface = {
             user_id: userId,
             product_id,
