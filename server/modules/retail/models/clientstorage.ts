@@ -12,25 +12,19 @@ export class ClientStorage extends AbstractModel {
             if (!license) {
                 throw new Error("Can't find item");
             } else {
-                if(!data['startTime'] && !data['endTime'])
-                {
+                if(!data['baseUrl'] && data['startTime'] && data['endTime']) {
                     this.getMongoCollection()
-                        .remove({license: license}, (err) => {
+                        .remove({license: license,  created_at: {$gt: data['startTime'], $lt:data['endTime']} }, (err) => {
                             return err ? reject(err) : resolve();
                         })
-                } else if(!data['startTime'] && data['endTime']) {
+                } else if(data['baseUrl'] && data['startTime'] && data['endTime']) {
                     this.getMongoCollection()
-                        .remove({license: license,  created_at: {$lt:data['endTime']} }, (err) => {
-                            return err ? reject(err) : resolve();
-                        })
-                } else if(data['startTime'] && !data['endTime']) {
-                    this.getMongoCollection()
-                        .remove({license: license,  created_at: {$gt:data['startTime']} }, (err) => {
+                        .remove({license: license, base_url: data['baseUrl'],  created_at: {$gt: data['startTime'], $lt:data['endTime']} }, (err) => {
                             return err ? reject(err) : resolve();
                         })
                 } else {
                     this.getMongoCollection()
-                        .remove({license: license,  created_at: {$gt: data['startTime'], $lt:data['endTime']} }, (err) => {
+                        .remove({license: license}, (err) => {
                             return err ? reject(err) : resolve();
                         })
                 }
