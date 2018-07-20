@@ -15,20 +15,6 @@ new ValidatedMethod ({
                         }
                     },
                     run: function () {
-                       let  data = {
-                            license: '321858e894665b09d494eaaed0081c65',
-                            base_url: 'http://smart.local',
-                            data: {
-                                entity: 'abc',
-                                entity_id: 3,
-                                type_change: 'xyz'
-                            },
-                            cache_time: 1,
-                            created_at: moment().toDate()
-                        }
-                        for (var i = 1; i <= 50000; i++) {
-                            ClientStoragesCollection.insert( data )
-                        }
                         updateExpireDate();
                     }
 });
