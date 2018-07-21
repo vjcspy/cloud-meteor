@@ -38,7 +38,7 @@ Meteor.publishComposite("licenses", function (): PublishCompositeConfig<LicenseI
             _.forEach(license.has_product, product => {
               _.forEach(product.has_user, _u => { _userIds.push(_u.user_id) });
             });
-            return Users.collection.find({ _id: { $in: _userIds } })
+            return Users.collection.find({ _id: { $in: _userIds } });
           }
           else
             return;
