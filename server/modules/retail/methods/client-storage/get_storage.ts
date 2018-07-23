@@ -19,7 +19,10 @@ new ValidatedMethod({
                             let dataResolve = [];
                             let storages = [];
                             if ((!data['licenses'] || data['licenses'].length === 0) && !data['baseUrl'] && !data['startTime'] && !data['endTime']) {
-                                storages = ClientStoragesCollection.find().fetch();
+                                storages = ClientStoragesCollection.collection.aggregate([
+                                    { $group: { _id: "$license", total: { $sum: 1} }  },
+                                ]);
+                                console.log()
                             } else if ((!data['licenses'] || data['licenses'].length === 0) && !data['baseUrl'] && data['startTime'] && data['endTime']) {
                                 storages = ClientStoragesCollection.find({created_at: {$gte: data['startTime'], $lte: data['endTime']}}).fetch();
                             } else if ((!data['licenses'] || data['licenses'].length === 0) && data['baseUrl'] && data['startTime'] && data['endTime']) {
@@ -34,22 +37,22 @@ new ValidatedMethod({
                                 throw new Meteor.Error("storage.error_edit", "Storage Not Found");
                             }
                             
-                            const dataGroup = _.groupBy(storages, 'license');
-                            _.forEach(dataGroup, (value, key) => {
-                                dataResolve.push({
-                                    license: key,
-                                    url: [],
-                                    startTime: data['startTime'] ? data['startTime'] : null,
-                                    endTime: data['endTime'] ? data['endTime'] : null
-                                });
-                                _.forEach(_.countBy(value, 'base_url'), (records, base_url) => {
-                                    dataResolve[dataResolve.length -1]['url'].push({
-                                        base_url: base_url,
-                                        records: records,
-                                    });
-                                })
-
-                            });
-                            return dataResolve;
+                            // const dataGroup = _.groupBy(storages, 'license');
+                            // _.forEach(dataGroup, (value, key) => {
+                            //     dataResolve.push({
+                            //         license: key,
+                            //         url: [],
+                            //         startTime: data['startTime'] ? data['startTime'] : null,
+                            //         endTime: data['endTime'] ? data['endTime'] : null
+                            //     });
+                            //     _.forEach(_.countBy(value, 'base_url'), (records, base_url) => {
+                            //         dataResolve[dataResolve.length -1]['url'].push({
+                            //             base_url: base_url,
+                            //             records: records,
+                            //         });
+                            //     })
+                            //
+                            // });
+                            return ;
                         }
                     });

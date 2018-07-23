@@ -35,3 +35,4 @@ ostrio:logger
 ostrio:loggerconsole
 ostrio:loggermongo
 email
+meteorhacks:aggregate
