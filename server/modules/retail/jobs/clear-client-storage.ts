@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import * as moment from 'moment';
-import {ClientStorages} from "../collections/clientstorages";
+import {ClientStoragesCollection} from "../collections/clientstorages";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
 SyncedCron.add({

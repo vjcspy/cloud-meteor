@@ -27,7 +27,6 @@ export abstract class AbstractModel extends DataObject {
       return !!_data ? this.addData(_data) : null;
     }
   }
-  
   save(): Promise<any> {
     if (!this.getMongoCollection())
       throw new Error("Can't get collection name from model");
@@ -67,7 +66,6 @@ export abstract class AbstractModel extends DataObject {
       }
     });
   }
-  
   delete(): Promise<any> {
     return this.remove();
   }
