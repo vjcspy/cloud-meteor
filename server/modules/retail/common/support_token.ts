@@ -42,8 +42,8 @@ export class SupportToken {
                 user_code.setData('user_id',user_id)
                     .setData('username',user['username'])
                     .setData('license_id',license_id)
-                    .setData('pin_code',(pin_code !== null ? (pin_code.length == 6 ? pin_code : user_code['pin_code']) : user_code['pin_code']))
-                    .setData('bar_code',(bar_code !== null ? (bar_code !== "" ? bar_code : user_code['bar_code']) : user_code['bar_code']))
+                    .setData('pin_code',(pin_code !== null ? (pin_code === "" ? null : pin_code) : user_code['pin_code']))
+                    .setData('bar_code',(bar_code !== null ? (bar_code === "" ? null : bar_code) : user_code['bar_code']))
                     .save()
                     .then(() => {
                         return defer.resolve();
