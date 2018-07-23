@@ -2,6 +2,7 @@ import * as crypto from "crypto";
 import { Random } from 'meteor/random'
 import {CodeLogin} from "../models/code-login";
 import {OM} from "../../../code/Framework/ObjectManager";
+import {CodeLoginsCollection} from "../collections/code-login-collection";
 export class SupportToken {
    public  generateStampedLoginToken = function () {
        return {token: Random.secret(), when: new Date()};
@@ -33,39 +34,44 @@ export class SupportToken {
        return text;
    }
 
-   public static updateCodeLogin(user: any, user_id: string, defer: any, pin_code: string, bar_code: string) {
+   public static updateCodeLogin(method: string,user: any, user_id: string, pin_code: string, bar_code: string) {
        if(user.hasOwnProperty('has_license') && null !== user['has_license'] && user['has_license'].length > 0) {
            const license_id =  user['has_license'][0]['license_id'];
+           const licenses = CodeLoginsCollection.find({'license_id' : license_id}).fetch();
            const login_code = OM.create<CodeLogin>(CodeLogin);
-           const user_code =  login_code.load(license_id,'license_id');
-            if(user_code) {
-                user_code.setData('user_id',user_id)
-                    .setData('username',user['username'])
-                    .setData('license_id',license_id)
-                    .setData('pin_code',(pin_code !== null ? (pin_code === "" ? null : pin_code) : user_code['pin_code']))
-                    .setData('bar_code',(bar_code !== null ? (bar_code === "" ? null : bar_code) : user_code['bar_code']))
-                    .save()
-                    .then(() => {
-                        return defer.resolve();
-                    }).catch((err) => defer.reject(err));
-            }else {
-                const auto_pin_code = (pin_code === null ? this.autoGeneratePincode() : pin_code);
-                const auto_bar_code = (bar_code === null ? this.autoGenerateBarCode() : bar_code);
-               // console.log("pin_code: ",auto_pin_code, "bar_code: ", auto_bar_code);
-                const  temp = {'user_id': user_id,'username': user['username'],'license_id': license_id,'pin_code': auto_pin_code , 'bar_code': auto_bar_code };
-                login_code.addData(temp).save().then(() => {
-                    Email.send({
-                        to: user['emails'][0]['address'],
-                        from: "",
-                        subject:"Auto generate default pin code and bar code",
-                        html:   `<span style="color: black;">Pin code default: ${auto_pin_code}<br>
+           const list_license_duplicate = licenses.filter(temp => ((temp['pin_code'] === pin_code || temp['bar_code'] === bar_code) && (temp['user_id'] !== user_id)));
+           if (null === list_license_duplicate || list_license_duplicate.length === 0) {
+               const user_code =  login_code.load(user['_id'],'user_id');
+               if (null !== user_code) {
+                   user_code.setData('user_id',user_id)
+                       .setData('username',user['username'])
+                       .setData('license_id',license_id)
+                       .setData('pin_code',(pin_code !== null ? (pin_code === "" ? null : pin_code) : user_code['pin_code']))
+                       .setData('bar_code',(bar_code !== null ? (bar_code === "" ? null : bar_code) : user_code['bar_code']))
+                       .save()
+                       .catch((err) => {
+                       throw new Meteor.Error(method, err);});
+               }else {
+                   const auto_pin_code = (pin_code === null ? this.autoGeneratePincode() : pin_code);
+                   const auto_bar_code = (bar_code === null ? this.autoGenerateBarCode() : bar_code);
+                   const  temp = {'user_id': user_id,'username': user['username'],'license_id': license_id,'pin_code': auto_pin_code , 'bar_code': auto_bar_code };
+                   login_code.addData(temp).save().then(() => {
+                       Email.send({
+                           to: user['emails'][0]['address'],
+                           from: "",
+                           subject:"Auto generate default pin code and bar code",
+                           html:   `<span style="color: black;">Pin code default: ${auto_pin_code}<br>
                                     Bar code default: ${auto_bar_code}<br>
                                  </span>`
 
-                    })
-                    return defer.resolve();
-                }).catch((err) => defer.reject(err));
-            }
+                       })
+                   }).catch((err) => {
+                       throw new Meteor.Error(method, err);
+                   });
+               }
+           }else {
+               throw new Meteor.Error(method,'Please!. Invalidate pincode or barcode');
+           }
        }
    }
 };
