@@ -24,7 +24,11 @@ new ValidatedMethod({
                     // console.log(stampedToken.token);
                     return { token: stampedToken.token, username:code_login['_data']['username'] , msg: null};
                 }else {
-                    throw new Meteor.Error('Login Code', 'Pin code or Bar code not correct');
+                    if (code_login['_data']['pin_code'] !== pin_code) {
+                        throw new Meteor.Error('Login Code', 'Pin code not correct');
+                    }else {
+                        throw new Meteor.Error('Login Code', 'Bar code not correct');
+                    }
                 }
             }else {
                 throw new Meteor.Error('Login Code', 'Code login not support license');
