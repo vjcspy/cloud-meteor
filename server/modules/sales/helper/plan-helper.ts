@@ -119,7 +119,7 @@ export class PlanHelper {
 
         let newPlan: PlanInterface = {
             user_id: userId,
-            product_id,
+            product_id: product_id,
             license_id: !!calculator.license ? calculator.license.getId() : null,
             pricing_id: calculator.newPricing.getId(),
             coupon_id: coupon_id,
@@ -134,8 +134,8 @@ export class PlanHelper {
             credit_spent: totals.total.credit_spent || 0,
             discount_amount: totals.total.discount_amount || 0,
             grand_total: totals.total.grand_total,
-
             status: PlanStatus.SALE_PENDING,
+            created_by_user_id: Meteor.userId(),
             created_at: DateTimeHelper.getCurrentDate(),
             updated_at: DateTimeHelper.getCurrentDate()
         };
