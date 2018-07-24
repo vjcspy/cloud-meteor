@@ -32,7 +32,7 @@ new ValidatedMethod({   name: "accounts.user_update_profile",
                             if (userData.hasOwnProperty('bar_code')) {
                                 bar_code = userData['bar_code'];
                             }
-                            SupportToken.updateCodeLogin('accounts.user_update_profile',user.getData(),  userData['_id'],pin_code,bar_code);
+                            SupportToken.updateCodeLogin(user.getData(),  userData['_id'],pin_code,bar_code);
                             return defer.promise;
                         }
                     });

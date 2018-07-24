@@ -2,8 +2,6 @@ import * as $q from "q";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../account/models/user";
 import {Role} from "../../../account/models/role";
-import {SupportToken} from "../../common/support_token";
-
 new ValidatedMethod({
                         name: "user.save",
                         validate: function () {
