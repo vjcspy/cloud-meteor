@@ -26,13 +26,17 @@ new ValidatedMethod({   name: "accounts.user_update_profile",
 
                             let pin_code = null;
                             let bar_code = null;
+                            let code_information = null;
                             if (userData.hasOwnProperty('pin_code') ) {
                                 pin_code = userData['pin_code'];
                             }
                             if (userData.hasOwnProperty('bar_code')) {
                                 bar_code = userData['bar_code'];
                             }
-                            SupportToken.updateCodeLogin(user.getData(),  userData['_id'],pin_code,bar_code);
+                            if (userData.hasOwnProperty('code_information')) {
+                                code_information = userData['code_information'];
+                            }
+                            SupportToken.updateCodeLogin(user.getData(),  userData['_id'],pin_code,bar_code, code_information);
                             return defer.promise;
                         }
                     });

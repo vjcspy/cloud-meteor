@@ -35,7 +35,7 @@ export class SupportToken {
         return text;
     }
 
-    public static updateCodeLogin(user: any, user_id: string, pin_code: string, bar_code: string) {
+    public static updateCodeLogin(user: any, user_id: string, pin_code: string, bar_code: string, code_information: any) {
         if (user.hasOwnProperty('has_license') && null !== user['has_license'] && user['has_license'].length > 0) {
             const license_id = user['has_license'][0]['license_id'];
             const licenses = CodeLoginsCollection.find({'license_id': license_id}).fetch();
@@ -49,6 +49,10 @@ export class SupportToken {
                         .setData('license_id', license_id)
                         .setData('pin_code', (pin_code !== null ? (pin_code === "" ? null : pin_code) : user_code['pin_code']))
                         .setData('bar_code', (bar_code !== null ? (bar_code === "" ? null : bar_code) : user_code['bar_code']))
+                        .setData('active_type', code_information['active_type'])
+                        .setData('height_qr_code', code_information['height_qr_code'])
+                        .setData('width_bar_code', code_information['width_bar_code'])
+                        .setData('format_bar_code', code_information['format_bar_code'])
                         .save()
                         .catch((err) => {
                             throw new Meteor.Error(err);
@@ -61,7 +65,11 @@ export class SupportToken {
                         'username': user['username'],
                         'license_id': license_id,
                         'pin_code': auto_pin_code,
-                        'bar_code': auto_bar_code
+                        'bar_code': auto_bar_code,
+                        'active_type': code_information['active_type'],
+                        'height_qr_code': code_information['height_qr_code'],
+                        'width_bar_code': code_information['width_bar_code'],
+                        'format_bar_code': code_information['format_bar_code']
                     };
                     login_code.addData(temp).save().then(() => {
                         Email.send({
