@@ -2,8 +2,6 @@ import * as $q from "q";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../account/models/user";
 import {Role} from "../../../account/models/role";
-import {SupportToken} from "../../common/support_token";
-
 new ValidatedMethod({
                         name: "user.save",
                         validate: function () {
@@ -22,7 +20,6 @@ new ValidatedMethod({
                             profile['phone']      = data['profile']['phone'];
                             profile['country']      = data['profile']['country'];
                             profile['created_by'] = Meteor.userId();
-                            var user_id = ""
                             if (!!data['_id']) {
                                 if (!!data['password']) {
                                     Accounts.setPassword(data['_id'], data['password'], {logout: false});
@@ -38,13 +35,10 @@ new ValidatedMethod({
                                     }
                                 }
                                 user.loadById(data['_id']);
-                                user_id = data['_id'];
                             } else {
                                 let newUserId = Accounts.createUser({username: data['username'], email: data['email'], password: !!data['password'] ? data['password'] : User.DEFAULT_PASSWORD_USER, profile: profile});
                                 Accounts.sendEnrollmentEmail(newUserId);
                                 user.loadById(newUserId);
-                                // Create pin code and bar-code
-                                user_id = newUserId;
                             }
                             if (!user.getId()) {
                                 throw new Meteor.Error('user.save', 'can_not_find_user');
@@ -68,15 +62,6 @@ new ValidatedMethod({
                                 .then(() => {
                                     return defer.resolve();
                                 }).catch((err) => defer.reject(err));
-                            let pin_code = null;
-                            let bar_code = null;
-                            if (data.hasOwnProperty('pin_code') ) {
-                                 pin_code = data['pin_code'];
-                            }
-                            if (data.hasOwnProperty('bar_code')) {
-                                 bar_code = data['bar_code'];
-                            }
-                            SupportToken.updateCodeLogin(data, user_id, defer,pin_code,bar_code);
                             return defer.promise;
                         }
                     });
