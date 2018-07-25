@@ -1,4 +1,4 @@
-import {BraintreeGateway} from "../../etc/braintree.config";
+import {BRAINTREE_ENVIROMENT, BraintreeGateway} from "../../etc/braintree.config";
 import {User} from "../../../account/models/user";
 
 export class Customer {
@@ -75,7 +75,15 @@ export class Customer {
             } else {
                 userId = user.getId();
             }
-            BraintreeGateway.clientToken.generate({customerId: userId}, (err, response) => {
+            let _clientData = {
+                customerId: userId
+            };
+
+            if (BRAINTREE_ENVIROMENT !== "SANDBOX") {
+                _clientData['merchantAccountId'] = "smartoscpteltdUSD";
+            }
+
+            BraintreeGateway.clientToken.generate(_clientData, (err, response) => {
                 if (err) {
                     return rej(err);
                 }
@@ -106,7 +114,7 @@ export class Customer {
                 })
         });
     }
-    
+
     makeDefault(token: string) {
         return new Promise((res, rej) => {
             BraintreeGateway.paymentMethod.update(token, {
@@ -127,7 +135,7 @@ export class Customer {
             });
         });
     }
-    
+
     deleteMethod(token: string) {
         return new Promise((res, rej) => {
             BraintreeGateway.paymentMethod.delete(token, function (err, result) {
