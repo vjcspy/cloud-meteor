@@ -24,12 +24,12 @@ new ValidatedMethod({
             code_login.setData('active_type', active_type)
                 .save()
             return {
-                isError: false,
+                hasError: false,
                 mess: null
             };
         }else {
             return {
-                isError: true,
+                hasError: true,
                 mess: "User not exist pin code or bar code"
             };
         }
