@@ -15,6 +15,22 @@ export const CodeLoginsCollection  = CollectionMaker.make<CodeLoginInterface>("c
         type: String,
         optional: true
     },
+    active_type:  {
+        type: Number,
+        optional: true
+    },
+    height_qr_code: {
+        type: Number,
+        optional: true
+    },
+    width_bar_code: {
+        type: Number,
+        optional: true
+    },
+    format_bar_code: {
+        type: String,
+        optional: true
+    },
     last_login: {
         type: Date,
         defaultValue: DateTimeHelper.getCurrentDate()

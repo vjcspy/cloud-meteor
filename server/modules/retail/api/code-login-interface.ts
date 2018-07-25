@@ -4,5 +4,9 @@ export interface CodeLoginInterface {
     license_id: string,
     pin_code?: string,
     bar_code?: string,
+    active_type?: number, // 0:  deactivate all, 1: active all, 2: active pin_code, 3: active bar_code
+    height_qr_code?: number,
+    width_bar_code?: number,
+    format_bar_code?: string,
     last_login: Date,
 }
