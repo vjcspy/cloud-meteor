@@ -10,6 +10,8 @@ import {PlanCollection} from "../collection/plan";
 import {ProductLicenseBillingCycle} from "../../retail/api/license-interface";
 import {PlanCalculation} from "../models/totals/plan-calculation";
 import {Price} from "../../retail/models/price";
+import {Payment} from "../../sales-payment/models/payment";
+import {InvoiceType} from "../api/invoice-interface";
 
 export class HandleAdminChangeLicense implements ObserverInterface {
     observe(dataObject: DataObject): any {
@@ -19,6 +21,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
         const licenseHasProducts = license1.getProducts();
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
         const user               = OM.create<User>(User);
+        let payment = OM.create<Payment>(Payment);
         user.load(license1.getData('shop_owner_username'), 'username');
     
         _.forEach(licenseHasProducts, (_d) => {
@@ -52,7 +55,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                     credit_earn: 0,
                     credit_spent: 0,
                     discount_amount: 0,
-                    grand_total: !newPricing.isTrial() ? totals.total.grand_total : 0,
+                    grand_total: 0,
 
                     status: PlanStatus.SALE_PENDING,
                     created_by_user_id: Meteor.userId(),
@@ -61,6 +64,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                 };
 
                 plan.createSalePlan(newPlan);
+                payment.pay(plan, null, InvoiceType.TYPE_PLAN);
                 _d['plan_id'] = plan.getId();
             } else {
                 // Kiểm tra xem nếu license data khác với plan hiện tại (kiểm tra các field: pricing_id,pricing_cycle,addition_entity) thì tạo một plan mới cho license tương tự như trên
@@ -94,13 +98,14 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                         credit_earn: 0,
                         credit_spent: 0,
                         discount_amount: 0,
-                        grand_total: !newPricing.isTrial() ? totals.total.grand_total : 0,
+                        grand_total: 0,
                         status: PlanStatus.SALE_PENDING,
                         created_by_user_id: Meteor.userId(),
                         created_at: DateTimeHelper.getCurrentDate(),
                         updated_at: DateTimeHelper.getCurrentDate()
                     };
                     plan.createSalePlan(newPlan);
+                    payment.pay(plan, null, InvoiceType.TYPE_PLAN);
                 }
                 _d['plan_id'] = plan.getId();
             }
