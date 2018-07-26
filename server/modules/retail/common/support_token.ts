@@ -72,15 +72,6 @@ export class SupportToken {
                         'format_bar_code': code_information['format_bar_code']
                     };
                     login_code.addData(temp).save().then(() => {
-                        Email.send({
-                            to: user['emails'][0]['address'],
-                            from: "",
-                            subject: "Auto generate default pin code and bar code",
-                            html: `<span style="color: black;">Pin code default: ${auto_pin_code}<br>
-                                    Bar code default: ${auto_bar_code}<br>
-                                 </span>`
-
-                        })
                     }).catch((err) => {
                         throw new Meteor.Error(err);
                     });
