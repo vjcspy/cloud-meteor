@@ -34,7 +34,7 @@ new ValidatedMethod({
                 throw new Meteor.Error('Login Code', 'Code login not support license');
             }
         }else {
-            throw new Meteor.Error('Login Code', 'Pin code or Bar code not correct');
+            throw new Meteor.Error('Login Code', ((pin_code !== null && pin_code.length > 0) ? "Pin code not correct" : "'Bar code not correct'" ));
         }
     }
 });
