@@ -96,7 +96,6 @@ export class Payment extends DataObject {
                         && result.data['err']['errorCollections']['transaction'].hasOwnProperty('validationErrors')
                         && result.data['err']['errorCollections']['transaction']['validationErrors'].hasOwnProperty('customerId')) {
                         const noCard = _.find(result.data['err']['errorCollections']['transaction']['validationErrors']['customerId'], er => er['code'] === '91511');
-                        console.log(noCard);
                         if (noCard) {
                             throw new Meteor.Error("payment_pay_fail", noCard['message']);
                         } else {
