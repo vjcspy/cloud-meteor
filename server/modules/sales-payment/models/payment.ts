@@ -89,8 +89,23 @@ export class Payment extends DataObject {
             switch (result.type) {
                 case PayResultType.PAY_SUCCESS:
                     return invoice.createInvoice(entity, result.data, this.totals, typePay);
-                case PayResultType.PAY_FAIL:
-                    throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
+                case PayResultType.PAY_FAIL: {
+                    if (result.data.hasOwnProperty('err')
+                        && result.data['err'].hasOwnProperty('errorCollections')
+                        && result.data['err']['errorCollections'].hasOwnProperty('transaction')
+                        && result.data['err']['errorCollections']['transaction'].hasOwnProperty('validationErrors')
+                        && result.data['err']['errorCollections']['transaction']['validationErrors'].hasOwnProperty('customerId')) {
+                        const noCard = _.find(result.data['err']['errorCollections']['transaction']['validationErrors']['customerId'], er => er['code'] === '91511');
+                        console.log(noCard);
+                        if (noCard) {
+                            throw new Meteor.Error("payment_pay_fail", noCard['message']);
+                        } else {
+                            throw new Meteor.Error("payment_pay_fail", "2There was a problem processing your credit card; please double check your payment information and try again");
+                        }
+                    } else {
+                        throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
+                    }
+                }
                 case PayResultType.PAY_ERROR:
                     throw new Meteor.Error("payment_pay_error", "There was a problem processing your credit card; please double check your payment information and try again");
                 default:

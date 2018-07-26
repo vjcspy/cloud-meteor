@@ -37,7 +37,7 @@ SyncedCron.add({
                                 let expireDate  = moment(h['expiry_date'], 'YYYY-MM-DD');
                                 let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
                                 let diff        = expireDate.diff(currentTime,'days');
-                                if (h['status'] == 1 && 0 < diff  && diff < 3) {
+                                if (h['status'] == 1 && diff < 0) {
                                     expire_date.push({
                                         license_id : l['_id'],
                                         email: user.getEmail(),
@@ -45,6 +45,7 @@ SyncedCron.add({
                                         product_id: h['product_id'],
                                         purchase_date: h['purchase_date'],
                                         expiry_date: h['expiry_date'],
+                                        plan_id: h['plan_id'],
                                         pricing_code: pricing['code']
                                     });
 
@@ -52,17 +53,16 @@ SyncedCron.add({
                             })
                         }
                     });
-
                    expire.createrExpireDate(expire_date).then(()=>{},(e)=>{console.log(e)});
                 };
-               export const sendEmailExpireDate = () => {
-                      const expireDate = ExpireDateCollection.find().fetch();
-                        const user     = OM.create<User>(User);
-                      _.forEach(expireDate, (e) => {
-                          if(e['pricing_code'] === "cpos_trial"){
-                              user.sendData(e, USER_EMAIL_TEMPLATE.TRIAL_EXPIRED);
-                          } else {
-                            user.sendData(e, USER_EMAIL_TEMPLATE.EXPIRED);
-                          }
-                      })
-               };
+               // export const sendEmailExpireDate = () => {
+               //        const expireDate = ExpireDateCollection.find().fetch();
+               //          const user     = OM.create<User>(User);
+               //        _.forEach(expireDate, (e) => {
+               //            if(e['pricing_code'] === "cpos_trial"){
+               //                user.sendData(e, USER_EMAIL_TEMPLATE.TRIAL_EXPIRED);
+               //            } else {
+               //              user.sendData(e, USER_EMAIL_TEMPLATE.EXPIRED);
+               //            }
+               //        })
+               // };

@@ -3,6 +3,9 @@ import {Meteor} from 'meteor/meteor';
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../models/user";
 import {Role} from "../../models/role";
+import {Plan} from "../../../sales/models/plan";
+import {PlanHelper} from "../../../sales/helper/plan-helper";
+import {RequestPlan} from "../../../sales/api/data/request-plan";
 
 var greetVar;
 var welcomeMsgVar;
@@ -394,6 +397,16 @@ export const ExtendEmailTemplate = {
         }
     },
     expired: (data)=>{
+        const plan = OM.create<Plan>(Plan).loadById(data['plan_id']);
+        const coupon_id = plan.getData('coupon_id');
+        const planHelper        = OM.create<PlanHelper>(PlanHelper);
+        const requestPlan: RequestPlan = {
+            pricing_id: plan.getPricingId(),
+            cycle: plan.getPricingCycle(),
+            num_of_cycle: 1,
+            addition_entity: plan.getAdditionEntity()
+        };
+        const {totals} = planHelper.collectTotal(requestPlan, plan.getProductId(), plan.getUserId(), coupon_id);
         return {
             to: `${data['email']}`,
             from: '',
@@ -418,7 +431,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Thank you so much for choosing and using ConnectPOS!</td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an email to notify you that your ConnectPOS license<br>will be AUTOMATICALLY renewed on ${formatDate(data['expiry_date'])} for<br>( số tiền tương ứng ).</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an email to notify you that your ConnectPOS license<br>will be AUTOMATICALLY renewed on ${formatDate(data['expiry_date'])} for<br><b>$${totals['total']['grand_total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</b>.</p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you have any questions, kindly contact us via<br>support@connectpos.com</p></td>

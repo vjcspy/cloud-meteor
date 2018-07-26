@@ -26,7 +26,7 @@ new ValidatedMethod({
                                 ]);
                             } else if ((!data['licenses'] || data['licenses'].length === 0) && data['baseUrl'] && data['startTime'] && data['endTime']) {
                                 storages = ClientStoragesCollection.collection.aggregate([
-                                    { $match: {base_url: data['baseUrl'], created_at: {$gte: data['startTime'], $lte: data['endTime']}}},
+                                    { $match: {base_url: new RegExp(data['baseUrl']), created_at: {$gte: data['startTime'], $lte: data['endTime']}}},
                                     { $group: { _id: {license: "$license", base_url: "$base_url"}, records: { $sum: 1} }  },
                                 ]);
                             } else if ((data['licenses'] && data['licenses'].length > 0) && !data['baseUrl'] && data['startTime'] && data['endTime']) {
@@ -36,7 +36,7 @@ new ValidatedMethod({
                                 ]);
                             } else {
                                 storages = ClientStoragesCollection.collection.aggregate([
-                                    { $match: {license: {$in: data['licenses']}, base_url: data['baseUrl'], created_at: {$gte: data['startTime'], $lte: data['endTime']}}},
+                                    { $match: {license: {$in: data['licenses']}, base_url: new RegExp(data['baseUrl']), created_at: {$gte: data['startTime'], $lte: data['endTime']}}},
                                     { $group: { _id: {license: "$license", base_url: "$base_url"}, records: { $sum: 1} }  },
                                 ]);
                             }

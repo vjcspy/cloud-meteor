@@ -15,5 +15,6 @@ export const ExpireDateCollection = CollectionMaker.make<ExpireDateInterface>("e
     product_id: String,
     purchase_date: String,
     expiry_date: String,
+    plan_id: String,
     pricing_code: String
 }));

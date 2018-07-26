@@ -64,7 +64,6 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                 };
 
                 plan.createSalePlan(newPlan);
-                payment.pay(plan, null, InvoiceType.TYPE_PLAN);
                 _d['plan_id'] = plan.getId();
             } else {
                 // Kiểm tra xem nếu license data khác với plan hiện tại (kiểm tra các field: pricing_id,pricing_cycle,addition_entity) thì tạo một plan mới cho license tương tự như trên
@@ -105,7 +104,6 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                         updated_at: DateTimeHelper.getCurrentDate()
                     };
                     plan.createSalePlan(newPlan);
-                    payment.pay(plan, null, InvoiceType.TYPE_PLAN);
                 }
                 _d['plan_id'] = plan.getId();
             }

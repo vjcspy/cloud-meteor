@@ -19,7 +19,7 @@ export class ClientStorage extends AbstractModel {
                         })
                 } else if(data['baseUrl'] && data['startTime'] && data['endTime']) {
                     this.getMongoCollection()
-                        .remove({license: license, base_url: data['baseUrl'],  created_at: {$gt: data['startTime'], $lt:data['endTime']} }, (err) => {
+                        .remove({license: license, base_url: new RegExp(data['baseUrl']),  created_at: {$gt: data['startTime'], $lt:data['endTime']} }, (err) => {
                             return err ? reject(err) : resolve();
                         })
                 } else {
