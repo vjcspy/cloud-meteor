@@ -62,9 +62,6 @@ export class Payment extends DataObject {
             credit_spent: totals.total.credit_spent,
             total: totals.total.grand_total
         };
-        if (parseInt(this.totals.discount_amount) === 0) {
-            this.entity.setData('coupon_id', null);
-        }
         return this.processPay(this.entity, gatewayAdditionData, InvoiceType.TYPE_PLAN);
     }
 
@@ -95,12 +92,9 @@ export class Payment extends DataObject {
                         && result.data['err']['errorCollections'].hasOwnProperty('transaction')
                         && result.data['err']['errorCollections']['transaction'].hasOwnProperty('validationErrors')
                         && result.data['err']['errorCollections']['transaction']['validationErrors'].hasOwnProperty('customerId')) {
-                        const noCard = _.find(result.data['err']['errorCollections']['transaction']['validationErrors']['customerId'], er => er['code'] === '91511');
-                        if (noCard) {
-                            throw new Meteor.Error("payment_pay_fail", noCard['message']);
-                        } else {
-                            throw new Meteor.Error("payment_pay_fail", "2There was a problem processing your credit card; please double check your payment information and try again");
-                        }
+                        _.forEach(result.data['err']['errorCollections']['transaction']['validationErrors']['customerId'], error => {
+                            throw new Meteor.Error("payment_pay_fail", error['message']);
+                        });
                     } else {
                         throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
                     }

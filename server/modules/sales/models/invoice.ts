@@ -20,10 +20,12 @@ export class Invoice extends AbstractModel {
             if (!entity.canInvoice()) {
                 throw new Meteor.Error('Error', 'can_not_invoice');
             }
+            if (totals.hasOwnProperty('discount_amount') && totals['discount_amount'] !== 0) {
+                this.setData('coupon_id', entity.getData('coupon_id'));
+            }
             this.setData('user_id', entity.getUserId())
                 .setData('entity_id', entity.getId())
-                .setData('coupon_id', entity.getData('coupon_id'))
-                .setData('grand_total', entity.getGrandtotal())
+                .setData('grand_total', totals['total'] ? totals['total'] : entity.getGrandtotal())
                 .setData('type', typePay)
                 .setData('totals', JSON.stringify(totals))
                 .setData('payment_data', JSON.stringify(data));
@@ -31,6 +33,12 @@ export class Invoice extends AbstractModel {
             entity, data, totals
         });
         await this.save();
+        const coupon_id = this.getData('coupon_id');
+        if(coupon_id) {
+            let coupon = OM.create<Coupon>(Coupon).loadById(coupon_id);
+            coupon.setData('used', coupon.getData('used') + 1);
+            await coupon.save();
+        }
         if(typePay === InvoiceType.TYPE_PLAN) {
             if (entity.getData('pricing_cycle') === ProductLicenseBillingCycle.LIFE_TIME || this.getPricing().isTrial()) {
                 entity.setData('status', PlanStatus.SALE_COMPLETE)
@@ -39,12 +47,7 @@ export class Invoice extends AbstractModel {
             } else {
                 StoneLogger.error('can_not_update_plan_status', {entity});
             }
-            const coupon_id = entity.getData('coupon_id');
-            if(coupon_id) {
-                let coupon = OM.create<Coupon>(Coupon).loadById(coupon_id);
-                coupon.setData('used', coupon.getData('used') + 1);
-                await coupon.save();
-            }
+
         } else if (typePay === InvoiceType.TYPE_ADDITIONFEE) {
             entity.setData('status', AdditionFeeStatus.SALE_COMPLETE);
         }
