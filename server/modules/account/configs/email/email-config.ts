@@ -483,7 +483,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing Plan: <span style="font-weight: bold">${data[0]['pricing_plan']}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Total Amount: <span style="font-weight: bold">$ ${data[0]['total_amount'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Total Amount: <span style="font-weight: bold">$${data[0]['total_amount'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Transaction Date: <span style="font-weight: bold">${formatDate(data[0]['transaction_date'])}</span></p></td>
