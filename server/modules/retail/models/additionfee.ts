@@ -27,6 +27,9 @@ export class AdditionFee extends  AbstractModel {
     getStatus(): number {
         return this.getData('status');
     }
+    getProductId(): number {
+        return this.getData('product_id');
+    }
     canInvoice(): boolean {
         // if order is sale -> status = Pending and not any invoice created
         if (this.getStatus() === AdditionFeeStatus.SALE_PENDING) {

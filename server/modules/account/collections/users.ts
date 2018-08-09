@@ -35,17 +35,27 @@ export const userSchema = new SimpleSchema({
         optional: true
     },
     assign_to_agency: {
-        type: String,
+        type: Array,
         optional: true
     },
+    'assign_to_agency.$': new SimpleSchema(
+        {
+            agemcy_id: String,
+        }
+    ),
     agency : {
         type:Object,
         optional:true
     },
     take_care_by_agency: {
-        type: String,
+        type: Array,
         optional: true
     },
+    'take_care_by_agency.$': new SimpleSchema(
+        {
+           agemcy_id: String,
+        }
+    ),
     company_name: {
         type: String,
         optional: true

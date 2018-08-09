@@ -5,8 +5,8 @@ export interface UserInterface extends Meteor.User {
     created_at?: Date;
     updated_at?: Date;
     created_by_user_id?: String;
-    take_care_by_agency?: String;
-    assign_to_agency?: String;
+    take_care_by_agency?: UserHasAgency[];
+    assign_to_agency?: UserHasAgency[];
     company_name?:String;
     url_customer_domain?:String;
 
@@ -71,3 +71,6 @@ export  interface  Commission {
     receipt_date?: Date;
 }
 
+export interface UserHasAgency {
+    agency_id: String;
+}

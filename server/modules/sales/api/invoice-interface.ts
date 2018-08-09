@@ -7,6 +7,8 @@ export interface InvoiceInterface {
     _id?: string;
     user_id: string;
     entity_id: string;
+    product_id: string;
+    agency_id?: string;
     coupon_id?: string;
     type: InvoiceType;
     grand_total: number;

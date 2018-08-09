@@ -23,8 +23,12 @@ export class Invoice extends AbstractModel {
             if (totals.hasOwnProperty('discount_amount') && totals['discount_amount'] !== 0) {
                 this.setData('coupon_id', entity.getData('coupon_id'));
             }
+            if(typePay === InvoiceType.TYPE_ADDITIONFEE) {
+                this.setData('agency_id', entity.getData('agency_id'));
+            }
             this.setData('user_id', entity.getUserId())
                 .setData('entity_id', entity.getId())
+                .setData('product_id', entity.getProductId())
                 .setData('grand_total', totals['total'] ? totals['total'] : entity.getGrandtotal())
                 .setData('type', typePay)
                 .setData('totals', JSON.stringify(totals))
