@@ -22,9 +22,7 @@ Meteor.publishComposite("sales_invoice", function (): PublishCompositeConfig<Inv
     if (user.isInRoles([Role.AGENCY], Role.GROUP_CLOUD)) {
         return {
             find: () => {
-                const  users = Users.collection.find({$or: [{  take_care_by_agency: Meteor.userId() } , {  created_by_user_id: Meteor.userId() } ,{ assign_to_agency: Meteor.userId()}] } ).fetch();
-                let ids = _.map(users, (user) => user['_id']);
-                return InvoiceCollection.collection.find({user_id:  {$in : ids} , type: InvoiceType.TYPE_PLAN});
+                return InvoiceCollection.collection.find({agency_id:  Meteor.userId()});
             }
         }
     }
@@ -32,7 +30,7 @@ Meteor.publishComposite("sales_invoice", function (): PublishCompositeConfig<Inv
     if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN], Role.GROUP_CLOUD)) {
         return {
             find: () => {
-                return InvoiceCollection.collection.find({type: InvoiceType.TYPE_PLAN});
+                return InvoiceCollection.collection.find();
             }
         }
     }
