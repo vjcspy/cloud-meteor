@@ -32,12 +32,15 @@ export class Invoice extends AbstractModel {
              if(typePay === InvoiceType.TYPE_PLAN) {
                 const owner = Users.findOne({_id: entity.getUserId()});
                 if (owner && owner['assign_to_agency'] && owner['assign_to_agency'].length > 0) {
-                    const hasInvoice = InvoiceCollection.findOne({user_id: entity.getUserId(), product_id: entity.getProductId(), grand_total: {$gt: 0}});
+                    const hasInvoice = InvoiceCollection.findOne({user_id: entity.getUserId(), product_id: entity.getProductId(), type: InvoiceType.TYPE_PLAN, grand_total: {$gt: 0}});
                     if (hasInvoice) {
                         if(hasInvoice['agency_id']) {
                             const agency = Users.collection.findOne({_id: hasInvoice['agency_id']});
                             if (agency && agency.hasOwnProperty('agency') && agency['agency'].hasOwnProperty('agency_type') && agency['agency']['agency_type'] == 0) {
-                                this.setData('agency_id', agency['_id']);
+                                const hasAgency = _.find(owner['take_care_by_agency'], a => a['agency_id'] === agency['_id']);
+                                if(hasAgency) {
+                                    this.setData('agency_id', agency['_id']);
+                                }
                             }
                         }
                     } else {
