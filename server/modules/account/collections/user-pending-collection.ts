@@ -3,7 +3,11 @@ import SimpleSchema from 'simpl-schema';
 import {UserPendingInterface} from "../api/user-pending-interface";
 
 export const UserPendingCollection = CollectionMaker.make<UserPendingInterface>("user_pending", new SimpleSchema({
-    customer_name: {
+    first_name: {
+        type: String,
+        optional: true
+    },
+    last_name: {
         type: String,
         optional: true
     },

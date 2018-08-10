@@ -14,7 +14,8 @@ export class CommonUser {
     public  static  storeUserPending(data:Object, duplicated_with: string): void {
         let defer = $q.defer();
         let user_pending: UserPendingModel = OM.create<UserPendingModel>(UserPendingModel);
-        user_pending.setData('customer_name',data['customer_name'])
+        user_pending.setData('first_name',data['first_name'])
+            .setData('last_name',data['last_name'])
             .setData('username',data['username'])
             .setData('email', data["email"])
             .setData('phone_number', data["phone_number"])
