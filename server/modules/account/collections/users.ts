@@ -1,5 +1,5 @@
 import {CollectionMaker} from "../../../code/MeteorBase/CollectionMaker";
-import {Agency, UserInterface} from "../api/user-interface";
+import {UserInterface} from "../api/user-interface";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {User} from "../models/user";
 import {Role} from "../models/role";
@@ -40,7 +40,7 @@ export const userSchema = new SimpleSchema({
     },
     'assign_to_agency.$': new SimpleSchema(
         {
-            agemcy_id: String,
+            agency_id: String,
         }
     ),
     agency : {
@@ -53,7 +53,7 @@ export const userSchema = new SimpleSchema({
     },
     'take_care_by_agency.$': new SimpleSchema(
         {
-           agemcy_id: String,
+            agency_id: String,
         }
     ),
     company_name: {

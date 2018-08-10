@@ -4,6 +4,7 @@ import {CodeLogin} from "../models/code-login";
 import {OM} from "../../../code/Framework/ObjectManager";
 import {CodeLoginsCollection} from "../collections/code-login-collection";
 
+
 export class SupportToken {
     public generateStampedLoginToken = function () {
         return {token: Random.secret(), when: new Date()};
