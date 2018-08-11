@@ -21,5 +21,11 @@ Meteor.publishComposite("addition_fee", function (): PublishCompositeConfig <Add
                 return AdditionFeeCollection.collection.find({user_id: this.userId});
             }
         }
+    } else if (user.isInRoles(Role.AGENCY)) {
+        return {
+            find: () => {
+                return AdditionFeeCollection.collection.find({agency_id: this.userId});
+            }
+        }
     }
 });

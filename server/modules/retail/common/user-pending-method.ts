@@ -14,14 +14,14 @@ export class CommonUser {
     public  static  storeUserPending(data:Object, duplicated_with: string): void {
         let defer = $q.defer();
         let user_pending: UserPendingModel = OM.create<UserPendingModel>(UserPendingModel);
-        user_pending.setData('first_name',data['first_name'])
-            .setData('last_name',data['last_name'])
+        user_pending.setData('first_name',data['profile']['first_name'])
+            .setData('last_name',data['profile']['last_name'])
             .setData('username',data['username'])
             .setData('email', data["email"])
-            .setData('phone_number', data["phone_number"])
-            .setData('company_name', data["company_name"])  // Waiting_For_Approval, Approved  , Rejected
-            .setData('customer_url', data["customer_url"])
-            .setData('created_by_user_id', data["created_by_user_id"])
+            .setData('phone_number', data['profile']["phone_number"])
+            .setData('company_name', data["company_name"])
+            .setData('customer_url', data["url_customer_domain"])
+            .setData('created_by_user_id', Meteor.userId())
             .setData('duplicated_with', duplicated_with)
             .save()
             .then(() => {
