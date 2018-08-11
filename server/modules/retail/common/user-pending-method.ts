@@ -18,7 +18,7 @@ export class CommonUser {
             .setData('last_name',data['profile']['last_name'])
             .setData('username',data['username'])
             .setData('email', data["email"])
-            .setData('phone_number', data['profile']["phone_number"])
+            .setData('phone_number', data['profile']["phone"])
             .setData('company_name', data["company_name"])
             .setData('customer_url', data["url_customer_domain"])
             .setData('created_by_user_id', Meteor.userId())
