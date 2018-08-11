@@ -15,7 +15,6 @@ new ValidatedMethod({
                         run: function (data: Object) {
                             const current_user = OM.create<User>(User).loadById(this.userId);
                             if (current_user.isInRoles([ Role.AGENCY], Role.GROUP_CLOUD)) {
-                                console.log(  data['username'] , data['email']);
                                 const duplicate_user = CommonUser.checkUserSystem(data['username'], data['email'])
                                 if (null !== duplicate_user) {
                                     CommonUser.storeUserPending(data,duplicate_user['username'])
