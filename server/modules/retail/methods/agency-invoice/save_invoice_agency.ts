@@ -14,11 +14,12 @@ new ValidatedMethod({
         }
     },
     run: function (data: Object) {
-        const  invoice_agency_data = data['invoice'];
         const  user_id = data['user_id'];
+        const  invoice_id = data['invoice_id'];
+        const  commission = data['commission'];
         let defer         = $q.defer();
         let agencyInvoiceModel = OM.create<AgencyInvoice>(AgencyInvoice);
-        const agency_invoice_data = {"user_id" : user_id, "month": invoice_agency_data['month'] ,  "year": invoice_agency_data['year'],"status":1, "grand_total":invoice_agency_data['grand_total']  };
+        const agency_invoice_data = {"user_id" : user_id, "invoice_id": invoice_id ,  "commission": commission};
         agencyInvoiceModel.addData(agency_invoice_data)
             .save()
             .then(() => defer.resolve(), (err) => defer.reject(err));

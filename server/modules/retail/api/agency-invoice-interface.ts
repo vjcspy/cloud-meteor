@@ -1,14 +1,6 @@
-
-export enum StatusPaid {
-    NOT_PAID ,
-    PAID
-}
-
 export interface  AgencyInvoiceInterface {
     user_id: string,
-    grand_total?:number,
-    month:number,
-    year: number,
-    status:StatusPaid,
+    invoice_id:string,
+    commission?:number,
     created_at: Date,
 }
