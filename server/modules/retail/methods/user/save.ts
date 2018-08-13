@@ -16,7 +16,7 @@ new ValidatedMethod({
                             const current_user = OM.create<User>(User).loadById(this.userId);
                             if (current_user.isInRoles([ Role.AGENCY], Role.GROUP_CLOUD)) {
                                 const duplicate_user = CommonUser.checkUserSystem(data['username'], data['email']);
-                                if (null !== duplicate_user) {
+                                if (duplicate_user) {
                                     CommonUser.storeUserPending(data,duplicate_user['username']);
                                     throw  new Meteor.Error('user.save', 'User already exists.');
                                 }
