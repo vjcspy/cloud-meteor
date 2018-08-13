@@ -18,11 +18,13 @@
     "types": [
       "meteor-typings",
       "@types/meteor-publish-composite",
-      "@types/meteor-accounts-phone"
+      "@types/meteor-accounts-phone",
+      "@types/lodash"
     ]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ],
   "compileOnSave": false,
   "atom": {

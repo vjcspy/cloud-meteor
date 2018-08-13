@@ -3,7 +3,12 @@
     "DDP_DEFAULT_CONNECTION_URL": "http://127.0.0.1:3000"
   },
   "import": [
+    "meteor-base",
+    "reactive-var",
+    "tracker",
+    "mongo",
     "accounts-base",
-    "mongo"
+    "accounts-password",
+    "kadira:login-state"
   ]
 }

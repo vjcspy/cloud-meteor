@@ -5,7 +5,7 @@ import {CollectionMaker} from "./CollectionMaker";
 export abstract class AbstractModel extends DataObject {
   protected abstract $collection: string;
   
-  getId() {
+  getId():string {
     return this.getData('_id');
   }
   
@@ -27,7 +27,6 @@ export abstract class AbstractModel extends DataObject {
       return !!_data ? this.addData(_data) : null;
     }
   }
-  
   save(): Promise<any> {
     if (!this.getMongoCollection())
       throw new Error("Can't get collection name from model");
@@ -35,13 +34,14 @@ export abstract class AbstractModel extends DataObject {
     let _id = this.getData('_id');
     return new Promise((resolve, reject) => {
       if (!_id) {
-        this.setData('createdAt', DateTimeHelper.getDateAsNumber());
+        this.setData('created_at', DateTimeHelper.getCurrentDate());
         this.getMongoCollection()
             .insert(this.getData(), (err, id) => {
-              return err ? reject(err) : resolve(id);
+                this.setData('_id', id);
+                return err ? reject(err) : resolve(id);
             });
       } else {
-        this.setData('updatedAt', DateTimeHelper.getDateAsNumber());
+        this.setData('updated_at', DateTimeHelper.getCurrentDate());
         this.getMongoCollection()
             .update({_id: _id}, {$set: this.getData()}, {}, (err) => {
               return err ? reject(err) : resolve(_id);
@@ -66,7 +66,6 @@ export abstract class AbstractModel extends DataObject {
       }
     });
   }
-  
   delete(): Promise<any> {
     return this.remove();
   }
