@@ -54,6 +54,8 @@ export class SupportToken {
                         .setData('height_qr_code', code_information['height_qr_code'])
                         .setData('width_bar_code', code_information['width_bar_code'])
                         .setData('format_bar_code', code_information['format_bar_code'])
+                        .setData('height_bar_code', code_information['height_bar_code'])
+                        .setData('show_value_bar_code', code_information['show_value_bar_code'])
                         .save()
                         .catch((err) => {
                             throw new Meteor.Error(err);
@@ -70,7 +72,9 @@ export class SupportToken {
                         'active_type': code_information['active_type'],
                         'height_qr_code': code_information['height_qr_code'],
                         'width_bar_code': code_information['width_bar_code'],
-                        'format_bar_code': code_information['format_bar_code']
+                        'format_bar_code': code_information['format_bar_code'],
+                        'height_bar_code': code_information['height_bar_code'],
+                        'show_value_bar_code': code_information['show_value_bar_code'],
                     };
                     login_code.addData(temp).save().then(() => {
                     }).catch((err) => {
