@@ -18,7 +18,7 @@ new ValidatedMethod({
                                 const duplicate_user = CommonUser.checkUserSystem(data['username'], data['email']);
                                 if (duplicate_user) {
                                     CommonUser.storeUserPending(data,duplicate_user['username']);
-                                    throw  new Meteor.Error('user.save', 'User already exists.');
+                                    throw  new Meteor.Error('user.save', 'Username or Email Address already exist. Our adminitrator will do review within 24 hours. Please contact us for more details.');
                                 }
                             }
                             let defer = $q.defer();
