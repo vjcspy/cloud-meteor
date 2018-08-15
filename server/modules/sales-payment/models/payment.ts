@@ -17,6 +17,7 @@ import {AdditionFeeHelper} from "../../retail/helper/addition-fee-helper";
 import {InvoiceType} from "../../sales/api/invoice-interface";
 import {RequestPlan} from "../../sales/api/data/request-plan";
 import {BraintreeLog} from "../../sales-payment-braintree/models/braintree-log";
+import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
 export class Payment extends DataObject {
     protected entity: Plan | AdditionFee;
@@ -88,7 +89,7 @@ export class Payment extends DataObject {
                 case PayResultType.PAY_SUCCESS:
                     return invoice.createInvoice(entity, result.data, this.totals, typePay);
                 case PayResultType.PAY_FAIL: {
-                    // this.saveLog(result.data);
+                    this.saveLog(result.data);
                     if (result.data.hasOwnProperty('err')
                         && result.data['err'].hasOwnProperty('errorCollections')
                         && result.data['err']['errorCollections'].hasOwnProperty('transaction')
@@ -194,21 +195,53 @@ export class Payment extends DataObject {
 
     protected saveLog(resultData) {
         var fs = require("fs");
-        fs.exists('./sample.log', function (exists) {
-
-        })
-        fs.readFile('./sample.log', function read(err, data) {
+        const today = DateTimeHelper.getCurrentDate().toLocaleDateString();
+        fs.stat('./braintree.log', (exists) => {
+            if (exists == null) {
+                fs.readFile('./braintree.log', function read(err, data) {
+                    if (err) {
+                        throw err;
+                    };
+                    let gcontent = JSON.parse(data.toString());
+                    let day = _.find(content, (log) => log['date'] === today);
+                    if(day) {
+                        day['data'].push(resultData);
+                    } else {
+                        content.push({
+                            date: today,
+                            data: [resultData]
+                        })
+                    }
+                    fs.writeFile("./braintree.log", JSON.stringify(content), (err) => {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        };
+                    });
+                });
+                return true;
+            } else if (exists.code === 'ENOENT') {
+                const content = [{
+                    date: today,
+                    data: [resultData]
+                }];
+                fs.writeFile("./braintree.log", JSON.stringify(content), (err) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    };
+                });
+            }
+        });
+        const content = [{
+            date: today,
+            data: [resultData]
+        }];
+        fs.writeFile("./braintree.log", JSON.stringify(content), (err) => {
             if (err) {
-                throw err;
+                console.error(err);
+                return;
             };
-            console.log(data);
-            fs.writeFile("./sample.log", JSON.stringify(resultData), (err) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                };
-                console.log("File has been created");
-            });
         });
     }
 }
