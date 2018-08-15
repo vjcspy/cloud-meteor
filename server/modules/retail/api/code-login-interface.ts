@@ -8,5 +8,7 @@ export interface CodeLoginInterface {
     height_qr_code?: number,
     width_bar_code?: number,
     format_bar_code?: string,
+    height_bar_code?: number,
+    show_value_bar_code?: boolean,
     last_login: Date,
 }

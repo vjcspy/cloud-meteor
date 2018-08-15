@@ -7,7 +7,10 @@ export enum AdditionFeeStatus {
 export interface AdditionFeeInterface {
     user_id: String,
     name: String,
+    product_id: String,
     description?: String ,
+    agency_id?: String,
+    rate?: Number,
     cost: Number,
     status: AdditionFeeStatus,
     created_at?: Date,
