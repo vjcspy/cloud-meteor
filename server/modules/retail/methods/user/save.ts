@@ -2,6 +2,7 @@ import * as $q from "q";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../account/models/user";
 import {Role} from "../../../account/models/role";
+import {CommonUser} from "../../common/user-pending-method";
 new ValidatedMethod({
                         name: "user.save",
                         validate: function () {
@@ -12,6 +13,14 @@ new ValidatedMethod({
                             }
                         },
                         run: function (data: Object) {
+                            const current_user = OM.create<User>(User).loadById(this.userId);
+                            if (current_user.isInRoles([ Role.AGENCY], Role.GROUP_CLOUD)) {
+                                const duplicate_user = CommonUser.checkUserSystem(data['username'], data['email']);
+                                if (duplicate_user) {
+                                    CommonUser.storeUserPending(data,duplicate_user['username']);
+                                    throw  new Meteor.Error('user.save', 'Username or Email Address already exist. Our adminitrator will do review within 24 hours. Please contact us for more details.');
+                                }
+                            }
                             let defer = $q.defer();
                             let user: User = OM.create<User>(User);
                             let profile           = user.getProfile() || {};

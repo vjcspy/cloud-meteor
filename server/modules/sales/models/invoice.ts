@@ -10,6 +10,9 @@ import {AdditionFee} from "../../retail/models/additionfee";
 import {InvoiceType} from "../api/invoice-interface";
 import {AdditionFeeStatus} from "../../retail/api/addition-fee-interface";
 import {Coupon} from "../../retail/models/coupon";
+import {Users} from "../../account/collections/users";
+import {InvoiceCollection} from "../collection/invoice";
+import * as _ from "lodash";
 
 export class Invoice extends AbstractModel {
     protected $collection: string = 'sales_invoice';
@@ -23,8 +26,31 @@ export class Invoice extends AbstractModel {
             if (totals.hasOwnProperty('discount_amount') && totals['discount_amount'] !== 0) {
                 this.setData('coupon_id', entity.getData('coupon_id'));
             }
+            if(typePay === InvoiceType.TYPE_ADDITIONFEE) {
+                this.setData('agency_id', entity.getData('agency_id'));
+            }
+             if(typePay === InvoiceType.TYPE_PLAN) {
+                const owner = Users.findOne({_id: entity.getUserId()});
+                if (owner && owner['assign_to_agency'] && owner['assign_to_agency'].length > 0) {
+                    const hasInvoice = InvoiceCollection.findOne({user_id: entity.getUserId(), product_id: entity.getProductId(), type: InvoiceType.TYPE_PLAN, grand_total: {$gt: 0}});
+                    if (hasInvoice) {
+                        if(hasInvoice['agency_id']) {
+                            const agency = Users.collection.findOne({_id: hasInvoice['agency_id']});
+                            if (agency && agency.hasOwnProperty('agency') && agency['agency'].hasOwnProperty('agency_type') && agency['agency']['agency_type'] == 0) {
+                                const hasAgency = _.find(owner['take_care_by_agency'], a => a['agency_id'] === agency['_id']);
+                                if(hasAgency) {
+                                    this.setData('agency_id', agency['_id']);
+                                }
+                            }
+                        }
+                    } else {
+                        this.setData('agency_id', _.findLast(owner['assign_to_agency'])['agency_id']);
+                    }
+                }
+            }
             this.setData('user_id', entity.getUserId())
                 .setData('entity_id', entity.getId())
+                .setData('product_id', entity.getProductId())
                 .setData('grand_total', totals['total'] ? totals['total'] : entity.getGrandtotal())
                 .setData('type', typePay)
                 .setData('totals', JSON.stringify(totals))

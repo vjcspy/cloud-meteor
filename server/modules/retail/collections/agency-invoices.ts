@@ -5,14 +5,12 @@ import {AgencyInvoiceInterface} from "../api/agency-invoice-interface";
 
 export const AgencyInvoicesCollection = CollectionMaker.make<AgencyInvoiceInterface>("agency_invoice", new SimpleSchema({
     user_id: String,
-    month: Number,
-    year: Number,
-    status: Number,
+    invoice_id: String,
     created_at: {
         type: Date,
         defaultValue: DateTimeHelper.getCurrentDate()
     },
-    grand_total: {
+    commission: {
         type: Number,
         optional: true
     } ,
