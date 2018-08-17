@@ -202,7 +202,7 @@ export class Payment extends DataObject {
                     if (err) {
                         throw err;
                     };
-                    let gcontent = JSON.parse(data.toString());
+                    let content = JSON.parse(data.toString());
                     let day = _.find(content, (log) => log['date'] === today);
                     if(day) {
                         day['data'].push(resultData);
@@ -232,16 +232,6 @@ export class Payment extends DataObject {
                     };
                 });
             }
-        });
-        const content = [{
-            date: today,
-            data: [resultData]
-        }];
-        fs.writeFile("./braintree.log", JSON.stringify(content), (err) => {
-            if (err) {
-                console.error(err);
-                return;
-            };
         });
     }
 }
