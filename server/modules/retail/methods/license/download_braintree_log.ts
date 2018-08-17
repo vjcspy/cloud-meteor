@@ -15,32 +15,21 @@ new ValidatedMethod ({
         const {date} = data;
         var fs = require("fs");
 
-        fs.stat('./braintree.log', (exists) => {
-            if (exists == null) {
-                fs.readFile('./braintree.log', function read(err, data) {
-                    if (err) {
-                        throw err;
-                    };
-                    console.log(1);
-                    let content = JSON.parse(data.toString());
-                    let day = _.find(content, (log) => log['date'] === date.toLocaleDateString());
-                    if(day) {
-                        fs.writeFile("./braintreeLog.log", JSON.stringify(day['data']), (err) => {
-                            if (err) {
-                                console.error(err);
-                                return;
-                            } else {
-
-                            }
-                        });
-                    } else {
-                        return;
-                    }
-                });
-            } else if (exists.code === 'ENOENT') {
+        if(fs.existsSync('./braintree.log')) {
+            var logData = fs.readFileSync('./braintree.log', 'utf-8', function read(err, data) {
+                if (err) {
+                    throw err;
+                }
+            });
+            let content = JSON.parse(logData.toString());
+            let day = _.find(content, (log) => log['date'] === date.toLocaleDateString());
+            if (day) {
+                return day;
+            } else {
                 return;
             }
-        });
-
+        } else {
+            return;
+        }
     }
 });
