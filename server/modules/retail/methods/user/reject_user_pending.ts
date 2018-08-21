@@ -22,7 +22,6 @@ new ValidatedMethod({
             throw new Meteor.Error("user.error_edit", "Pending User Not Found");
         }
         if(data['rejectReason']) {
-            console.log(2222);
             const agency: User = OM.create<User>(User).loadById(pendingUser.getData('created_by_user_id'));
             if (agency) {
                 const emailData = {
@@ -32,7 +31,6 @@ new ValidatedMethod({
                     pending_user: pendingUser.getData()
 
                 };
-                console.log(1111);
                 agency.sendData(emailData, USER_EMAIL_TEMPLATE.REJECT_USER);
             }
         }
