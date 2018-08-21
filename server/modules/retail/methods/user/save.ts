@@ -4,6 +4,7 @@ import {User} from "../../../account/models/user";
 import {Role} from "../../../account/models/role";
 import {CommonUser} from "../../common/user-pending-method";
 import {USER_EMAIL_TEMPLATE} from "../../../account/api/email-interface";
+import {UserPendingCollection} from "../../../account/collections/user-pending-collection";
 new ValidatedMethod({
                         name: "user.save",
                         validate: function () {
@@ -15,19 +16,6 @@ new ValidatedMethod({
                         },
                         run: function (data: Object) {
                             const current_user = OM.create<User>(User).loadById(this.userId);
-                            if (current_user.isInRoles([ Role.AGENCY], Role.GROUP_CLOUD)) {
-                                const duplicate_user = CommonUser.checkUserSystem(data['username'], data['email']);
-                                if (duplicate_user) {
-                                    CommonUser.storeUserPending(data,duplicate_user['username']);
-                                    const sendData = {
-                                        email: current_user.getEmail(),
-                                        username: current_user.getUsername(),
-                                        duplicate_data: data
-                                    }
-                                    current_user.sendData(sendData, USER_EMAIL_TEMPLATE.PENDING_USER);
-                                    throw  new Meteor.Error('user.save', 'Username or Email Address already exist. Our adminitrator will do review within 24 hours. Please contact us for more details.');
-                                }
-                            }
                             let defer = $q.defer();
                             let user: User = OM.create<User>(User);
                             let profile           = user.getProfile() || {};
@@ -52,6 +40,28 @@ new ValidatedMethod({
                                 }
                                 user.loadById(data['_id']);
                             } else {
+                                if (current_user.isInRoles([ Role.AGENCY], Role.GROUP_CLOUD)) {
+                                    const duplicate_user = CommonUser.checkUserSystem(data['email']);
+                                    if (duplicate_user) {
+                                        const submitedUser = UserPendingCollection.findOne({created_by_user_id: this.userId, duplicated_user_id: duplicate_user['_id']});
+                                        let approvedUser;
+                                        if (_.isArray(duplicate_user['assign_to_agency']) && duplicate_user['assign_to_agency'].length > 0) {
+                                            approvedUser = _.find(duplicate_user['assign_to_agency'], a => a['agency_id'] === this.userId);
+                                        }
+                                        if(submitedUser || approvedUser) {
+                                            throw  new Meteor.Error('user.save', 'You have been submitted this customer.');
+                                        }
+                                        CommonUser.storeUserPending(data,duplicate_user);
+                                        const sendData = {
+                                            email: current_user.getEmail(),
+                                            username: current_user.getUsername(),
+                                            duplicate_data: data
+                                        };
+                                        current_user.sendData(sendData, USER_EMAIL_TEMPLATE.PENDING_USER);
+                                        throw  new Meteor.Error('user.save', 'Username or Email Address already exist. Our adminitrator will do review within 24 hours. Please contact us for more details.');
+                                    }
+                                }
+
                                 let newUserId = Accounts.createUser({username: data['username'], email: data['email'], password: !!data['password'] ? data['password'] : User.DEFAULT_PASSWORD_USER, profile: profile});
                                 Accounts.sendEnrollmentEmail(newUserId);
                                 user.loadById(newUserId);
