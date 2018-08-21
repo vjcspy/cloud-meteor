@@ -7,7 +7,7 @@ import * as _ from "lodash";
 export class CommonUser {
     public static checkUserSystem(username: string, email: string): Object {
         const listUser = Users.find().fetch();
-        return _.find(listUser, (user) => user['username'] === username || user['emails'][0]['address'] === email);
+        return _.find(listUser, (user) => user['emails'][0]['address'] === email);
 
     }
 
@@ -27,6 +27,7 @@ export class CommonUser {
             .then(() => {
                 return defer.resolve();
             }).catch((err) => defer.reject(err));
+
         return defer.promise;
     }
 

@@ -3,6 +3,7 @@ import {OM} from "../../../../code/Framework/ObjectManager";
 import {User} from "../../../account/models/user";
 import {Role} from "../../../account/models/role";
 import {CommonUser} from "../../common/user-pending-method";
+import {USER_EMAIL_TEMPLATE} from "../../../account/api/email-interface";
 new ValidatedMethod({
                         name: "user.save",
                         validate: function () {
@@ -18,6 +19,12 @@ new ValidatedMethod({
                                 const duplicate_user = CommonUser.checkUserSystem(data['username'], data['email']);
                                 if (duplicate_user) {
                                     CommonUser.storeUserPending(data,duplicate_user['username']);
+                                    const sendData = {
+                                        email: current_user.getEmail(),
+                                        username: current_user.getUsername(),
+                                        duplicate_data: data
+                                    }
+                                    current_user.sendData(sendData, USER_EMAIL_TEMPLATE.PENDING_USER);
                                     throw  new Meteor.Error('user.save', 'Username or Email Address already exist. Our adminitrator will do review within 24 hours. Please contact us for more details.');
                                 }
                             }

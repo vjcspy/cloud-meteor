@@ -133,6 +133,16 @@ export class User extends AbstractModel {
                  this.saveEmailCollection(data[0],type);
                 break;
             }
+            case USER_EMAIL_TEMPLATE.PENDING_USER: {
+                Email.send(ExtendEmailTemplate.pendingUser(data));
+                this.saveEmailCollection(data,type);
+                break;
+            }
+            case USER_EMAIL_TEMPLATE.REJECT_USER: {
+                Email.send(ExtendEmailTemplate.rejectUser(data));
+                this.saveEmailCollection(data,type);
+                break;
+            }
             default: {
                 break;
             }
