@@ -43,4 +43,12 @@ export const CodeLoginsCollection  = CollectionMaker.make<CodeLoginInterface>("c
         type: Date,
         defaultValue: DateTimeHelper.getCurrentDate()
     },
+    unlock_type: {
+        type: Number,
+        optional: true
+    },
+    minute_unlock: {
+        type: Number,
+        optional: true
+    }
 }));

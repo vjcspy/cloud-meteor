@@ -7,6 +7,8 @@ new ValidatedMethod({
     run: function (setting) {
         const is_active_pin_code = parseInt(setting['active_pin_code']);
         const is_active_bar_code = parseInt(setting['active_bar_code']);
+        const unlock_type = parseInt(setting['unlock_type']);
+        const minute_unlock = parseInt(setting['minute_unlock']);
         const username = setting['username'];
         const login_code_model = OM.create<CodeLogin>(CodeLogin);
         const code_login =  login_code_model.load(username,'username');
@@ -22,6 +24,8 @@ new ValidatedMethod({
                 active_type = 3;
             }
             code_login.setData('active_type', active_type)
+                .setData('unlock_type', unlock_type)
+                .setData('minute_unlock', minute_unlock)
                 .save()
             return {
                 hasError: false,

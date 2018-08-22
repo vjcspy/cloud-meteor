@@ -11,4 +11,6 @@ export interface CodeLoginInterface {
     height_bar_code?: number,
     show_value_bar_code?: boolean,
     last_login: Date,
+    unlock_type?:number,
+    minute_unlock?: number
 }
