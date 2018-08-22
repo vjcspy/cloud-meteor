@@ -9,4 +9,5 @@ export interface UserPendingInterface {
     customer_url?: string;
     created_by_user_id?: string;
     duplicated_with?: string;
+    duplicated_user_id?: string;
 }

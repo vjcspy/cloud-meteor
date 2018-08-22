@@ -38,6 +38,10 @@ export const UserPendingCollection = CollectionMaker.make<UserPendingInterface>(
     duplicated_with: {
         type: String,
         optional: true
+    },
+    duplicated_user_id: {
+        type: String,
+        optional: true
     }
 }));
 

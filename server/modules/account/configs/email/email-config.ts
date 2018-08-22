@@ -515,6 +515,100 @@ export const ExtendEmailTemplate = {
               </td></tr></tbody></table>`,
         }
     },
+    pendingUser: (data)=>{
+        return {
+            to: `${data['email']}`,
+            from: '',
+            subject: '[ConnectPOS] Warning: Review Duplicated Contact',
+            html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+               <tbody>
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                    <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
+                                  <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
+                                      <tbody>
+                                          <tr>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['username']},</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">The email address ${data['duplicate_data']['email']} you've registered already exists in our database.<br> Our adminstrator will review and notify you of the final result via email within 24 hours.</p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">If you have any questions, please contact us:</p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight:bold">Email: <span style='font-weight: bold'>support@connectpos.com</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                            </tr>
+                    </tbody>
+                </table>
+              </td></tr></tbody></table>`,
+        }
+    },
+    rejectUser: (data)=>{
+        return {
+            to: `${data['email']}`,
+            from: '',
+            subject: '[ConnectPOS] Your New Account Has Been Rejected',
+            html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+               <tbody>
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                    <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); margin: 0 auto" border="0" width="600"  cellspacing="0" cellpadding="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
+                                  <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
+                                      <tbody>
+                                          <tr>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['username']},</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">We regret to tell you that the account you've just created with the email adress ${data['pending_user']['email']} <br> has been rejected due to the following reason:
+</p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">${data['reject_reason']}</p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">If you have any questions, please contact us:</p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight:bold">Email: <span style='font-weight: bold'>support@connectpos.com</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                            </tr>
+                    </tbody>
+                </table>
+              </td></tr></tbody></table>`,
+        }
+    },
 
 };
 function formatDate(date) {

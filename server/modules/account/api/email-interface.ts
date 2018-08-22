@@ -3,7 +3,9 @@ export enum USER_EMAIL_TEMPLATE  {
     SALE,
     TRIAL_EXPIRED,
     EXPIRED,
-    INVOICE
+    INVOICE,
+    PENDING_USER,
+    REJECT_USER,
 };
 export interface EmailInterface {
     product_id?: string;
