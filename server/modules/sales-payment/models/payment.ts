@@ -16,6 +16,8 @@ import {AdditionFee} from "../../retail/models/additionfee";
 import {AdditionFeeHelper} from "../../retail/helper/addition-fee-helper";
 import {InvoiceType} from "../../sales/api/invoice-interface";
 import {RequestPlan} from "../../sales/api/data/request-plan";
+import {BraintreeLog} from "../../sales-payment-braintree/models/braintree-log";
+import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
 
 export class Payment extends DataObject {
     protected entity: Plan | AdditionFee;
@@ -87,20 +89,31 @@ export class Payment extends DataObject {
                 case PayResultType.PAY_SUCCESS:
                     return invoice.createInvoice(entity, result.data, this.totals, typePay);
                 case PayResultType.PAY_FAIL: {
+                    this.saveLog(result.data);
                     if (result.data.hasOwnProperty('err')
                         && result.data['err'].hasOwnProperty('errorCollections')
                         && result.data['err']['errorCollections'].hasOwnProperty('transaction')
-                        && result.data['err']['errorCollections']['transaction'].hasOwnProperty('validationErrors')
-                        && result.data['err']['errorCollections']['transaction']['validationErrors'].hasOwnProperty('customerId')) {
-                        _.forEach(result.data['err']['errorCollections']['transaction']['validationErrors']['customerId'], error => {
-                            throw new Meteor.Error("payment_pay_fail", error['message']);
+                        && result.data['err']['errorCollections']['transaction'].hasOwnProperty('validationErrors')) {
+                        const braintreeLog = OM.create<BraintreeLog>(BraintreeLog);
+                        const log = {
+                            user_id: entity.getUserId(),
+                            entity_id: entity.getId(),
+                            type: typePay,
+                            transaction_data: JSON.stringify(result.data['err']['errorCollections']['transaction'])
+
+                        };
+                        await braintreeLog.addData(log).save();
+                        _.forEach(result.data['err']['errorCollections']['transaction']['validationErrors'], errors => {
+                            _.forEach(errors, err => {
+                                throw new Meteor.Error("payment_pay_fail", err['message']);
+                            });
                         });
                     } else {
-                        throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
+                        throw new Meteor.Error("payment_pay_fail", "1 There was a problem processing your credit card; please double check your payment information and try again");
                     }
                 }
                 case PayResultType.PAY_ERROR:
-                    throw new Meteor.Error("payment_pay_error", "There was a problem processing your credit card; please double check your payment information and try again");
+                    throw new Meteor.Error("payment_pay_error", "2 There was a problem processing your credit card; please double check your payment information and try again");
                 default:
                     throw new Meteor.Error("payment_pay", 'wrong_format_result');
             }
@@ -178,5 +191,47 @@ export class Payment extends DataObject {
         }
 
         return this.user;
+    }
+
+    protected saveLog(resultData) {
+        var fs = require("fs");
+        const today = DateTimeHelper.getCurrentDate().toLocaleDateString();
+        fs.stat('./braintree.log', (exists) => {
+            if (exists == null) {
+                fs.readFile('./braintree.log', function read(err, data) {
+                    if (err) {
+                        throw err;
+                    };
+                    let content = JSON.parse(data.toString());
+                    let day = _.find(content, (log) => log['date'] === today);
+                    if(day) {
+                        day['data'].push(resultData);
+                    } else {
+                        content.push({
+                            date: today,
+                            data: [resultData]
+                        })
+                    }
+                    fs.writeFile("./braintree.log", JSON.stringify(content), (err) => {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        };
+                    });
+                });
+                return true;
+            } else if (exists.code === 'ENOENT') {
+                const content = [{
+                    date: today,
+                    data: [resultData]
+                }];
+                fs.writeFile("./braintree.log", JSON.stringify(content), (err) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    };
+                });
+            }
+        });
     }
 }
