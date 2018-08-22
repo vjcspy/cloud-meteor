@@ -58,7 +58,7 @@ new ValidatedMethod({
                                             duplicate_data: data
                                         };
                                         current_user.sendData(sendData, USER_EMAIL_TEMPLATE.PENDING_USER);
-                                        throw  new Meteor.Error('user.save', 'This email address already exists in our database. Our adminstrator will review and notify you of the final result via email within 24 hours. If you have any questions, please contact us.');
+                                        throw  new Meteor.Error('user.duplicate', 'duplicated_customer');
                                     }
                                 }
 
