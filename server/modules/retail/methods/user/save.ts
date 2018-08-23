@@ -41,6 +41,10 @@ new ValidatedMethod({
                                 user.loadById(data['_id']);
                             } else {
                                 if (current_user.isInRoles([ Role.AGENCY], Role.GROUP_CLOUD)) {
+                                    const duplicate_username = CommonUser.checkUserSystem(data['username']);
+                                    if(duplicate_username) {
+                                        throw  new Meteor.Error('user.save', 'Username already exists.');
+                                    }
                                     const duplicate_user = CommonUser.checkUserSystem(data['email']);
                                     if (duplicate_user) {
                                         const submitedUser = UserPendingCollection.findOne({created_by_user_id: this.userId, duplicated_user_id: duplicate_user['_id']});
