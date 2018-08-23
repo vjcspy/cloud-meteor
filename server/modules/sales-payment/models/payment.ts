@@ -103,17 +103,11 @@ export class Payment extends DataObject {
 
                         };
                         await braintreeLog.addData(log).save();
-                        _.forEach(result.data['err']['errorCollections']['transaction']['validationErrors'], errors => {
-                            _.forEach(errors, err => {
-                                throw new Meteor.Error("payment_pay_fail", err['message']);
-                            });
-                        });
-                    } else {
-                        throw new Meteor.Error("payment_pay_fail", "1 There was a problem processing your credit card; please double check your payment information and try again");
+                        throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
                     }
                 }
                 case PayResultType.PAY_ERROR:
-                    throw new Meteor.Error("payment_pay_error", "2 There was a problem processing your credit card; please double check your payment information and try again");
+                    throw new Meteor.Error("payment_pay_error", "There was a problem processing your credit card; please double check your payment information and try again");
                 default:
                     throw new Meteor.Error("payment_pay", 'wrong_format_result');
             }
