@@ -13,7 +13,7 @@ import {USER_EMAIL_TEMPLATE} from "../../account/api/email-interface";
 import {PricingCollection} from "../../retail/collections/prices";
 import {Users} from "../../account/collections/users";
 import {BRAINTREE_ENVIROMENT} from "../../sales-payment-braintree/etc/braintree.config";
-import * as list from "../etc/list-email.json";
+import * as list from "../../../../list-email.json";
 /**
  * Handle after created invoice to change plan
  */
