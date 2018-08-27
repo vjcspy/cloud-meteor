@@ -26,6 +26,7 @@ new ValidatedMethod({
                     user_id: data['_id']
                 });
             } else {
+                user_assigned = [];
                 const listAssigned = Users.collection.find({assign_to_agency: {$in: [{agency_id: agency.getId()}]}}).fetch();
                 if (listAssigned) {
                     _.forEach(listAssigned, (u) => {
