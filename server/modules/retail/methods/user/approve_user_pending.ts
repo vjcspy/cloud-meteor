@@ -22,9 +22,12 @@ new ValidatedMethod({
             let agencyDetail = agency.getData('agency');
             user_assigned = agencyDetail['user_assigned'];
             if(user_assigned) {
-                user_assigned.push({
-                    user_id: data['_id']
-                });
+                const existsUser = _.find(user_assigned, u => u['user_id'] === data['_id']);
+                if (!existsUser) {
+                    user_assigned.push({
+                        user_id: data['_id']
+                    });
+                }
             } else {
                 user_assigned = [];
                 const listAssigned = Users.collection.find({assign_to_agency: {$in: [{agency_id: agency.getId()}]}}).fetch();
@@ -35,9 +38,12 @@ new ValidatedMethod({
                         });
                     });
                 }
-                user_assigned.push({
-                    user_id: data['_id']
-                })
+                const existsUser = _.find(user_assigned, u => u['user_id'] === data['_id']);
+                if (!existsUser) {
+                    user_assigned.push({
+                        user_id: data['_id']
+                    });
+                }
             }
             agencyDetail['user_assigned'] = user_assigned;
             agency.setData('agency', agencyDetail)
