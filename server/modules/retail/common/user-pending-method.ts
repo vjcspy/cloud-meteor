@@ -5,9 +5,9 @@ import {UserPendingModel} from "../../account/models/user-pending-model";
 import * as _ from "lodash";
 
 export class CommonUser {
-    public static checkUserSystem(email: string): Object {
+    public static checkUserSystem(data: string): Object {
         const listUser = Users.find().fetch();
-        return _.find(listUser, (user) => user['emails'][0]['address'] === email);
+        return _.find(listUser, (user) => user['username'] === data || user['emails'][0]['address'] === data);
 
     }
 
