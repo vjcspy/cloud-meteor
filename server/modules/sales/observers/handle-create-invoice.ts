@@ -12,7 +12,8 @@ import {ProductCollection} from "../../retail/collections/products";
 import {USER_EMAIL_TEMPLATE} from "../../account/api/email-interface";
 import {PricingCollection} from "../../retail/collections/prices";
 import {Users} from "../../account/collections/users";
-
+import {BRAINTREE_ENVIROMENT} from "../../sales-payment-braintree/etc/braintree.config";
+import * as list from "../../../../list-email.json";
 /**
  * Handle after created invoice to change plan
  */
@@ -25,27 +26,34 @@ export class HandleCreateInvoice implements ObserverInterface {
         }
         const plan: Plan = data['entity'];
         const userId     = plan.getUserId();
-
+        let emailData;
         let user = OM.create<User>(User);
         user.loadById(userId);
-        const braintree: any[] = [];
         const payment_data = JSON.parse(data['invoice']['_data']['payment_data']);
         const product = ProductCollection.findOne({'_id': data['entity']['_data']['product_id']});
         const pricing = PricingCollection.findOne({'_id': data['entity']['_data']['pricing_id']});
         const users   = Users.findOne({'_id': data['entity']['_data']['user_id']});
-        braintree.push({
+        let listEmails: any[] = [user.getEmail()];
+        emailData = {
             user_name  : users['username'],
-           product_name: product['name'],
-           product_id  : data['entity']['_data']['product_id'],
-           pricing_plan: pricing['display_name'],
-           total_amount: data['totals']['total'],
-           email       : user.getEmail(),
-           card_number : payment_data.hasOwnProperty('transaction')? payment_data['transaction']['creditCard']['maskedNumber']:"",
-           transaction_date: data['invoice']['_data']['created_at'],
-           order_number: data['invoice']['_data']['_id'],
-           order_status: 'Complete'
+            product_name: product['name'],
+            product_id  : data['entity']['_data']['product_id'],
+            pricing_plan: pricing['display_name'],
+            total_amount: data['totals']['total'],
+            card_number : payment_data.hasOwnProperty('transaction')? payment_data['transaction']['creditCard']['maskedNumber']:"",
+            transaction_date: data['invoice']['_data']['created_at'],
+            order_number: data['invoice']['_data']['_id'],
+            order_status: 'Complete'
+        };
+        if(BRAINTREE_ENVIROMENT !== 'SANDBOX') {
+            if (_.isArray(list['emails'])) {
+                listEmails = _.concat(listEmails,list['emails']);
+            }
+        }
+        _.forEach(listEmails, (email) => {
+            emailData['email'] = email;
+            user.sendData(emailData,USER_EMAIL_TEMPLATE.INVOICE);
         });
-        user.sendData(braintree,USER_EMAIL_TEMPLATE.INVOICE);
         try {
             if (!user.getId()) {
                 throw new Meteor.Error('Error', 'can_not_found_user_when_upgrade_plan');

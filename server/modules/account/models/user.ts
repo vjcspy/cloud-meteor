@@ -130,7 +130,7 @@ export class User extends AbstractModel {
             }
             case USER_EMAIL_TEMPLATE.INVOICE: {
                  Email.send(ExtendEmailTemplate.invoice(data));
-                 this.saveEmailCollection(data[0],type);
+                 this.saveEmailCollection(data,type);
                 break;
             }
             case USER_EMAIL_TEMPLATE.PENDING_USER: {

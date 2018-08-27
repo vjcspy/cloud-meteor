@@ -454,7 +454,7 @@ export const ExtendEmailTemplate = {
     },
     invoice: (data)=>{
         return {
-            to: `${data[0]['email']}`,
+            to: `${data['email']}`,
             from: '',
             subject: 'Thank you for purchasing ConnectPOS!',
             html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
@@ -471,31 +471,31 @@ export const ExtendEmailTemplate = {
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data[0]['user_name']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['user_name']},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">You've completed your payment for ConnectPOS license.<br>Here are your purchase details:</td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Product Name: <span style="font-weight: bold"> ${data[0]['product_name']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Product Name: <span style="font-weight: bold"> ${data['product_name']}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing Plan: <span style="font-weight: bold">${data[0]['pricing_plan']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing Plan: <span style="font-weight: bold">${data['pricing_plan']}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Total Amount: <span style="font-weight: bold">$${data[0]['total_amount'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Total Amount: <span style="font-weight: bold">$${data['total_amount'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Transaction Date: <span style="font-weight: bold">${formatDate(data[0]['transaction_date'])}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Transaction Date: <span style="font-weight: bold">${formatDate(data['transaction_date'])}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Number: <span style="font-weight: bold">${data[0]['order_number']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Number: <span style="font-weight: bold">${data['order_number']}</span></p></td>
                                           </tr>
                                            <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Card Number: <span style="font-weight: bold">${data[0]['card_number']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Card Number: <span style="font-weight: bold">${data['card_number']}</span></p></td>
                                           </tr>
                                            <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Status: <span style="font-weight: bold">${data[0]['order_status']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Status: <span style="font-weight: bold">${data['order_status']}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Please note that this is an automated email.If you<br>have any questions, kindly contact us via<br>support@connectpos.com</p></td>
