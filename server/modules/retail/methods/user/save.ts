@@ -5,6 +5,8 @@ import {Role} from "../../../account/models/role";
 import {CommonUser} from "../../common/user-pending-method";
 import {USER_EMAIL_TEMPLATE} from "../../../account/api/email-interface";
 import {UserPendingCollection} from "../../../account/collections/user-pending-collection";
+import {Users} from "../../../account/collections/users";
+import * as _ from "lodash";
 new ValidatedMethod({
                         name: "user.save",
                         validate: function () {
@@ -69,6 +71,34 @@ new ValidatedMethod({
                                 let newUserId = Accounts.createUser({username: data['username'], email: data['email'], password: !!data['password'] ? data['password'] : User.DEFAULT_PASSWORD_USER, profile: profile});
                                 Accounts.sendEnrollmentEmail(newUserId);
                                 user.loadById(newUserId);
+                                user.setData('created_by_user_id', Meteor.userId());
+                                if(data['assign_to_agency']) {
+                                    let agency: User = OM.create<User>(User).loadById(_.findLast(data['assign_to_agency'])['agency_id']);
+                                    let user_assigned;
+                                    let agencyDetail = agency.getData('agency');
+                                    user_assigned = agencyDetail['user_assigned'];
+                                    if(user_assigned) {
+                                        user_assigned.push({
+                                            user_id: newUserId
+                                        });
+                                    } else {
+                                        user_assigned = [];
+                                        const listAssigned = Users.collection.find({assign_to_agency: {$in: [{agency_id: agency.getId()}]}}).fetch();
+                                        if (listAssigned) {
+                                            _.forEach(listAssigned, (u) => {
+                                                user_assigned.push({
+                                                    user_id: u['_id']
+                                                });
+                                            });
+                                        }
+                                        user_assigned.push({
+                                            user_id: newUserId
+                                        })
+                                    }
+                                    agencyDetail['user_assigned'] = user_assigned;
+                                    agency.setData('agency', agencyDetail)
+                                          .save();
+                                }
                             }
                             if (!user.getId()) {
                                 throw new Meteor.Error('user.save', 'can_not_find_user');
@@ -85,7 +115,6 @@ new ValidatedMethod({
                                 .setData('submission_status', data["submission_status"])  // Waiting_For_Approval, Approved  , Rejected
                                 .setData('assign_to_agency', data["assign_to_agency"])
                                 .setData('reject_reason', data["reject_reason"])
-                                .setData('created_by_user_id', Meteor.userId())
                                 .save()
                                 .then(() => {
                                     return user.setRoles(data['roles']['cloud_group'],Role.GROUP_CLOUD);})
