@@ -50,6 +50,7 @@ export  interface  Agency {
     company?:String;
     status?:Boolean;
     commission?:Commission;
+    user_assigned: UserAssigned[];
 }
 
 
@@ -73,4 +74,8 @@ export  interface  Commission {
 
 export interface UserHasAgency {
     agency_id: String;
+}
+
+export interface UserAssigned {
+    user_id: String;
 }
