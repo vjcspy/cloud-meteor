@@ -16,6 +16,12 @@ new ValidatedMethod({
     run: function (data: Object) {
         let defer = $q.defer();
         let user: User = OM.create<User>(User).loadById(data['_id']);
+        user.setData('assign_to_agency',data['assign_to_agency'])
+            .setData('take_care_by_agency', data['take_care_by_agency'])
+            .save()
+            .then(() => {
+                return defer.resolve();
+            }).catch((err) => defer.reject(err));
         if(data['assign_to_agency']) {
             let agency: User = OM.create<User>(User).loadById(_.findLast(data['assign_to_agency'])['agency_id']);
             let user_assigned = [];
@@ -47,14 +53,11 @@ new ValidatedMethod({
             }
             agencyDetail['user_assigned'] = user_assigned;
             agency.setData('agency', agencyDetail)
-                .save();
+                .save()
+                .then(() => {
+                    return defer.resolve();
+                }).catch((err) => defer.reject(err));
         }
-        user.setData('assign_to_agency',data['assign_to_agency'])
-            .setData('take_care_by_agency', data['take_care_by_agency'])
-            .save()
-            .then(() => {
-                return defer.resolve();
-            }).catch((err) => defer.reject(err));
         return defer.promise;
     }
 });
