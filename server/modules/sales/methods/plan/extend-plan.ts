@@ -5,6 +5,7 @@ import {Payment} from "../../../sales-payment/models/payment";
 import {Plan} from "../../models/plan";
 import {PaymentGatewayDataInterface} from "../../../sales-payment/models/payment/payment-gateway-data-interface";
 import {ProductCollection} from "../../../retail/collections/products";
+import {DateTimeHelper} from "../../../../code/Framework/DateTimeHelper";
 
 new ValidatedMethod({
                         name: "sales.extend_plan",
@@ -30,8 +31,10 @@ new ValidatedMethod({
                                 if (!licenseHasProduct) {
                                     return;
                                 } else {
-                                    const now = moment().toDate();
-                                    if (licenseHasProduct['expiry_date'] > now) {
+                                    const now = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
+                                    const expiryDate = moment(licenseHasProduct['expiry_date'], 'YYYY-MM-DD');
+                                    let diff        = expiryDate.diff(now,'days');
+                                    if (diff > 2) {
                                         return;
                                     } else {
                                         const plan = OM.create<Plan>(Plan).loadById(licenseHasProduct['plan_id']);
