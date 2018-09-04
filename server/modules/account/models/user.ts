@@ -143,6 +143,11 @@ export class User extends AbstractModel {
                 this.saveEmailCollection(data,type);
                 break;
             }
+            case USER_EMAIL_TEMPLATE.LIST_EXPIRED: {
+                Email.send(ExtendEmailTemplate.listExp(data));
+                this.saveEmailCollection(data,type);
+                break;
+            }
             default: {
                 break;
             }

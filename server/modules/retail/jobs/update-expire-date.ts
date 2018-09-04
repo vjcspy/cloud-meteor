@@ -8,17 +8,17 @@ import {Expiredate} from "../models/expiredate";
 import {User} from "../../account/models/user";
 import {PricingCollection} from "../collections/prices";
 import {USER_EMAIL_TEMPLATE} from "../../account/api/email-interface";
+import {BRAINTREE_ENVIROMENT} from "../../sales-payment-braintree/etc/braintree.config";
+import * as list from "../../../../list-email.json";
 
 SyncedCron.add({
                     name: "update expire date(00:00 everyday)",
                     schedule: function (parser) {
-                        return parser.text(' at 00:00 am ');
+                        return parser.text(' at 00:00 am');
                     },
                     job: function () {
                             updateExpireDate();
-                            // sendEmailExpireDate();
-
-
+                            sendEmailExpireDate();
                     }
                 });
                export const updateExpireDate = () => {
@@ -37,7 +37,7 @@ SyncedCron.add({
                                 let expireDate  = moment(h['expiry_date'], 'YYYY-MM-DD');
                                 let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
                                 let diff        = expireDate.diff(currentTime,'days');
-                                if (h['status'] == 1 && diff < 0) {
+                                if (h['status'] == 1 && diff < 3) {
                                     expire_date.push({
                                         license_id : l['_id'],
                                         email: user.getEmail(),
@@ -55,14 +55,34 @@ SyncedCron.add({
                     });
                    expire.createrExpireDate(expire_date).then(()=>{},(e)=>{console.log(e)});
                 };
-               // export const sendEmailExpireDate = () => {
-               //        const expireDate = ExpireDateCollection.find().fetch();
-               //          const user     = OM.create<User>(User);
-               //        _.forEach(expireDate, (e) => {
-               //            if(e['pricing_code'] === "cpos_trial"){
-               //                user.sendData(e, USER_EMAIL_TEMPLATE.TRIAL_EXPIRED);
-               //            } else {
-               //              user.sendData(e, USER_EMAIL_TEMPLATE.EXPIRED);
-               //            }
-               //        })
-               // };
+               export const sendEmailExpireDate = () => {
+                   const expireDate = ExpireDateCollection.find().fetch();
+                   const user     = OM.create<User>(User);
+                   let currentTime = moment(DateTimeHelper.getCurrentDate(), 'YYYY-MM-DD');
+                   let listExp = [];
+                   _.forEach(expireDate, (e) => {
+                          let expireDate  = moment(e['expiry_date'], 'YYYY-MM-DD');
+                          let diff        = expireDate.diff(currentTime,'days');
+                          if (diff === 1) {
+                              if(e['pricing_code'] === "cpos_trial"){
+                                  user.sendData(e, USER_EMAIL_TEMPLATE.TRIAL_EXPIRED);
+                              } else {
+                                  listExp.push(e['shop_owner_username']);
+                                  user.sendData(e, USER_EMAIL_TEMPLATE.EXPIRED);
+                              }
+                          }
+                      });
+                   if(listExp.length > 0 && BRAINTREE_ENVIROMENT !== 'SANDBOX') {
+                       let sendData = {
+                           listUser: listExp
+                       };
+                       let listSendEmails = [];
+                       if (_.isArray(list['sendExp'])) {
+                           listSendEmails = _.concat(listSendEmails,list['sendExp']);
+                       }
+                       _.forEach(listSendEmails, (email) => {
+                           sendData['email'] = email;
+                           user.sendData(sendData,USER_EMAIL_TEMPLATE.LIST_EXPIRED);
+                       });
+                   }
+               };

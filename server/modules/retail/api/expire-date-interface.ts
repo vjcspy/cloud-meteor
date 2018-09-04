@@ -3,8 +3,8 @@ export interface ExpireDateInterface {
     email?: String,
     shop_owner_username?: String,
     product_id: String,
-    purchase_date: String,
-    expiry_date: String,
+    purchase_date: Date,
+    expiry_date: Date,
     plan_id: String,
     pricing_code: String
 

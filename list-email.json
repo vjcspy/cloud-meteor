@@ -2,5 +2,8 @@
   "emails": [
     "thuynt2@smartosc.com",
     "khoild@smartosc.com"
+  ],
+  "sendExp": [
+    "thuynt2@smartosc.com"
   ]
 }
