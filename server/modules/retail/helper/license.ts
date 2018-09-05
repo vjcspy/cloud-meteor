@@ -43,7 +43,7 @@ export class LicenseHelper {
                 if (productLicense.plan_id === plan.getId()) {
                     // extend current plan
                     Object.assign(productLicense, {
-                        expiry_date: this.getExpiryDate(plan, pricing, moment(productLicense.expiry_date), true),
+                        expiry_date: this.getExpiryDate(plan, pricing, moment(productLicense.expiry_date)),
                         // status: 1,
                         last_invoice: DateTimeHelper.getCurrentDate(),
                         created_by: user.getId(),
@@ -129,26 +129,15 @@ export class LicenseHelper {
         }
     }
 
-    protected getExpiryDate(plan: Plan, pricing: Price, startDate = DateTimeHelper.getCurrentMoment(), extend:boolean = false) {
+    protected getExpiryDate(plan: Plan, pricing: Price, startDate = DateTimeHelper.getCurrentMoment()) {
         let expiry_date;
-        if (startDate < DateTimeHelper.getCurrentMoment()) {
-            startDate = DateTimeHelper.getCurrentMoment();
-        }
         if (pricing.getPriceType() === Price.TYPE_LIFETIME) {
             expiry_date = DateTimeHelper.getCurrentDate();
         } else if (pricing.getPriceType() === Price.TYPE_SUBSCRIPTION) {
-            if (extend) {
-                if (plan.getPricingCycle() === ProductLicenseBillingCycle.MONTHLY) {
-                    expiry_date = startDate.add(1, 'M').toDate();
-                } else if (plan.getPricingCycle() === ProductLicenseBillingCycle.ANNUALLY) {
-                    expiry_date = startDate.add(1, 'y').toDate();
-                }
-            } else {
-                if (plan.getPricingCycle() === ProductLicenseBillingCycle.MONTHLY) {
-                    expiry_date = startDate.add(plan.getNumberOfCycle(), 'M').toDate();
-                } else if (plan.getPricingCycle() === ProductLicenseBillingCycle.ANNUALLY) {
-                    expiry_date = startDate.add(plan.getNumberOfCycle(), 'y').toDate();
-                }
+            if (plan.getPricingCycle() === ProductLicenseBillingCycle.MONTHLY) {
+                expiry_date = startDate.add(plan.getNumberOfCycle(), 'M').toDate();
+            } else if (plan.getPricingCycle() === ProductLicenseBillingCycle.ANNUALLY) {
+                expiry_date = startDate.add(plan.getNumberOfCycle(), 'y').toDate();
             }
         } else if (pricing.getPriceType() === Price.TYPE_TRIAL) {
             expiry_date = DateTimeHelper.getCurrentMoment().add(pricing.getTrialDay(), 'd').toDate();
