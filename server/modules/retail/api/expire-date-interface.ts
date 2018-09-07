@@ -6,6 +6,7 @@ export interface ExpireDateInterface {
     purchase_date: Date,
     expiry_date: Date,
     plan_id: String,
-    pricing_code: String
+    pricing_code: String,
+    pricing_id: String
 
 }
