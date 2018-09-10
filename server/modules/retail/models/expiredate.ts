@@ -11,7 +11,8 @@ export class Expiredate extends AbstractModel {
                 .setData('purchase_date', ex['purchase_date'])
                 .setData('expiry_date', ex['expiry_date'])
                 .setData('plan_id', ex['plan_id'])
-                .setData('pricing_code', ex['pricing_code']);
+                .setData('pricing_code', ex['pricing_code'])
+                .setData('pricing_id', ex['pricing_id']);
                 this.save();
         })
 

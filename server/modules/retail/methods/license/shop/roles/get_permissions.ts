@@ -21,32 +21,32 @@ new ValidatedMethod({
                                                 }
                                             ],
                                         },
-                                        // {
-                                        //     name: "Users",
-                                        //     permissions: [
-                                        //         {
-                                        //             name: "Create New User",
-                                        //             permission: "create_new_user",
-                                        //             is_active: false
-                                        //         },
-                                        //         {
-                                        //             name: "View User",
-                                        //             permission: "view_user",
-                                        //             is_active: false
-                                        //         },
-                                        //         {
-                                        //             name: "Edit User",
-                                        //             permission: "edit_user",
-                                        //             is_active: false
-                                        //         },
-                                        //         {
-                                        //             name: "Delete User",
-                                        //             permission: "delete_user",
-                                        //             is_active: false
-                                        //         },
-                                        //
-                                        //     ],
-                                        // },
+                                        {
+                                            name: "Users",
+                                            permissions: [
+                                                {
+                                                    name: "Create New User",
+                                                    permission: "create_new_user",
+                                                    is_active: false
+                                                },
+                                                {
+                                                    name: "View User",
+                                                    permission: "view_user",
+                                                    is_active: false
+                                                },
+                                                {
+                                                    name: "Edit User",
+                                                    permission: "edit_user",
+                                                    is_active: false
+                                                },
+                                                {
+                                                    name: "Delete User",
+                                                    permission: "delete_user",
+                                                    is_active: false
+                                                },
+
+                                            ],
+                                        },
                                         {
                                             name: "Roles and Permissions",
                                             permissions: [

@@ -609,6 +609,52 @@ export const ExtendEmailTemplate = {
               </td></tr></tbody></table>`,
         }
     },
+    listExp: (data)=>{
+
+        return {
+            to: `${data['email']}`,
+            from: '',
+            subject: '[ALERT] Users with licenses expired tomorrow!',
+            html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+               <tbody>
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                    <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); margin: 0 auto" border="0" width="600"  cellspacing="0" cellpadding="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
+                                  <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
+                                      <tbody>
+                                          <tr>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ConnectPOS Admin,</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is the list of users whose licenses will be expired tomorrow. Please remind Sales Team to send payment requests to the customers and renew their licenses:
+</p></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">${data['listUser']}</p></td>
+                                          </tr>
+                                        
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                            </tr>
+                    </tbody>
+                </table>
+              </td></tr></tbody></table>`,
+        }
+    },
 
 };
 function formatDate(date) {
