@@ -1,9 +1,11 @@
 {
   "emails": [
     "thuynt2@smartosc.com",
-    "khoild@smartosc.com"
+    "khoild@smartosc.com",
+    "hieunc@smartosc.com"
   ],
   "sendExp": [
-    "thuynt2@smartosc.com"
+    "thuynt2@smartosc.com",
+    "khoild@smartosc.com"
   ]
 }
