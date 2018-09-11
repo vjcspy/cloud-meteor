@@ -9,7 +9,6 @@ import {User} from "../../account/models/user";
 import {PricingCollection} from "../collections/prices";
 import {USER_EMAIL_TEMPLATE} from "../../account/api/email-interface";
 import {BRAINTREE_ENVIROMENT} from "../../sales-payment-braintree/etc/braintree.config";
-import * as list from "../../../../list-email.json";
 
 SyncedCron.add({
                     name: "update expire date(00:00 everyday)",
@@ -77,6 +76,9 @@ SyncedCron.add({
                            listUser: listExp
                        };
                        let listSendEmails = [];
+                       var fs = require("fs");
+                       let emailData = fs.readFileSync('../../../../../list-email.json');
+                       let list = JSON.parse(emailData);
                        if (_.isArray(list['sendExp'])) {
                            listSendEmails = _.concat(listSendEmails,list['sendExp']);
                        }

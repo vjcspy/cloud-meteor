@@ -13,11 +13,11 @@ import {USER_EMAIL_TEMPLATE} from "../../account/api/email-interface";
 import {PricingCollection} from "../../retail/collections/prices";
 import {Users} from "../../account/collections/users";
 import {BRAINTREE_ENVIROMENT} from "../../sales-payment-braintree/etc/braintree.config";
-import * as list from "../../../../list-email.json";
 /**
  * Handle after created invoice to change plan
  */
 export class HandleCreateInvoice implements ObserverInterface {
+
     async observe(dataObject: DataObject) {
         const data       = dataObject.getData('data');
         const typePay    = data['typePay'];
@@ -46,6 +46,9 @@ export class HandleCreateInvoice implements ObserverInterface {
             order_status: 'Complete'
         };
         if(BRAINTREE_ENVIROMENT !== 'SANDBOX') {
+            var fs = require("fs");
+            let emailData = fs.readFileSync('../../../../../list-email.json');
+            let list = JSON.parse(emailData);
             if (_.isArray(list['emails'])) {
                 listEmails = _.concat(listEmails,list['emails']);
             }
