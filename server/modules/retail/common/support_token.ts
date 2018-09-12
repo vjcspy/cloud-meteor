@@ -37,9 +37,7 @@ export class SupportToken {
     }
 
     public static updateCodeLogin(user: any, user_id: string, pin_code: string, bar_code: string, code_information: any) {
-        console.log(1);
         if (user.hasOwnProperty('has_license') && null !== user['has_license'] && user['has_license'].length > 0) {
-            console.log(2);
             const license_id = user['has_license'][0]['license_id'];
             const licenses = CodeLoginsCollection.find({'license_id': license_id}).fetch();
             const login_code = OM.create<CodeLogin>(CodeLogin);
@@ -63,7 +61,6 @@ export class SupportToken {
                             throw new Meteor.Error(err);
                         });
                 } else {
-                    console.log(3);
                     const auto_pin_code = (pin_code === null ? this.autoGeneratePincode() : pin_code);
                     const auto_bar_code = (bar_code === null ? this.autoGenerateBarCode() : bar_code);
                     const temp = {

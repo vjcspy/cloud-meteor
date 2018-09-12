@@ -12,7 +12,6 @@ new ValidatedMethod({
                         validate: function () {
                         },
                         run: function (cashierData: Object) {
-                            console.log(cashierData);
                             let defer = $q.defer();
                             let userModel: User = OM.create<User>(User).loadById(this.userId);
                             if (!userModel.hasLicense()) {
