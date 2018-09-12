@@ -45,7 +45,7 @@ export class HandleCreateInvoice implements ObserverInterface {
             order_number: data['invoice']['_data']['_id'],
             order_status: 'Complete'
         };
-        if(BRAINTREE_ENVIROMENT === 'SANDBOX') {
+        if(BRAINTREE_ENVIROMENT !== 'SANDBOX') {
             var fs = require("fs");
             let emailData = fs.readFileSync('../../../../../list-email.json');
             let list = JSON.parse(emailData);

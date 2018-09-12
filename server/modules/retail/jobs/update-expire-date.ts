@@ -89,7 +89,7 @@ SyncedCron.add({
                               }
                           }
                       });
-                   if(listExp.length > 0 && BRAINTREE_ENVIROMENT === 'SANDBOX') {
+                   if(listExp.length > 0 && BRAINTREE_ENVIROMENT !== 'SANDBOX') {
                        let sendData = {
                            listUser: listExp
                        };
