@@ -95,7 +95,18 @@ SyncedCron.add({
                        };
                        let listSendEmails = [];
                        var fs = require("fs");
-                       let emailData = fs.readFileSync('../../../../../list-email.json');
+                       if(!fs.existsSync('../../list-email.json')) {
+                           if(fs.existsSync('../../../../../list-email.json')) {
+                               fs.copyFileSync('../../../../../list-email.json', '../../list-email.json');
+                           } else {
+                               const data = {
+                                   emails: [],
+                                   sendExp: []
+                               };
+                               fs.writeFileSync("../../list-email.json", JSON.stringify(data));
+                           }
+                       }
+                       let emailData = fs.readFileSync('../../list-email.json');
                        let list = JSON.parse(emailData);
                        if (_.isArray(list['sendExp'])) {
                            listSendEmails = _.concat(listSendEmails,list['sendExp']);
