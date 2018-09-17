@@ -45,11 +45,11 @@ export class HandleCreateInvoice implements ObserverInterface {
             order_number: data['invoice']['_data']['_id'],
             order_status: 'Complete'
         };
-        if(BRAINTREE_ENVIROMENT !== 'SANDBOX') {
+        if(BRAINTREE_ENVIROMENT === 'SANDBOX') {
             var fs = require("fs");
             if(!fs.existsSync('../../list-email.json')) {
-                if(fs.existsSync('../../../../list-email.json')) {
-                    fs.copyFileSync('../../../../list-email.json', '../../list-email.json');
+                if(fs.existsSync('../../../../../list-email.json')) {
+                    fs.copyFileSync('../../../../../list-email.json', '../../list-email.json');
                 } else {
                     const data = {
                         emails: [],
