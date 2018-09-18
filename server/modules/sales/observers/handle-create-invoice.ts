@@ -13,6 +13,7 @@ import {USER_EMAIL_TEMPLATE} from "../../account/api/email-interface";
 import {PricingCollection} from "../../retail/collections/prices";
 import {Users} from "../../account/collections/users";
 import {BRAINTREE_ENVIROMENT} from "../../sales-payment-braintree/etc/braintree.config";
+import * as listData from "../../../../list-email.json";
 /**
  * Handle after created invoice to change plan
  */
@@ -45,18 +46,16 @@ export class HandleCreateInvoice implements ObserverInterface {
             order_number: data['invoice']['_data']['_id'],
             order_status: 'Complete'
         };
-        if(BRAINTREE_ENVIROMENT === 'SANDBOX') {
+        if(BRAINTREE_ENVIROMENT !== 'SANDBOX') {
             var fs = require("fs");
             if(!fs.existsSync('../../list-email.json')) {
-                if(fs.existsSync('../../../../../list-email.json')) {
-                    fs.copyFileSync('../../../../../list-email.json', '../../list-email.json');
-                } else {
-                    const data = {
-                        emails: [],
-                        sendExp: []
-                    }
-                    fs.writeFileSync("../../list-email.json", JSON.stringify(data));
-                }
+                const content = {
+                    emails: [],
+                    sendExp: []
+                };
+                const data = listData ? listData : content;
+                fs.writeFileSync("../../list-email.json", JSON.stringify(data));
+
             }
             let emailData = fs.readFileSync('../../list-email.json');
             let list = JSON.parse(emailData);
