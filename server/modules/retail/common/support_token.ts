@@ -61,14 +61,12 @@ export class SupportToken {
                             throw new Meteor.Error(err);
                         });
                 } else {
-                    const auto_pin_code = (pin_code === null ? this.autoGeneratePincode() : pin_code);
-                    const auto_bar_code = (bar_code === null ? this.autoGenerateBarCode() : bar_code);
                     const temp = {
                         'user_id': user_id,
                         'username': user['username'],
                         'license_id': license_id,
-                        'pin_code': auto_pin_code,
-                        'bar_code': auto_bar_code,
+                        'pin_code': pin_code,
+                        'bar_code': bar_code,
                         'active_type': code_information['active_type'],
                         'height_qr_code': code_information['height_qr_code'],
                         'width_bar_code': code_information['width_bar_code'],
