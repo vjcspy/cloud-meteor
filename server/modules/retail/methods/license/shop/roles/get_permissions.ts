@@ -72,7 +72,7 @@ new ValidatedMethod({
                                             name: "Reports",
                                             permissions: [
                                                 {
-                                                    name: "Access to XReport",
+                                                    name: "Access to CReport",
                                                     permission: "access_to_xreport",
                                                     is_active: false
                                                 },
@@ -86,11 +86,11 @@ new ValidatedMethod({
                                                     permission: "view_and_generate_sale_report",
                                                     is_active: false
                                                 },
-                                                {
-                                                    name: "View And Generate Shift Detail Report",
-                                                    permission: "view_and_generate_shift_detail_report",
-                                                    is_active: false
-                                                }
+                                                // {
+                                                //     name: "View And Generate Shift Detail Report",
+                                                //     permission: "view_and_generate_shift_detail_report",
+                                                //     is_active: false
+                                                // }
                                             ]
                                         },
                                     ]
