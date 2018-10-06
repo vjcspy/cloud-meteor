@@ -1,5 +1,4 @@
 export interface  CartInterface {
-    retail_id: string,
     customer_name?: string,
     discount: number,
     subtotal: number,

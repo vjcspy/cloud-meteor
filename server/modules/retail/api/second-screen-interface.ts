@@ -3,4 +3,5 @@ export interface  SecondScreenInterface {
     url:string,
     register_id:string,
     cart_id: string,
+    user_id: string,
 }

@@ -12,6 +12,14 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
         type:String,
         optional:true
     },
+    qty: {
+        type: Number,
+        defaultValue: 0,
+    },
+    origin_price: {
+        type: Number,
+        defaultValue: 0,
+    },
     row_total:{
         type: Number,
         defaultValue: 0,

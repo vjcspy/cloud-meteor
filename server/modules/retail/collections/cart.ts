@@ -3,7 +3,6 @@ import SimpleSchema from 'simpl-schema';
 import {CartInterface} from "../api/cart-interface";
 
 export const CartCollection = CollectionMaker.make<CartInterface>("cart", new SimpleSchema({
-    retail_id: String,
     customer_name: {
         type:String,
         optional:true
