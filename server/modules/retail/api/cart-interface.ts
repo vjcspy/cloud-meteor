@@ -2,7 +2,7 @@ export interface  CartInterface {
     customer_name?: string,
     discount: number,
     subtotal: number,
-    subtotal_in_tax: number,
+    subtotal_incl_tax: number,
     shipping: number,
     shipping_incl_tax: number,
     tax: number,

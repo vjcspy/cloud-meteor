@@ -28,6 +28,18 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
         type: Number,
         defaultValue: 0,
     },
+    base_row_total:{
+        type: Number,
+        defaultValue: 0,
+    },
+    base_row_total_incl_tax:{
+        type: Number,
+        defaultValue: 0,
+    },
+    is_refund_item:{
+        type: Boolean,
+        defaultValue: false,
+    },
     origin_image: {
         type:String,
         optional:true

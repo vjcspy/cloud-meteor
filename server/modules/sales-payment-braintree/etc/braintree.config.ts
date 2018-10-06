@@ -29,8 +29,8 @@ export const BraintreeConfig = {
     }
 };
 
-// export const BRAINTREE_ENVIROMENT = "SANDBOX";
-export var BRAINTREE_ENVIROMENT = "PRODUCTION";
+export const BRAINTREE_ENVIROMENT = "SANDBOX";
+// export var BRAINTREE_ENVIROMENT = "PRODUCTION";
 
 export const BraintreeGateway = getBraintreeGateway();
 

@@ -15,7 +15,7 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
         type: Number,
         defaultValue: 0,
     },
-    subtotal_in_tax: {
+    subtotal_incl_tax: {
         type: Number,
         defaultValue: 0,
     },
