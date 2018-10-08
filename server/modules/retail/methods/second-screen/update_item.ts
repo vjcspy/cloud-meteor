@@ -19,6 +19,10 @@ new ValidatedMethod({
                                                                                     product_id: item['product_id'],
                                                                                     time: item['time']
                                                                                 });
+                            const superAttribute = item['super_attribute'] ? [item['super_attribute']] : null;
+                            const bundleOption = item['bundle_option'] ? [item['bundle_option']] : null;
+                            const bundleOptionQty = item['bundleOptionQty'] ? [item['bundleOptionQty']] : null;
+
                             
                             if (cartItemData) {
                                 console.log(item['super_attribute']);
@@ -31,12 +35,16 @@ new ValidatedMethod({
                                         .setData('is_refund_item', item['is_refund_item'])
                                         .setData('type', item['type'])
                                         .setData('product_id', item['product_id'])
-                                        .setData('super_attribute', item['super_attribute'])
-                                        .setData('bundle_option', item['bundle_option'])
-                                        .setData('bundle_option_qty', item['bundle_option_qty'])
+                                        .setData('super_attribute', superAttribute)
+                                        .setData('bundle_option', bundleOption)
+                                        .setData('bundle_option_qty', bundleOptionQty)
                                         .save();
                             } else {
-                                cartItem.addData(item).save();
+                                cartItem.addData(item)
+                                    .setData('super_attribute', superAttribute)
+                                    .setData('bundle_option', bundleOption)
+                                    .setData('bundle_option_qty', bundleOptionQty)
+                                    .save();
                             }
         
                             cart.setData('discount', totals['discount'])

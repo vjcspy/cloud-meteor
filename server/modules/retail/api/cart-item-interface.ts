@@ -12,9 +12,9 @@ export interface  CartItemInterface {
     is_refund_item: boolean,
     type?: string,
     product_id?: string,
-    super_attribute?: object,
-    bundle_option?: object,
-    bundle_option_qty?: object,
+    super_attribute?: any,
+    bundle_option?: any,
+    bundle_option_qty?: any,
     time: string,
     parent_id?: string,
 }
