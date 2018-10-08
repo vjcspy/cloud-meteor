@@ -7,7 +7,7 @@ import {CartPayment} from "../../models/cart-payment";
 import {CartPaymentCollection} from "../../collections/cart-payment";
 
 new ValidatedMethod({
-    name: "delete.item",
+    name: "delete.payment",
     validate: function () {
     },
     run: function (data: Object) {
