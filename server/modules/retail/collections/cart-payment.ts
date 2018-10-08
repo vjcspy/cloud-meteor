@@ -4,7 +4,11 @@ import {CartPaymentInterface} from "../api/cart-payment-interface";
 
 export const CartPaymentCollection = CollectionMaker.make<CartPaymentInterface>("cart_payment", new SimpleSchema({
     cart_id: String,
-    name: {
+    type: {
+        type:String,
+        optional:true
+    },
+    title: {
         type:String,
         optional:true
     },
@@ -15,5 +19,10 @@ export const CartPaymentCollection = CollectionMaker.make<CartPaymentInterface>(
     refund_amount:{
         type: Number,
         defaultValue: 0,
-    }
+    },
+    is_purchase:{
+        type: Number,
+        optional: true,
+    },
+    created_at: String,
 }));

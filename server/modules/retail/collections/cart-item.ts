@@ -44,5 +44,30 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
         type:String,
         optional:true
     },
+    type: {
+        type:String,
+        optional:true
+    },
+    product_id: {
+        type:String,
+        optional:true
+    },
+    super_attribute: {
+        type: Object,
+        optional:true
+    },
+    bundle_option: {
+        type: Object,
+        optional:true
+    },
+    bundle_option_qty: {
+        type: Object,
+        optional:true
+    },
+    parent_id: {
+        type: String,
+        optional:true
+    },
+    created_at: String,
 
 }));
