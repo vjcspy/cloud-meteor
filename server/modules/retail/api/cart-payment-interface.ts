@@ -5,5 +5,5 @@ export interface  CartPaymentInterface {
     amount: number,
     refund_amount: number,
     is_purchase: number,
-    created_at: string,
+    time: string,
 }

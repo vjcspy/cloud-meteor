@@ -24,5 +24,5 @@ export const CartPaymentCollection = CollectionMaker.make<CartPaymentInterface>(
         type: Number,
         optional: true,
     },
-    created_at: String,
+    time: String,
 }));

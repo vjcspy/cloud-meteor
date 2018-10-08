@@ -68,6 +68,6 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
         type: String,
         optional:true
     },
-    created_at: String,
+    time: String,
 
 }));
