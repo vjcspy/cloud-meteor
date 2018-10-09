@@ -12,15 +12,24 @@ new ValidatedMethod({
         let cart: Cart         = OM.create<Cart>(Cart).loadById(data['cart_id']);
         if(cart) {
             cart.setData('discount', 0)
+                .setData('retail_discount_per_item', 0)
                 .setData('gift_card_discount_amount', 0)
+                .setData('base_gift_card_discount_amount', 0)
                 .setData('grand_total', 0)
+                .setData('base_grand_total', 0)
                 .setData('points_earn', 0)
                 .setData('reward_point_discount_amount', 0)
+                .setData('base_reward_point_discount_amount', 0)
                 .setData('shipping', 0)
                 .setData('subtotal', 0)
                 .setData('subtotal_incl_tax', 0)
                 .setData('shipping_incl_tax', 0)
                 .setData('tax', 0)
+                .setData('base_shipping', 0)
+                .setData('base_subtotal', 0)
+                .setData('base_subtotal_incl_tax', 0)
+                .setData('base_shipping_incl_tax', 0)
+                .setData('base_tax', 0)
                 .save();
         }
     }
