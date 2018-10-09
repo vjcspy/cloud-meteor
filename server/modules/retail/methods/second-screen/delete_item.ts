@@ -9,7 +9,6 @@ new ValidatedMethod({
     validate: function () {
     },
     run: function (data: Object) {
-        console.log(data);
         const item = data['item'];
         const totals = data['totals'];
         let cartItem: CartItem = OM.create<CartItem>(CartItem);
