@@ -16,7 +16,7 @@ new ValidatedMethod({
         if(data['deleteAllPayments']) {
             CartPaymentCollection.remove({cart_id: data['cart_id']});
         } else {
-            const paymentData = CartPaymentCollection.findOne({cart_id: data['cart_id'], type: payment['type'], created_at: payment['created_at']});
+            const paymentData = CartPaymentCollection.findOne({cart_id: data['cart_id'], type: payment['type'], time: payment['time']});
             cartPayment.loadById(paymentData['_id']);
             cartPayment.remove();
         }

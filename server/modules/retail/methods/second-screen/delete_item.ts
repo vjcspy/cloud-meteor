@@ -18,11 +18,11 @@ new ValidatedMethod({
         } else {
             let cartItemData;
             if(data['type_id'] === 'configurable') {
-                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], product_id: item['product_id'], super_attribute: JSON.stringify(item['super_attribute']), created_at: item['created_at']});
+                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], product_id: item['product_id'], super_attribute: JSON.stringify(item['super_attribute']), time: item['time']});
             } else if(data['type_id'] === 'bundle') {
-                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], product_id: item['product_id'], bundle_option: JSON.stringify(item['bundle_option']), bundle_option_qty: JSON.stringify(item['bundle_option_qty']), created_at: item['created_at']});
+                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], product_id: item['product_id'], bundle_option: JSON.stringify(item['bundle_option']), bundle_option_qty: JSON.stringify(item['bundle_option_qty']), time: item['time']});
             } else {
-                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], sku: item['sku'], product_id: item['product_id'], created_at: item['created_at']})
+                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], sku: item['sku'], product_id: item['product_id'], time: item['time']})
             }
             cartItem.loadById(cartItemData['_id']);
             cartItem.remove();
