@@ -9,6 +9,7 @@ new ValidatedMethod({
                         validate: function () {
                         },
                         run: function (data: Object) {
+                            console.log(data);
                             const item             = data['item'];
                             const totals           = data['totals'];
                             let cartItem: CartItem = OM.create<CartItem>(CartItem);
@@ -19,13 +20,12 @@ new ValidatedMethod({
                                                                                     product_id: item['product_id'],
                                                                                     time: item['time']
                                                                                 });
-                            const superAttribute = item['super_attribute'] ? [item['super_attribute']] : null;
-                            const bundleOption = item['bundle_option'] ? [item['bundle_option']] : null;
-                            const bundleOptionQty = item['bundleOptionQty'] ? [item['bundleOptionQty']] : null;
+                            const superAttribute = item['super_attribute'] ? [item['super_attribute']] : [];
+                            const bundleOption = item['bundle_option'] ? [item['bundle_option']] : [];
+                            const bundleOptionQty = item['bundleOptionQty'] ? [item['bundleOptionQty']] : [];
 
                             
                             if (cartItemData) {
-                                console.log(item['super_attribute']);
                                 cartItem.loadById(cartItemData['_id']);
                                 cartItem.setData('qty', item['qty'])
                                         .setData('base_row_total', item['base_row_total'])
@@ -35,6 +35,7 @@ new ValidatedMethod({
                                         .setData('is_refund_item', item['is_refund_item'])
                                         .setData('type_id', item['type_id'])
                                         .setData('product_id', item['product_id'])
+                                        .setData('item_id', item['item_id'])
                                         .setData('super_attribute', superAttribute)
                                         .setData('bundle_option', bundleOption)
                                         .setData('bundle_option_qty', bundleOptionQty)

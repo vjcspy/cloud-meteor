@@ -60,14 +60,17 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
         type: Array,
         optional:true
     },
+    "super_attribute.$": Object,
     bundle_option: {
         type: Array,
         optional:true
     },
+    "bundle_option.$": Object,
     bundle_option_qty: {
         type: Array,
         optional:true
     },
+    "bundle_option_qty.$": Object,
     parent_id: {
         type: String,
         optional:true
