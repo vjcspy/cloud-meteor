@@ -48,7 +48,7 @@ new ValidatedMethod({
                             }
         
                             cart.setData('discount', totals['discount'])
-                                .setData('gift_cart_discount_amount', totals['gift_cart_discount_amount'])
+                                .setData('gift_card_discount_amount', totals['gift_card_discount_amount'])
                                 .setData('grand_total', totals['grand_total'])
                                 .setData('points_earn', totals['points_earn'])
                                 .setData('reward_point_discount_amount', totals['reward_point_discount_amount'])
