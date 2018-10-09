@@ -13,7 +13,7 @@ new ValidatedMethod({
     run: function (data: Object) {
         const payment = data['paymentMethodUsed'];
         let cartPayment: CartPayment = OM.create<CartPayment>(CartPayment);
-        if(data['deleteAllPayments']) {
+        if(data['deleteAllPayment'] == true) {
             CartPaymentCollection.remove({cart_id: data['cart_id']});
         } else {
             const paymentData = CartPaymentCollection.findOne({cart_id: data['cart_id'], type: payment['type'], time: payment['time']});
