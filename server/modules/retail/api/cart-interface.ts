@@ -19,4 +19,6 @@ export interface  CartInterface {
     reward_point_discount_amount: number,
     base_reward_point_discount_amount: number,
     points_earn: number,
+    remain: number,
+    cash_rounding: number,
 }

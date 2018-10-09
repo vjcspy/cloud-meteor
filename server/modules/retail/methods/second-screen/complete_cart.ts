@@ -30,6 +30,8 @@ new ValidatedMethod({
                 .setData('base_subtotal_incl_tax', 0)
                 .setData('base_shipping_incl_tax', 0)
                 .setData('base_tax', 0)
+                .setData('remain', 0)
+                .setData('cash_rounding', 0)
                 .save();
         }
     }

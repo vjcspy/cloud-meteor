@@ -83,4 +83,14 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
                                                                                                    type: Number,
                                                                                                    defaultValue: 0,
                                                                                                },
+                                                                                               remain: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               cash_rounding: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
                                                                                            }));
