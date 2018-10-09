@@ -9,7 +9,6 @@ new ValidatedMethod({
                         validate: function () {
                         },
                         run: function (data: Object) {
-                            console.log(data);
                             const item             = data['item'];
                             const totals           = data['totals'];
                             let cartItem: CartItem = OM.create<CartItem>(CartItem);
@@ -20,9 +19,9 @@ new ValidatedMethod({
                                                                                     product_id: item['product_id'],
                                                                                     time: item['time']
                                                                                 });
-                            const superAttribute = item['super_attribute'] ? [item['super_attribute']] : [];
-                            const bundleOption = item['bundle_option'] ? [item['bundle_option']] : [];
-                            const bundleOptionQty = item['bundleOptionQty'] ? [item['bundleOptionQty']] : [];
+                            const superAttribute = item['super_attribute'] ?JSON.stringify(item['super_attribute']) : null;
+                            const bundleOption  = item['bundle_option'] ? JSON.stringify(item['bundle_option']) : null;
+                            const bundleOptionQty  = item['bundle_option_qty'] ? JSON.stringify(item['bundle_option_qty']) : null;
 
                             
                             if (cartItemData) {
@@ -37,15 +36,15 @@ new ValidatedMethod({
                                         .setData('product_id', item['product_id'])
                                         .setData('item_id', item['item_id'])
                                         .setData('super_attribute', superAttribute)
-                                        .setData('bundle_option', bundleOption)
+                                        .setData('bundle_option',  bundleOption)
                                         .setData('bundle_option_qty', bundleOptionQty)
                                         .save();
                             } else {
                                 cartItem.addData(item)
                                     .setData('super_attribute', superAttribute)
-                                    .setData('bundle_option', bundleOption)
-                                    .setData('bundle_option_qty', bundleOptionQty)
-                                    .save();
+                                    .setData('bundle_option',  bundleOption)
+                                    .setData('bundle_option_qty', bundleOptionQty).
+                                    save();
                             }
         
                             cart.setData('discount', totals['discount'])

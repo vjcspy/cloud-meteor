@@ -18,9 +18,9 @@ new ValidatedMethod({
         } else {
             let cartItemData;
             if(data['type_id'] === 'configurable') {
-                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], product_id: item['product_id'], super_attribute: item['super_attribute'], created_at: item['created_at']});
+                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], product_id: item['product_id'], super_attribute: JSON.stringify(item['super_attribute']), created_at: item['created_at']});
             } else if(data['type_id'] === 'bundle') {
-                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], product_id: item['product_id'], bundle_option: item['bundle_option'], bundle_option_qty: item['bundle_option_qty'], created_at: item['created_at']});
+                cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], product_id: item['product_id'], bundle_option: JSON.stringify(item['bundle_option']), bundle_option_qty: JSON.stringify(item['bundle_option_qty']), created_at: item['created_at']});
             } else {
                 cartItemData = CartItemCollection.findOne({cart_id: data['cart_id'], sku: item['sku'], product_id: item['product_id'], created_at: item['created_at']})
             }
