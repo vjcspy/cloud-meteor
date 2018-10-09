@@ -21,4 +21,11 @@ export interface  CartInterface {
     points_earn: number,
     remain: number,
     cash_rounding: number,
+    refunded_total: number,
+    subtotal_refund: number,
+    refund_discount: number,
+    refund_tax: number,
+    refund_shipping: number,
+    adjustment: number,
+    total_exchange_amount: number,
 }

@@ -47,6 +47,13 @@ new ValidatedMethod({
                                 .setData('base_tax', totals['base_tax'])
                                 .setData('remain', totals['remain'])
                                 .setData('cash_rounding', totals['cash_rounding'])
+                                .setData('refunded_total', totals['refunded_total'])
+                                .setData('subtotal_refund', totals['subtotal_refund'])
+                                .setData('refund_discount', totals['refund_discount'])
+                                .setData('refund_tax', totals['refund_tax'])
+                                .setData('refund_shipping', totals['refund_shipping'])
+                                .setData('adjustment', totals['adjustment'])
+                                .setData('total_exchange_amount', totals['total_exchange_amount'])
                                 .save();
                         }
                     });

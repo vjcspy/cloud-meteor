@@ -93,4 +93,39 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
                                                                                                    defaultValue: 0,
                                                                                                    optional: true
                                                                                                },
+                                                                                               refunded_total: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               subtotal_refund: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               refund_discount: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               refund_tax: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               refund_shipping: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               adjustment: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               total_exchange_amount: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
                                                                                            }));

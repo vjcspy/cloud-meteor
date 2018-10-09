@@ -32,6 +32,13 @@ new ValidatedMethod({
                 .setData('base_tax', 0)
                 .setData('remain', 0)
                 .setData('cash_rounding', 0)
+                .setData('refunded_total', 0)
+                .setData('subtotal_refund', 0)
+                .setData('refund_discount', 0)
+                .setData('refund_tax', 0)
+                .setData('refund_shipping', 0)
+                .setData('adjustment', 0)
+                .setData('total_exchange_amount', 0)
                 .save();
         }
     }

@@ -9,11 +9,12 @@ new ValidatedMethod({
     validate: function () {
     },
     run: function (data: Object) {
+        console.log(data);
         const item = data['item'];
         const totals = data['totals'];
         let cartItem: CartItem = OM.create<CartItem>(CartItem);
         let cart: Cart = OM.create<Cart>(Cart).loadById(data['cart_id']);
-        if(data['deleteAllItems']) {
+        if(data['deleteAllItems'] == true) {
             CartItemCollection.remove({cart_id: data['cart_id']});
         } else {
             let cartItemData;
@@ -27,26 +28,67 @@ new ValidatedMethod({
             cartItem.loadById(cartItemData['_id']);
             cartItem.remove();
         }
-    
-        cart.setData('discount', totals['discount'])
-            .setData('retail_discount_per_item', totals['retail_discount_per_item'])
-            .setData('gift_card_discount_amount', totals['gift_card_discount_amount'])
-            .setData('base_gift_card_discount_amount', totals['base_gift_card_discount_amount'])
-            .setData('grand_total', totals['grand_total'])
-            .setData('base_grand_total', totals['base_grand_total'])
-            .setData('points_earn', totals['points_earn'])
-            .setData('reward_point_discount_amount', totals['reward_point_discount_amount'])
-            .setData('base_reward_point_discount_amount', totals['base_reward_point_discount_amount'])
-            .setData('shipping', totals['shipping'])
-            .setData('subtotal', totals['subtotal'])
-            .setData('subtotal_incl_tax', totals['subtotal_incl_tax'])
-            .setData('shipping_incl_tax', totals['shipping_incl_tax'])
-            .setData('tax', totals['tax'])
-            .setData('base_shipping', totals['base_shipping'])
-            .setData('base_subtotal', totals['base_subtotal'])
-            .setData('base_subtotal_incl_tax', totals['base_subtotal_incl_tax'])
-            .setData('base_shipping_incl_tax', totals['base_shipping_incl_tax'])
-            .setData('base_tax', totals['base_tax'])
-            .save();
+        
+        if(data['deleteAllItems'] == true) {
+            cart.setData('discount', 0)
+                .setData('retail_discount_per_item', 0)
+                .setData('gift_card_discount_amount', 0)
+                .setData('base_gift_card_discount_amount', 0)
+                .setData('grand_total', 0)
+                .setData('base_grand_total', 0)
+                .setData('points_earn', 0)
+                .setData('reward_point_discount_amount', 0)
+                .setData('base_reward_point_discount_amount', 0)
+                .setData('shipping', 0)
+                .setData('subtotal', 0)
+                .setData('subtotal_incl_tax', 0)
+                .setData('shipping_incl_tax', 0)
+                .setData('tax', 0)
+                .setData('base_shipping', 0)
+                .setData('base_subtotal', 0)
+                .setData('base_subtotal_incl_tax', 0)
+                .setData('base_shipping_incl_tax', 0)
+                .setData('base_tax', 0)
+                .setData('remain', 0)
+                .setData('cash_rounding', 0)
+                .setData('refunded_total', 0)
+                .setData('subtotal_refund', 0)
+                .setData('refund_discount', 0)
+                .setData('refund_tax', 0)
+                .setData('refund_shipping', 0)
+                .setData('adjustment', 0)
+                .setData('total_exchange_amount', 0)
+                .save();
+        } else {
+            cart.setData('discount', totals['discount'])
+                .setData('retail_discount_per_item', totals['retail_discount_per_item'])
+                .setData('gift_card_discount_amount', totals['gift_card_discount_amount'])
+                .setData('base_gift_card_discount_amount', totals['base_gift_card_discount_amount'])
+                .setData('grand_total', totals['grand_total'])
+                .setData('base_grand_total', totals['base_grand_total'])
+                .setData('points_earn', totals['points_earn'])
+                .setData('reward_point_discount_amount', totals['reward_point_discount_amount'])
+                .setData('base_reward_point_discount_amount', totals['base_reward_point_discount_amount'])
+                .setData('shipping', totals['shipping'])
+                .setData('subtotal', totals['subtotal'])
+                .setData('subtotal_incl_tax', totals['subtotal_incl_tax'])
+                .setData('shipping_incl_tax', totals['shipping_incl_tax'])
+                .setData('tax', totals['tax'])
+                .setData('base_shipping', totals['base_shipping'])
+                .setData('base_subtotal', totals['base_subtotal'])
+                .setData('base_subtotal_incl_tax', totals['base_subtotal_incl_tax'])
+                .setData('base_shipping_incl_tax', totals['base_shipping_incl_tax'])
+                .setData('base_tax', totals['base_tax'])
+                .setData('remain', totals['remain'])
+                .setData('cash_rounding', totals['cash_rounding'])
+                .setData('refunded_total', totals['refunded_total'])
+                .setData('subtotal_refund', totals['subtotal_refund'])
+                .setData('refund_discount', totals['refund_discount'])
+                .setData('refund_tax', totals['refund_tax'])
+                .setData('refund_shipping', totals['refund_shipping'])
+                .setData('adjustment', totals['adjustment'])
+                .setData('total_exchange_amount', totals['total_exchange_amount'])
+                .save();
+        }
     }
 });
