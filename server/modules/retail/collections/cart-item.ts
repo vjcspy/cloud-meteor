@@ -76,6 +76,14 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
         type: String,
         optional:true
     },
-    time: String,
+    time: {
+        type: String,
+        optional:true
+    },
+    children_calculated: {
+        type: Boolean,
+        defaultValue: false,
+        optional: true
+    }
 
 }));

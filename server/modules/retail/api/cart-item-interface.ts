@@ -15,7 +15,8 @@ export interface  CartItemInterface {
     super_attribute?: any,
     bundle_option?: any,
     bundle_option_qty?: any,
-    time: string,
+    time?: string,
     parent_id?: string,
     item_id?: string,
+    children_calculated?: boolean
 }
