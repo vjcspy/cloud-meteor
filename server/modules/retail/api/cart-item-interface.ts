@@ -10,7 +10,7 @@ export interface  CartItemInterface {
     base_row_total?: number,
     base_row_total_incl_tax?: number,
     is_refund_item: boolean,
-    type?: string,
+    type_id?: string,
     product_id?: string,
     super_attribute?: any,
     bundle_option?: any,

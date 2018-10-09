@@ -33,7 +33,7 @@ new ValidatedMethod({
                                         .setData('row_total', item['row_total'])
                                         .setData('row_total_incl_tax', item['row_total_incl_tax'])
                                         .setData('is_refund_item', item['is_refund_item'])
-                                        .setData('type', item['type'])
+                                        .setData('type_id', item['type_id'])
                                         .setData('product_id', item['product_id'])
                                         .setData('super_attribute', superAttribute)
                                         .setData('bundle_option', bundleOption)
