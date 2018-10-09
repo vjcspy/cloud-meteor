@@ -23,18 +23,22 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
     row_total:{
         type: Number,
         defaultValue: 0,
+        optional:true
     },
     row_total_incl_tax:{
         type: Number,
         defaultValue: 0,
+        optional:true
     },
     base_row_total:{
         type: Number,
         defaultValue: 0,
+        optional:true
     },
     base_row_total_incl_tax:{
         type: Number,
         defaultValue: 0,
+        optional:true
     },
     is_refund_item:{
         type: Boolean,
@@ -65,6 +69,10 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
         optional:true
     },
     parent_id: {
+        type: String,
+        optional:true
+    },
+    item_id: {
         type: String,
         optional:true
     },
