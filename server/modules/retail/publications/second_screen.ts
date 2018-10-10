@@ -10,7 +10,7 @@ Meteor.publishComposite("second_screen", function (): PublishCompositeConfig<Sec
     }
     let userModel: User = OM.create<User>(User).loadById(this.userId);
     if(userModel.getLicenses()) {
-        const license = LicenseCollection.findOne({_id: userModel.getLicenses()['license_id']});
+        const license = LicenseCollection.findOne({_id: userModel.getLicenses()[0]['license_id']});
         if (license) {
             return {
                 find: function () {

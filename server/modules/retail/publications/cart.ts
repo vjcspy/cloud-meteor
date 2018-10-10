@@ -12,7 +12,7 @@ Meteor.publishComposite("cart", function (): PublishCompositeConfig<CartInterfac
     }
     let userModel: User = OM.create<User>(User).loadById(this.userId);
     if(userModel.getLicenses()) {
-        const license = LicenseCollection.find({_id: userModel.getLicenses()['license_id']});
+        const license = LicenseCollection.find({_id: userModel.getLicenses()[0]['license_id']});
         if (license) {
             const secondScreens = SecondScreenCollection.find({license_key: license['key']}).fetch();
             const cartIds = _.map(secondScreens, (s)=> s['cart_id']);
