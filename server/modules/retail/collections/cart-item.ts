@@ -72,6 +72,10 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
         type: String,
         optional:true
     },
+    pos_is_sales: {
+        type: Number,
+        optional: true
+    },
     item_id: {
         type: String,
         optional:true

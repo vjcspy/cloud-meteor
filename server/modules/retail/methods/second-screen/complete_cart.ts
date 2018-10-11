@@ -3,7 +3,7 @@ import {Cart} from "../../models/cart";
 import {CartItemCollection} from "../../collections/cart-item";
 import {CartPaymentCollection} from "../../collections/cart-payment";
 new ValidatedMethod({
-    name: "compete.cart",
+    name: "complete.cart",
     validate: function () {
     },
     run: function (data: Object) {

@@ -17,6 +17,7 @@ export interface  CartItemInterface {
     bundle_option_qty?: string,
     time?: string,
     parent_id?: string,
+    pos_is_sales?: number,
     item_id?: string,
     children_calculated?: boolean
 }
