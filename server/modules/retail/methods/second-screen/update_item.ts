@@ -37,6 +37,7 @@ new ValidatedMethod({
                                         .setData('product_id', item['product_id'])
                                         .setData('item_id', item['item_id'])
                                         .setData('is_qty_decimal', item['is_qty_decimal'])
+                                        .setData('original_custom_price', item['original_custom_price'])
                                         .setData('super_attribute', superAttribute)
                                         .setData('bundle_option',  bundleOption)
                                         .setData('bundle_option_qty', bundleOptionQty)

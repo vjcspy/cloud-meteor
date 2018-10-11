@@ -92,6 +92,10 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
                                                                                                             is_qty_decimal: {
                                                                                                                 type: String,
                                                                                                                 defaultValue: 0
+                                                                                                            },
+                                                                                                            original_custom_price: {
+                                                                                                                type: String,
+                                                                                                                optional: true
                                                                                                             }
     
                                                                                                         }));
