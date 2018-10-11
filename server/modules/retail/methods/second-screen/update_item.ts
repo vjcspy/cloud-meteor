@@ -36,6 +36,7 @@ new ValidatedMethod({
                                         .setData('type_id', item['type_id'])
                                         .setData('product_id', item['product_id'])
                                         .setData('item_id', item['item_id'])
+                                        .setData('is_qty_decimal', item['is_qty_decimal'])
                                         .setData('super_attribute', superAttribute)
                                         .setData('bundle_option',  bundleOption)
                                         .setData('bundle_option_qty', bundleOptionQty)
@@ -74,7 +75,9 @@ new ValidatedMethod({
                                 .setData('refund_tax', totals['refund_tax'])
                                 .setData('refund_shipping', totals['refund_shipping'])
                                 .setData('adjustment', totals['adjustment'])
+                                .setData('is_integrate_reward_points', totals['is_integrate_reward_points'])
                                 .setData('total_exchange_amount', totals['total_exchange_amount'])
+                                .setData('is_complete_order', data['is_complete_order'])
                                 .save();
                         }
                     });

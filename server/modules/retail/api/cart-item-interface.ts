@@ -20,4 +20,5 @@ export interface  CartItemInterface {
     pos_is_sales?: number,
     item_id?: string,
     children_calculated?: boolean
+    is_qty_decimal: string
 }

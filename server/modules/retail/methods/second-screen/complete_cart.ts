@@ -39,6 +39,8 @@ new ValidatedMethod({
                 .setData('refund_shipping', 0)
                 .setData('adjustment', 0)
                 .setData('total_exchange_amount', 0)
+                .setData('is_integrate_reward_points', false)
+                .setData('is_complete_order', data['is_complete_order'])
                 .save();
         }
     }

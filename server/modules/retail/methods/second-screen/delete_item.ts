@@ -30,6 +30,7 @@ new ValidatedMethod({
         
         if(data['deleteAllItems'] == true) {
             cart.setData('discount', 0)
+                .setData('customer_name' , data['customer_name'])
                 .setData('retail_discount_per_item', 0)
                 .setData('gift_card_discount_amount', 0)
                 .setData('base_gift_card_discount_amount', 0)
@@ -57,9 +58,12 @@ new ValidatedMethod({
                 .setData('refund_shipping', 0)
                 .setData('adjustment', 0)
                 .setData('total_exchange_amount', 0)
+                .setData('is_integrate_reward_points', false)
+                .setData('is_complete_order', data['is_complete_order'])
                 .save();
         } else {
             cart.setData('discount', totals['discount'])
+                .setData('customer_name' , data['customer_name'])
                 .setData('retail_discount_per_item', totals['retail_discount_per_item'])
                 .setData('gift_card_discount_amount', totals['gift_card_discount_amount'])
                 .setData('base_gift_card_discount_amount', totals['base_gift_card_discount_amount'])
@@ -73,6 +77,7 @@ new ValidatedMethod({
                 .setData('subtotal_incl_tax', totals['subtotal_incl_tax'])
                 .setData('shipping_incl_tax', totals['shipping_incl_tax'])
                 .setData('tax', totals['tax'])
+                .setData('is_complete_order', data['is_complete_order'])
                 .setData('base_shipping', totals['base_shipping'])
                 .setData('base_subtotal', totals['base_subtotal'])
                 .setData('base_subtotal_incl_tax', totals['base_subtotal_incl_tax'])
@@ -87,6 +92,7 @@ new ValidatedMethod({
                 .setData('refund_shipping', totals['refund_shipping'])
                 .setData('adjustment', totals['adjustment'])
                 .setData('total_exchange_amount', totals['total_exchange_amount'])
+                .setData('is_integrate_reward_points', totals['is_integrate_reward_points'])
                 .save();
         }
     }

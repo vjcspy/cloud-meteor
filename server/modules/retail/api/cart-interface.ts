@@ -28,4 +28,6 @@ export interface  CartInterface {
     refund_shipping: number,
     adjustment: number,
     total_exchange_amount: number,
+    is_integrate_reward_points: boolean,
+    is_complete_order: boolean
 }
