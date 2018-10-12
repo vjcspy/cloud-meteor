@@ -135,5 +135,10 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
                                                                                                is_complete_order: {
                                                                                                    type: Boolean,
                                                                                                    defaultValue: false
+                                                                                               },
+                                                                                               hasShipment:{
+                                                                                                   type: Boolean,
+                                                                                                   optional: true,
+                                                                                                   defaultValue: false
                                                                                                }
                                                                                            }));

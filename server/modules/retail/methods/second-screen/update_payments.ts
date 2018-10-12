@@ -53,6 +53,7 @@ new ValidatedMethod({
                                 .setData('refund_tax', totals['refund_tax'])
                                 .setData('refund_shipping', totals['refund_shipping'])
                                 .setData('adjustment', totals['adjustment'])
+                                .setData('hasShipment', totals['hasShipment'])
                                 .setData('is_integrate_reward_points', totals['is_integrate_reward_points'])
                                 .setData('total_exchange_amount', totals['total_exchange_amount'])
                                 .setData('is_complete_order', data['is_complete_order'])
