@@ -1,30 +1,39 @@
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {CartPayment} from "../../models/cart-payment";
-import {CartPaymentCollection} from "../../collections/cart-payment";
 import {Cart} from "../../models/cart";
+import {CartItem} from "../../models/cart-item";
+import {CartItemCollection} from "../../collections/cart-item";
+import {CartCollection} from "../../collections/cart";
 
 new ValidatedMethod({
-                        name: "update.payments",
+                        name: "update.item.refund",
                         validate: function () {
                         },
                         run: function (data: Object) {
-                            const payment                = data['paymentMethodUsed'];
-                            const totals                 = data['totals'];
-                            let cartPayment: CartPayment = OM.create<CartPayment>(CartPayment);
-                            let cart: Cart               = OM.create<Cart>(Cart).loadById(data['cart_id']);
-                            const cartPaymentData        = CartPaymentCollection.findOne({
-                                                                                             cart_id: data['cart_id'],
-                                                                                             type: payment['type'],
-                                                                                             time: payment['time']
-                                                                                         });
-                            if (cartPaymentData) {
-                                cartPayment.loadById(cartPaymentData['_id']);
-                                cartPayment.setData('amount', payment['amount'])
-                                           .setData('refund_amount', payment['refund_amount'])
-                                           .setData('is_purchase', payment['is_purchase'])
-                                           .save();
+                            const item             = data['item'];
+                            const totals           = data['totals'];
+                            let cartItem: CartItem = OM.create<CartItem>(CartItem);
+                            let cart: Cart         = OM.create<Cart>(Cart).loadById(data['cart_id']);
+                            const cartItemData     = CartItemCollection.findOne({
+                                                                                    cart_id: data['cart_id'],
+                                                                                    item_id: item['item_id'],
+                                                                                });
+                            if (cartItemData) {
+                                cartItem.loadById(cartItemData['_id']);
+                                cartItem.setData('qty', item['qty'])
+                                        .setData('base_row_total', item['base_row_total'])
+                                        .setData('base_row_total_incl_tax', item['base_row_total_incl_tax'])
+                                        .setData('row_total', item['row_total'])
+                                        .setData('row_total_incl_tax', item['row_total_incl_tax'])
+                                        .setData('is_refund_item', item['is_refund_item'])
+                                        .setData('pos_is_sales', item['pos_is_sales'])
+                                        .setData('type_id', item['type_id'])
+                                        .setData('product_id', item['product_id'])
+                                        .setData('item_id', item['item_id'])
+                                        .setData('is_qty_decimal', item['is_qty_decimal'])
+                                        .setData('original_custom_price', item['original_custom_price'])
+                                        .save();
                             } else {
-                                cartPayment.addData(payment).save();
+                                cartItem.addData(item).save();
                             }
         
                             cart.setData('discount', totals['discount'])

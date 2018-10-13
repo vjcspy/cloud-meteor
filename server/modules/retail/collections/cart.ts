@@ -107,6 +107,11 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
                                                                                                    defaultValue: 0,
                                                                                                    optional: true
                                                                                                },
+                                                                                               subtotal_refund_incl_tax: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
                                                                                                refund_discount: {
                                                                                                    type: Number,
                                                                                                    defaultValue: 0,
@@ -118,6 +123,11 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
                                                                                                    optional: true
                                                                                                },
                                                                                                refund_shipping: {
+                                                                                                   type: Number,
+                                                                                                   defaultValue: 0,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               refund_shipping_incl_tax: {
                                                                                                    type: Number,
                                                                                                    defaultValue: 0,
                                                                                                    optional: true

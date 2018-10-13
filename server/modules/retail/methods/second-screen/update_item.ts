@@ -79,6 +79,8 @@ new ValidatedMethod({
                                 .setData('hasShipment', totals['hasShipment'])
                                 .setData('is_integrate_reward_points', totals['is_integrate_reward_points'])
                                 .setData('total_exchange_amount', totals['total_exchange_amount'])
+                                .setData('subtotal_refund_incl_tax', totals['subtotal_refund_incl_tax'])
+                                .setData('refund_shipping_incl_tax', totals['refund_shipping_incl_tax'])
                                 .setData('is_complete_order', data['is_complete_order'])
                                 .save();
                         }

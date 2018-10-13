@@ -42,6 +42,8 @@ new ValidatedMethod({
                                 .setData('adjustment', totals['adjustment'])
                                 .setData('hasShipment', totals['hasShipment'])
                                 .setData('is_integrate_reward_points', totals['is_integrate_reward_points'])
+                                .setData('subtotal_refund_incl_tax', totals['subtotal_refund_incl_tax'])
+                                .setData('refund_shipping_incl_tax', totals['refund_shipping_incl_tax'])
                                 .setData('total_exchange_amount', totals['total_exchange_amount'])
                                 .save();
                         }

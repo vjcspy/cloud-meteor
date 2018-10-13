@@ -16,6 +16,10 @@ export const CartItemCollection = CollectionMaker.make<CartItemInterface>("cart_
                                                                                                                 type: Number,
                                                                                                                 defaultValue: 0,
                                                                                                             },
+                                                                                                            qty_to_refund: {
+                                                                                                                type: Number,
+                                                                                                                defaultValue: 0
+                                                                                                            },
                                                                                                             origin_price: {
                                                                                                                 type: Number,
                                                                                                                 defaultValue: 0,

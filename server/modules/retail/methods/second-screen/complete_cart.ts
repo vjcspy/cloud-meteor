@@ -34,6 +34,8 @@ new ValidatedMethod({
                 .setData('cash_rounding', 0)
                 .setData('refunded_total', 0)
                 .setData('subtotal_refund', 0)
+                .setData('subtotal_refund_incl_tax', 0)
+                .setData('refund_shipping_incl_tax', 0)
                 .setData('refund_discount', 0)
                 .setData('refund_tax', 0)
                 .setData('refund_shipping', 0)

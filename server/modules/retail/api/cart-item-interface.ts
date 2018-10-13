@@ -21,5 +21,6 @@ export interface  CartItemInterface {
     item_id?: string,
     children_calculated?: boolean
     is_qty_decimal: string,
-    original_custom_price?: string
+    original_custom_price?: string,
+    qty_to_refund?: number
 }
