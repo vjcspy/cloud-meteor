@@ -31,6 +31,7 @@ new ValidatedMethod({
         if(data['deleteAllItems'] == true) {
             cart.setData('discount', 0)
                 .setData('customer_name' , data['customer_name'])
+                .setData('customer_email' , data['customer_email'])
                 .setData('retail_discount_per_item', 0)
                 .setData('gift_card_discount_amount', 0)
                 .setData('base_gift_card_discount_amount', 0)
@@ -70,6 +71,7 @@ new ValidatedMethod({
         } else {
             cart.setData('discount', totals['discount'])
                 .setData('customer_name' , data['customer_name'])
+                .setData('customer_email' , data['customer_email'])
                 .setData('retail_discount_per_item', totals['retail_discount_per_item'])
                 .setData('gift_card_discount_amount', totals['gift_card_discount_amount'])
                 .setData('base_gift_card_discount_amount', totals['base_gift_card_discount_amount'])
@@ -101,8 +103,8 @@ new ValidatedMethod({
                 .setData('adjustment', totals['adjustment'])
                 .setData('hasShipment', totals['hasShipment'])
                 .setData('total_exchange_amount', totals['total_exchange_amount'])
-                .setData('email_subscribe', totals['email_subscribe'])
-                .setData('is_subscribe', totals['is_subscribe'])
+                .setData('email_subscribe', data['email_subscribe'])
+                .setData('is_subscribe', data['is_subscribe'])
                 .setData('is_integrate_reward_points', totals['is_integrate_reward_points'])
                 .save();
         }

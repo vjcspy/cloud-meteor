@@ -7,6 +7,10 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
                                                                                                    type: String,
                                                                                                    optional: true
                                                                                                },
+                                                                                               customer_email: {
+                                                                                                   type: String,
+                                                                                                   optional: true
+                                                                                               },
                                                                                                discount: {
                                                                                                    type: Number,
                                                                                                    defaultValue: 0,

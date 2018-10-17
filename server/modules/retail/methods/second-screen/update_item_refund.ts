@@ -37,6 +37,7 @@ new ValidatedMethod({
                             }
         
                             cart.setData('discount', totals['discount'])
+                                .setData('customer_email' , data['customer_email'])
                                 .setData('retail_discount_per_item', totals['retail_discount_per_item'])
                                 .setData('gift_card_discount_amount', totals['gift_card_discount_amount'])
                                 .setData('grand_total', totals['grand_total'])
@@ -68,8 +69,8 @@ new ValidatedMethod({
                                 .setData('total_exchange_amount', totals['total_exchange_amount'])
                                 .setData('subtotal_refund_incl_tax', totals['subtotal_refund_incl_tax'])
                                 .setData('refund_shipping_incl_tax', totals['refund_shipping_incl_tax'])
-                                .setData('email_subscribe', totals['email_subscribe'])
-                                .setData('is_subscribe', totals['is_subscribe'])
+                                .setData('email_subscribe', data['email_subscribe'])
+                                .setData('is_subscribe', data['is_subscribe'])
                                 .setData('is_complete_order', data['is_complete_order'])
                                 .save();
                         }

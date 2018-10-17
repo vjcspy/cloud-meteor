@@ -12,6 +12,7 @@ new ValidatedMethod({
         let cart: Cart         = OM.create<Cart>(Cart).loadById(data['cart_id']);
         if(cart) {
             cart.setData('discount', 0)
+                .setData('customer_email' , data['customer_email'])
                 .setData('retail_discount_per_item', 0)
                 .setData('gift_card_discount_amount', 0)
                 .setData('base_gift_card_discount_amount', 0)
