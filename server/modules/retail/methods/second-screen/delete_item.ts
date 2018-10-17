@@ -62,6 +62,9 @@ new ValidatedMethod({
                 .setData('total_exchange_amount', 0)
                 .setData('is_integrate_reward_points', false)
                 .setData('hasShipment', false)
+                .setData('hasPointsEarn', false)
+                .setData('email_subscribe', '')
+                .setData('is_subscribe', true)
                 .setData('is_complete_order', data['is_complete_order'])
                 .save();
         } else {
@@ -98,6 +101,8 @@ new ValidatedMethod({
                 .setData('adjustment', totals['adjustment'])
                 .setData('hasShipment', totals['hasShipment'])
                 .setData('total_exchange_amount', totals['total_exchange_amount'])
+                .setData('email_subscribe', totals['email_subscribe'])
+                .setData('is_subscribe', totals['is_subscribe'])
                 .setData('is_integrate_reward_points', totals['is_integrate_reward_points'])
                 .save();
         }

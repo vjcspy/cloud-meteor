@@ -32,5 +32,8 @@ export interface  CartInterface {
     total_exchange_amount: number,
     is_integrate_reward_points: boolean,
     is_complete_order: boolean,
-    hasShipment: boolean
+    hasShipment: boolean,
+    hasPointsEarn?: boolean,
+    email_subscribe?: string,
+    is_subscribe?: boolean
 }

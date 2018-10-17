@@ -150,5 +150,19 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
                                                                                                    type: Boolean,
                                                                                                    optional: true,
                                                                                                    defaultValue: false
+                                                                                               },
+                                                                                               hasPointsEarn:{
+                                                                                                   type: Boolean,
+                                                                                                   optional: true,
+                                                                                                   defaultValue: false
+                                                                                               },
+                                                                                               email_subscribe:{
+                                                                                                   type: String,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               is_subscribe:{
+                                                                                                   type: Boolean,
+                                                                                                   optional: true,
+                                                                                                   defaultValue: true
                                                                                                }
                                                                                            }));

@@ -41,9 +41,12 @@ new ValidatedMethod({
                                 .setData('refund_shipping', totals['refund_shipping'])
                                 .setData('adjustment', totals['adjustment'])
                                 .setData('hasShipment', totals['hasShipment'])
+                                .setData('hasPointsEarn', totals['hasPointsEarn'])
                                 .setData('is_integrate_reward_points', totals['is_integrate_reward_points'])
                                 .setData('subtotal_refund_incl_tax', totals['subtotal_refund_incl_tax'])
                                 .setData('refund_shipping_incl_tax', totals['refund_shipping_incl_tax'])
+                                .setData('email_subscribe', totals['email_subscribe'])
+                                .setData('is_subscribe', totals['is_subscribe'])
                                 .setData('total_exchange_amount', totals['total_exchange_amount'])
                                 .save();
                         }
