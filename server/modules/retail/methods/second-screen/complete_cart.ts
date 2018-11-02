@@ -47,6 +47,7 @@ new ValidatedMethod({
                 .setData('hasPointsEarn', false)
                 .setData('email_subscribe', '')
                 .setData('is_subscribe', true)
+                .setData('is_send_email_subscribe', false)
                 .setData('is_complete_order', data['is_complete_order'])
                 .save();
         }

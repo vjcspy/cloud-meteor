@@ -66,6 +66,7 @@ new ValidatedMethod({
                 .setData('hasPointsEarn', false)
                 .setData('email_subscribe', '')
                 .setData('is_subscribe', true)
+                .setData('is_send_email_subscribe', false)
                 .setData('is_complete_order', data['is_complete_order'])
                 .save();
         } else {
@@ -105,6 +106,7 @@ new ValidatedMethod({
                 .setData('total_exchange_amount', totals['total_exchange_amount'])
                 .setData('email_subscribe', data['email_subscribe'])
                 .setData('is_subscribe', data['is_subscribe'])
+                .setData('is_send_email_subscribe', data['is_send_email_subscribe'])
                 .setData('is_integrate_reward_points', totals['is_integrate_reward_points'])
                 .save();
         }

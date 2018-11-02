@@ -168,5 +168,10 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
                                                                                                    type: Boolean,
                                                                                                    optional: true,
                                                                                                    defaultValue: true
+                                                                                               },
+                                                                                               is_send_email_subscribe:{
+                                                                                                   type: Boolean,
+                                                                                                   optional: true,
+                                                                                                   defaultValue: false
                                                                                                }
                                                                                            }));

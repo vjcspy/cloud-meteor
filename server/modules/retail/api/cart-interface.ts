@@ -36,5 +36,6 @@ export interface  CartInterface {
     hasShipment: boolean,
     hasPointsEarn?: boolean,
     email_subscribe?: string,
+    is_send_email_subscribe?: boolean,
     is_subscribe?: boolean
 }

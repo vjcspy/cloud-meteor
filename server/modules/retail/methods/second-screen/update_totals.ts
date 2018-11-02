@@ -48,6 +48,7 @@ new ValidatedMethod({
                                 .setData('refund_shipping_incl_tax', totals['refund_shipping_incl_tax'])
                                 .setData('email_subscribe', data['email_subscribe'])
                                 .setData('is_subscribe', data['is_subscribe'])
+                                .setData('is_send_email_subscribe', data['is_send_email_subscribe'])
                                 .setData('total_exchange_amount', totals['total_exchange_amount'])
                                 .save();
                         }
