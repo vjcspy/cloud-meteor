@@ -173,5 +173,14 @@ export const CartCollection = CollectionMaker.make<CartInterface>("cart", new Si
                                                                                                    type: Boolean,
                                                                                                    optional: true,
                                                                                                    defaultValue: false
+                                                                                               },
+                                                                                               retail_id:{
+                                                                                                   type: String,
+                                                                                                   optional: true
+                                                                                               },
+                                                                                               send_email:{
+                                                                                                   type: Boolean,
+                                                                                                   optional: true,
+                                                                                                   defaultValue: false
                                                                                                }
                                                                                            }));
