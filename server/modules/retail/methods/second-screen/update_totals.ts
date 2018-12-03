@@ -11,7 +11,6 @@ new ValidatedMethod({
                         run: function (data: Object) {
                             const totals           = data['totals'];
                             let cart: Cart         = OM.create<Cart>(Cart).loadById(data['cart_id']);
-        console.log(data);
                             cart.setData('discount', totals['discount'])
                                 .setData('customer_email' , data['customer_email'])
                                 .setData('retail_discount_per_item', totals['retail_discount_per_item'])
