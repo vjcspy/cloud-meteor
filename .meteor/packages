@@ -4,21 +4,21 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base@1.2.0             # Packages every Meteor app needs to have
-mongo@1.3.1                   # The database Meteor supports right now
+meteor-base@1.4.0             # Packages every Meteor app needs to have
+mongo@1.6.0                   # The database Meteor supports right now
 reactive-var@1.0.11            # Reactive variable for tracker
-tracker@1.1.3                 # Meteor's client-side reactive programming library
+tracker@1.2.0                 # Meteor's client-side reactive programming library
 
-standard-minifier-js@2.2.0    # JS minifier run for production mode
-es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
-ecmascript@0.9.0              # Enable ECMAScript2015+ syntax in app code
-shell-server@0.3.0            # Server-side component of the `meteor shell` command
+standard-minifier-js@2.4.0    # JS minifier run for production mode
+es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers.
+ecmascript@0.12.3              # Enable ECMAScript2015+ syntax in app code
+shell-server@0.4.0            # Server-side component of the `meteor shell` command
 
 barbatus:typescript
-check@1.2.5
-accounts-base@1.4.0
+check@1.3.1
+accounts-base@1.4.3
 npm-bcrypt@0.9.3
-accounts-password@1.5.0
+accounts-password@1.5.1
 ddp-rate-limiter@1.0.7
 reywood:publish-composite
 alanning:roles
@@ -30,9 +30,10 @@ simple:rest
 simple:json-routes
 simple:rest-accounts-password
 percolate:synced-cron
-dynamic-import@0.2.0
+dynamic-import@0.5.0
 ostrio:logger
 ostrio:loggerconsole
 ostrio:loggermongo
-email
+email@1.2.3
 meteorhacks:aggregate
+underscore
