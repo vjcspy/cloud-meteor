@@ -11,7 +11,6 @@ new ValidatedMethod({
                         run: function (data: Object) {
                             const totals           = data['totals'];
                             let cart: Cart         = OM.create<Cart>(Cart).loadById(data['cart_id']);
-        
                             cart.setData('discount', totals['discount'])
                                 .setData('customer_email' , data['customer_email'])
                                 .setData('retail_discount_per_item', totals['retail_discount_per_item'])
@@ -50,6 +49,8 @@ new ValidatedMethod({
                                 .setData('is_subscribe', data['is_subscribe'])
                                 .setData('is_send_email_subscribe', data['is_send_email_subscribe'])
                                 .setData('total_exchange_amount', totals['total_exchange_amount'])
+                                .setData('retail_id', data['retail_id'])
+                                .setData('send_email', data['send_email'])
                                 .save();
                         }
                     });
