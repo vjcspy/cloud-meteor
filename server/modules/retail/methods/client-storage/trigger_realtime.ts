@@ -54,5 +54,5 @@ DDPRateLimiter.addRule({
     userId: userId => true,
     type: "method",
     name: "client.trigger_realtime",
-}, 3, 1000);
+}, 20, 60000);
 
