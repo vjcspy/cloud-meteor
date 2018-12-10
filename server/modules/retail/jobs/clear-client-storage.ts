@@ -5,7 +5,7 @@ import {StoneLogger} from "../../../code/core/logger/logger";
 SyncedCron.add({
                    name: "Remove old clientstorages",
                    schedule: function (parser) {
-                       return parser.text('every 1 day');
+                       return parser.text('every 24 hours');
                    },
                    job: function () {
                        deleteClientStorage();
