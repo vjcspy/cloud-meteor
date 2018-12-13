@@ -3,11 +3,13 @@ import {OM} from "./code/Framework/ObjectManager";
 import {User} from "./modules/account/models/user";
 import {Role} from "./modules/account/models/role";
 import {Stone} from "./code/core/stone";
+const notify = require('sd-notify');
 
 Meteor.startup(() => {
     Stone.getInstance().bootstrap();
     
     initSupperAdminAccount();
+    startWatchDog();
     SyncedCron.start();
 });
 
@@ -24,3 +26,20 @@ const initSupperAdminAccount = () => {
         OM.create<User>(User).load("superadmin", "username").setRoles([Role.SUPERADMIN], Role.GROUP_CLOUD);
     }
 };
+
+const startWatchDog = () => {
+    try {
+        console.log("Notifying Systemd of service startup");
+        notify.ready();
+        
+        const watchdogInterval = notify.watchdogInterval();
+        if (watchdogInterval > 0) {
+            console.log("Systemd watchdog interval is " + watchdogInterval + "ms");
+            const interval = Math.floor(watchdogInterval / 2);
+            console.log("Starting Systemd watchdog mode");
+            notify.startWatchdogMode(interval);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}

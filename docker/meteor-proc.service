@@ -1,0 +1,38 @@
+[Unit]
+Description=Meteor Webapp
+#After=network.target mongodb.service mysqld.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=notify
+WatchdogSec=5
+TimeoutStartSec=10
+Restart=always
+LimitNOFILE=65535
+RestartSec=5
+
+Environment=ROOT_URL=http://account.xcloud.smartosc.com
+Environment=MONGO_URL=mongodb://localhost:27017/cloud1
+Environment=MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587
+#Environment=UNIX_SOCKET_PATH=/tmp/meteor.sock
+#If your Meteor Webapp is listening on a TCP port, use the following
+Environment=PORT=2005
+
+#Set this to 0 if Meteor is running standalone
+#Set this to 1 if Meteor is running behind a single proxy e.g. Nginx or Cloudflare
+#Set this to 2 is Meteor is running behind two proxies, e.g. Nginx AND Cloudflare
+#Environment=HTTP_FORWARDED_COUNT=0
+
+#Values taken from Meteor's settings.json
+#Environment='METEOR_SETTINGS={  "public" : {    "env": "Production" },  "private": { } }'
+
+#Useful to have more libuv worker threads available
+Environment=UV_THREADPOOL_SIZE=64
+
+#If you want to import other environment variables
+#EnvironmentFile=-/etc/sysconfig/acme
+
+#WorkingDirectory=/home/vjcspy/work/cloud-meteor
+ExecStart=/usr/bin/node /app/main.js

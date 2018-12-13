@@ -23,6 +23,7 @@
     "moment": "^2.17.1",
     "q": "^1.4.1",
     "rxjs": "^5.1.1",
+    "sd-notify": "^2.5.1",
     "simpl-schema": "^0.2.2",
     "unique-string": "^1.0.0"
   },
