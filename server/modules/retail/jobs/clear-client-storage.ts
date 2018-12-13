@@ -5,7 +5,7 @@ import {StoneLogger} from "../../../code/core/logger/logger";
 SyncedCron.add({
                    name: "Remove old clientstorages",
                    schedule: function (parser) {
-                       return parser.text(' at 00:00 am');
+                       return parser.text('every 2 hours');
                    },
                    job: function () {
                        deleteClientStorage();
@@ -14,5 +14,5 @@ SyncedCron.add({
 
 const deleteClientStorage = () => {
     StoneLogger.info("Clear trash");
-    ClientStoragesCollection.remove({created_at: {$lt: moment(new Date()).subtract(1, 'days').toDate()}})
+    ClientStoragesCollection.remove({created_at: {$lt: moment(new Date()).subtract(2, 'hours').toDate()}})
 };
