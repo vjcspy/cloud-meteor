@@ -40,6 +40,7 @@ const startWatchDog = () => {
                 const interval = Math.floor(watchdogInterval / 2);
                 console.log("Starting Systemd watchdog mode");
                 notify.startWatchdogMode(interval);
+                notify.sendStatus('watching server');
             }
         } catch (err) {
             console.log(err);
