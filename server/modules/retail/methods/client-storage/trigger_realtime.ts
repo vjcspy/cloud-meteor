@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import {OM} from "../../../../code/Framework/ObjectManager";
 import {ClientStorage} from "../../models/clientstorage";
 import {License} from "../../models/license";
+import {StoneLogger} from "../../../../code/core/logger/logger";
 
 new ValidatedMethod({
     name: "client.trigger_realtime",
@@ -24,7 +25,7 @@ new ValidatedMethod({
                 if (licenseModel.getId()) {
                     if (!isNaN(licenseModel.getStatus()) && parseInt(licenseModel.getStatus() + '') === 0) {
                         passLicense = false;
-                        throw new Meteor.Error("client.trigger_realtime", "license_has_been_disabled");
+                        return StoneLogger.info("License: "+ licenseKey + " " + "Username: " + licenseModel.getData('shop_owner_username') + " deactive");
                     } else {
                         passLicense = true;
                     }
