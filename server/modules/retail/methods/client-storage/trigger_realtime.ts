@@ -1,19 +1,20 @@
 import {OM} from "../../../../code/Framework/ObjectManager";
-import {ClientStorage} from "../../models/clientstorage";
+// import {ClientStorage} from "../../models/clientstorage";
 import {License} from "../../models/license";
 import * as _ from "lodash";
+import {StoneLogger} from "../../../../code/core/logger/logger";
+import {ClientStoragesCollection} from "../../collections/clientstorages";
 
 export let licenseInvalid = [];
 export let licenseValid   = [];
 
 new ValidatedMethod({
                         name: "client.trigger_realtime",
-                        validate: data => {
-                        },
+                        validate: () => {},
                         run: (data) => {
-                            let getClientStorageModel = (): ClientStorage => OM.create<ClientStorage>(ClientStorage);
+                            // let getClientStorageModel = (): ClientStorage => OM.create<ClientStorage>(ClientStorage);
         
-                            const clientStorageModel: ClientStorage = getClientStorageModel();
+                            // const clientStorageModel: ClientStorage = getClientStorageModel();
                             const licenseModel                      = OM.create<License>(License);
                             let passLicense                         = false;
         
@@ -27,11 +28,12 @@ new ValidatedMethod({
                                     if (passLicense === false) {
                                         const licenseKey = _d['license'];
                     
-                                        if (licenseValid.indexOf(licenseKey) > -1) {
+                                        if (licenseValid.indexOf(licenseKey) === -1) {
                         
                                             if (licenseInvalid.indexOf(licenseKey) > -1) {
                                                 return;
                                             }
+                                            console.log('here');
                         
                                             if (!licenseModel.getId()) {
                                                 licenseModel.load(licenseKey, 'key');
@@ -53,11 +55,15 @@ new ValidatedMethod({
                                                 return;
                                                 // return StoneLogger.info("can not find license" + JSON.stringify(_d));
                                             }
+                                        } else {
+                                            passLicense = true;
                                         }
                                     }
                 
-                                    clientStorageModel.addData(_d)
-                                                      .save();
+                                    if (passLicense === true) {
+                                        StoneLogger.info("save realtime data: " + _d['license']);
+                                        ClientStoragesCollection.insert(_d);
+                                    }
                                 }, 500);
                             };
         
@@ -71,7 +77,6 @@ new ValidatedMethod({
                         }
                     });
 DDPRateLimiter.addRule({
-                           userId: () => true,
                            type: "method",
                            name: "client.trigger_realtime",
                        }, 2, 1000);
