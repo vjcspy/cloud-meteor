@@ -36,14 +36,14 @@ Accounts.urls.enrollAccount = function (token) {
 
 function prepareTextEmail(user, status) {
     if (status == "resetpwd") {
-        greetVar      = `Hi ${getUserName(user)},`;
+        greetVar      = `Dear ${getUserName(user)},`;
         welcomeMsgVar = "You have recently requested to reset your password.";
         beforeMsgVar  = "(If clicking the link did not work, try copying and pasting it<br>into your browser)";
         noteMsgVar    = "If you did not request to reset your password, please disregard<br>this message. This link will automatically expire within 24<br>hours."
         regardVar     = "<span style='font-weight: bold'>Many thanks</span>,<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "verify") {
-        greetVar      = `Hi ${getUserName(user)},`;
+        greetVar      = `Dear ${getUserName(user)},`;
         welcomeMsgVar = "Congratulations! You've successfully registered for our free<br>trial. Please follow the next steps to finish setting up your free<br>trial:";
         step1         = "<span style='font-weight: bold'>1.</span> Log into " + "<span style='font-weight: bold'>http://accounts.connectpos.com/</span>";
         step2         = "<span style='font-weight: bold'>2.</span> From the side menu, go to <span style='font-weight: bold'>ConnectPOS Products</span> and click<br><span style='font-weight: bold'>Trial.</span>";
@@ -54,7 +54,7 @@ function prepareTextEmail(user, status) {
         regardVar     = "<span style='font-weight: bold'>Many thanks</span>,<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "enroll") {
-        greetVar      = `Hi ${getUserName(user)},`;
+        greetVar      = `Dear ${getUserName(user)},`;
         welcomeMsgVar = `${getCreateby(user)} has created an account for you on ConnectPOS<br>with the username: <span style="font-weight: bold">${user['username']}</span>`;
         password      = "Please click the following link to set the password for your account:";
         beforeMsgVar  = "After that you can log in to your account on<br>http://accounts.connectpos.com using your username and password.";
@@ -234,7 +234,7 @@ function buildHtmlVerify(status) {
 }
 
 function getUserName(user) {
-    return (user.profile && !!user.profile.first_name) ? (user.profile.first_name) : ( user['username'] ? user['username'] : "");
+    return (user.profile && !!user.profile.first_name && !!user.profile.last_name) ? (user.profile.first_name + " " + user.profile.last_name) : ( user['username'] ? user['username'] : "");
 }
 
 function getCreateby(user){
@@ -308,7 +308,7 @@ export const ExtendEmailTemplate = {
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['name']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['name']},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an automated email to let you know that we have<br>received your trial request. One of our Account Managers<br>will contact you to help you finish trial setup within 12 hours.<br>In order to start the setup, please provide us the following<br>information:</p></td>
@@ -365,7 +365,7 @@ export const ExtendEmailTemplate = {
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['shop_owner_username']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['shop_owner_username']},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Your ConnectPOS free trial end in less than 2 days</td>
@@ -425,7 +425,7 @@ export const ExtendEmailTemplate = {
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['shop_owner_username']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['shop_owner_username']},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Thank you so much for choosing and using ConnectPOS!</td>
@@ -471,7 +471,7 @@ export const ExtendEmailTemplate = {
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['user_name']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['user_name']},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">You've completed your payment for ConnectPOS license.<br>Here are your purchase details:</td>
@@ -534,7 +534,7 @@ export const ExtendEmailTemplate = {
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['username']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['username']},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">The email address ${data['duplicate_data']['email']} you've registered already exists in our database.<br> Our adminstrator will review and notify you of the final result via email within 24 hours.</p></td>

@@ -69,10 +69,10 @@ new ValidatedMethod({
                                     name: "Report",
                                     sections: [
                                         {
-                                            name: "Reports",
+                                            name: "Report",
                                             permissions: [
                                                 {
-                                                    name: "Access to CReport",
+                                                    name: "Access to C-Report",
                                                     permission: "access_to_xreport",
                                                     is_active: false
                                                 },

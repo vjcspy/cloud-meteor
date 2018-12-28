@@ -70,6 +70,12 @@ SyncedCron.add({
                                     }
                                 }
                             })
+                        } else {
+                            const exist = _.find(listExpires, le => le['license_id'] === l['_id']);
+                            if (exist) {
+                                expire.loadById(exist['_id']);
+                                expire.remove();
+                            }
                         }
                     });
                 };
