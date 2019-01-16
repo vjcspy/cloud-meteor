@@ -6,6 +6,7 @@ import {Role} from "../../models/role";
 import {Plan} from "../../../sales/models/plan";
 import {PlanHelper} from "../../../sales/helper/plan-helper";
 import {RequestPlan} from "../../../sales/api/data/request-plan";
+import {Users} from "../../collections/users";
 
 var greetVar;
 var welcomeMsgVar;
@@ -49,16 +50,16 @@ function prepareTextEmail(user, status) {
         step2         = "<span style='font-weight: bold'>2.</span> From the side menu, go to <span style='font-weight: bold'>ConnectPOS Products</span> and click<br><span style='font-weight: bold'>Trial.</span>";
         step3         = "<span style='font-weight: bold'>3.</span> Complete the payment process of <span style='font-weight: bold'>USD 0</span> as instructed.";
         step4         = "<span style='font-weight: bold'>4.</span> From the side menu, go to <span style='font-weight: bold'>Account > License > View Details ><br>Download API</span> version, then select the latest version and down-<br>load.";
-        step5         = "<span style='font-weight: bold'>5.</span> Install the <span style='font-weight: bold'>API</span><span style='color: black'> and activate it with the license key in your<br>Magento backend. For the installation instruction, please<br>download</span> <a href='http://account.xcloud.smartosc.com/assets/ConnectPOS%20-%20Installation%20Guide.pdf' style='font-weight: bold'>Installation Guide in Documentation.</a>";
+        step5         = "<span style='font-weight: bold'>5.</span> Install the <span style='font-weight: bold'>API</span><span style='color: black'> and activate it with the license key in your<br>Magento backend. For the installation instruction, please<br>download</span> <a href='http://accounts.connectpos.com/assets/ConnectPOS%20-%20Installation%20Guide.pdf' style='font-weight: bold'>Installation Guide in Documentation.</a>";
         noteMsgVar    = "If you have any questions, kindly contact us via<br><span style='font-weight: bold'>support@connectpos.com</span>";
         regardVar     = "<span style='font-weight: bold'>Many thanks</span>,<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "enroll") {
         greetVar      = `Dear ${getUserName(user)},`;
-        welcomeMsgVar = `${getCreateby(user)} has created an account for you on ConnectPOS<br>with the username: <span style="font-weight: bold">${user['username']}</span>`;
+        welcomeMsgVar = `Welcome on board! Your ConnectPOS account has been successfully created. Please log in to your account on http://accounts.connectpos.com using the information below:<br>Username: <span style="font-weight: bold">${user['username']}</span>`;
         password      = "Please click the following link to set the password for your account:";
         beforeMsgVar  = "After that you can log in to your account on<br>http://accounts.connectpos.com using your username and password.";
-        noteMsgVar    = "If you have any questions, kindly contact us via<br>support@connectpos.com"
+        noteMsgVar    = "If you have any questions, kindly contact us via<br>support@connectpos.com";
         regardVar     = "<span style='font-weight: bold'>Cheers</span>,<br>ConnectPOS Team.";
 
     }
@@ -80,7 +81,7 @@ function buildHtmlResetPW(status) {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
@@ -106,7 +107,7 @@ function buildHtmlResetPW(status) {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -131,7 +132,7 @@ function buildHtmlEnroll(status) {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
@@ -160,7 +161,7 @@ function buildHtmlEnroll(status) {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -186,7 +187,7 @@ function buildHtmlVerify(status) {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
@@ -224,7 +225,7 @@ function buildHtmlVerify(status) {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -280,7 +281,7 @@ Accounts.emailTemplates = {
     },
     enrollAccount: {
         subject: function (user) {
-            return `${getCreateby(user)} has invited you to join ConnectPOS `;
+            return `[ConnectPOS] Your account has been created!`;
         },
         html: buildHtmlEnroll("enroll"),
         text: buildEmailText("enroll")
@@ -301,14 +302,14 @@ export const ExtendEmailTemplate = {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['name']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['name'])},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an automated email to let you know that we have<br>received your trial request. One of our Account Managers<br>will contact you to help you finish trial setup within 12 hours.<br>In order to start the setup, please provide us the following<br>information:</p></td>
@@ -329,7 +330,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight:bold">Magento backend:</span> http://magento2demo.connectpos.com/admin</p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>You can download our User Guide here <a href="http://account.xcloud.smartosc.com/assets/ConnectPOS%20-%20User%20Guide%20v1.0.1.pdf">link download User Guide</a><br>for a full list of functions.</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>You can download our User Guide here <a href="http://accounts.connectpos.com/assets/ConnectPOS%20-%20User%20Guide%20v1.0.1.pdf">link download User Guide</a><br>for a full list of functions.</p></td>
                                           </tr>
                                            <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
@@ -339,7 +340,7 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -358,14 +359,14 @@ export const ExtendEmailTemplate = {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['shop_owner_username']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['shop_owner_username'])},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Your ConnectPOS free trial end in less than 2 days</td>
@@ -388,7 +389,7 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -418,14 +419,14 @@ export const ExtendEmailTemplate = {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['shop_owner_username']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['shop_owner_username'])},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Thank you so much for choosing and using ConnectPOS!</td>
@@ -444,7 +445,7 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -456,7 +457,7 @@ export const ExtendEmailTemplate = {
         return {
             to: `${data['email']}`,
             from: '',
-            subject: 'Thank you for purchasing ConnectPOS!',
+            subject: 'Your receipt from ConnectPOS',
             html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
                <tbody>
                 <tr>
@@ -464,14 +465,14 @@ export const ExtendEmailTemplate = {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['user_name']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['user_name'])},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">You've completed your payment for ConnectPOS license.<br>Here are your purchase details:</td>
@@ -480,22 +481,46 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Product Name: <span style="font-weight: bold"> ${data['product_name']}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing Plan: <span style="font-weight: bold">${data['pricing_plan']}</span></p></td>
-                                          </tr>
-                                          <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Total Amount: <span style="font-weight: bold">$${data['total_amount'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Number: <span style="font-weight: bold">${data['order_number']}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Transaction Date: <span style="font-weight: bold">${formatDate(data['transaction_date'])}</span></p></td>
                                           </tr>
-                                          <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Number: <span style="font-weight: bold">${data['order_number']}</span></p></td>
-                                          </tr>
-                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Card Number: <span style="font-weight: bold">${data['card_number']}</span></p></td>
-                                          </tr>
                                            <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Status: <span style="font-weight: bold">${data['order_status']}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- License is valid through: <span style="font-weight: bold">${formatDate(data['expire_date'])}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing Plan: <span style="font-weight: bold">${data['pricing_plan']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Price: <span style="font-weight: bold">$${data['price'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing cycle: <span style="font-weight: bold">${data['pricing_cycle']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Number of cycle: <span style="font-weight: bold">${data['number_cycle']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Number of register: <span style="font-weight: bold">${data['number_register']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Sub total: <span style="font-weight: bold">$${data['totals']['grand_total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Discount: <span style="font-weight: bold">$${data['totals']['discount_amount'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Store credit used: <span style="font-weight: bold">$${data['totals']['credit_spent'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Grand Total: <span style="font-weight: bold">$${data['totals']['total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_number']}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Please note that this is an automated email.If you<br>have any questions, kindly contact us via<br>support@connectpos.com</p></td>
@@ -508,7 +533,160 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
+                            </tr>
+                    </tbody>
+                </table>
+              </td></tr></tbody></table>`,
+        }
+    },
+    invoiceFee: (data)=>{
+        return {
+            to: `${data['email']}`,
+            from: '',
+            subject: 'Your receipt from ConnectPOS',
+            html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+               <tbody>
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                    <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
+                                  <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
+                                      <tbody>
+                                          <tr>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['user_name'])},</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">You've completed your payment for ${data['fee_name']}.<br>Here are your purchase details:</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Number: <span style="font-weight: bold">${data['order_number']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Transaction Date: <span style="font-weight: bold">${formatDate(data['transaction_date'])}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Status: <span style="font-weight: bold">${data['order_status']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Cost: <span style="font-weight: bold">$${data['cost'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Store credit used: <span style="font-weight: bold">$${data['totals']['credit_spent'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Grand Total: <span style="font-weight: bold">$${data['totals']['total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_number']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Please note that this is an automated email.If you<br>have any questions, kindly contact us via<br>support@connectpos.com</p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
+                            </tr>
+                    </tbody>
+                </table>
+              </td></tr></tbody></table>`,
+        }
+    },
+    renew: (data)=>{
+        return {
+            to: `${data['email']}`,
+            from: '',
+            subject: 'Your ConnectPOS license has been successfully renewed!',
+            html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+               <tbody>
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                    <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
+                                  <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
+                                      <tbody>
+                                          <tr>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['user_name'])},</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">You've completed your payment for ConnectPOS license.<br>Here are your purchase details:</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Product Name: <span style="font-weight: bold"> ${data['product_name']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Number: <span style="font-weight: bold">${data['order_number']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Transaction Date: <span style="font-weight: bold">${formatDate(data['transaction_date'])}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Status: <span style="font-weight: bold">${data['order_status']}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Successfully renewed on: <span style="font-weight: bold">${formatDate(data['old_expire_date'])}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- License is valid through: <span style="font-weight: bold">${formatDate(data['expire_date'])}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing Plan: <span style="font-weight: bold">${data['pricing_plan']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Price: <span style="font-weight: bold">$${data['price'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing cycle: <span style="font-weight: bold">${data['pricing_cycle']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Number of cycle: <span style="font-weight: bold">${data['number_cycle']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Number of register: <span style="font-weight: bold">${data['number_register']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Sub total: <span style="font-weight: bold">$${data['totals']['grand_total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Discount: <span style="font-weight: bold">$${data['totals']['discount_amount'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Store credit used: <span style="font-weight: bold">$${data['totals']['credit_spent'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Grand Total: <span style="font-weight: bold">$${data['totals']['total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_number']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Please note that this is an automated email.If you<br>have any questions, kindly contact us via<br>support@connectpos.com</p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -527,14 +705,14 @@ export const ExtendEmailTemplate = {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${data['username']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['username'])},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">The email address ${data['duplicate_data']['email']} you've registered already exists in our database.<br> Our adminstrator will review and notify you of the final result via email within 24 hours.</p></td>
@@ -553,7 +731,7 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -572,14 +750,14 @@ export const ExtendEmailTemplate = {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); margin: 0 auto" border="0" width="600"  cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
                                   <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
                                       <tbody>
                                           <tr>
-                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${data['username']},</td>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Hi ${getFullName(data['username'])},</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">We regret to tell you that the account you've just created with the email adress ${data['pending_user']['email']} <br> has been rejected due to the following reason:
@@ -602,7 +780,7 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -622,7 +800,7 @@ export const ExtendEmailTemplate = {
                     <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); margin: 0 auto" border="0" width="600"  cellspacing="0" cellpadding="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/email_template.jpg"></td>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
@@ -648,7 +826,120 @@ export const ExtendEmailTemplate = {
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://account.xcloud.smartosc.com/assets/img/account/_footer2.png"></td>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
+                            </tr>
+                    </tbody>
+                </table>
+              </td></tr></tbody></table>`,
+        }
+    },
+    submitAdditionalFee: (data)=>{
+
+        return {
+            to: `${data['email']}`,
+            from: '',
+            subject: `[ConnectPOS] - ${data['name']}`,
+            html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+               <tbody>
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                    <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); margin: 0 auto" border="0" width="600"  cellspacing="0" cellpadding="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
+                                  <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
+                                      <tbody>
+                                          <tr>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullNameFromId(data['user_id'])},</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">Your request on  <span style="font-weight: bold">${data['name']}</span> has been received. Kindly process the below payment to complete the request.
+</p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Description: <span style="font-weight: bold">${data['description']}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Cost: <span style="font-weight: bold">$${data['cost'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+        
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you have any questions, kindly contact us via support@connectpos.com.</p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Many thanks,</span><br>ConnectPOS Team</p></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
+                            </tr>
+                    </tbody>
+                </table>
+              </td></tr></tbody></table>`,
+        }
+    },
+    paymentError: (data)=>{
+
+        return {
+            to: `${data['email']}`,
+            from: '',
+            subject: '[ConnectPOS] Your payment for is declined',
+            html: `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f5f5f5">
+               <tbody>
+                <tr>
+                    <td style="padding: 20px 0 30px 0;">
+                    <table style="border-collapse: collapse; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); margin: 0 auto" border="0" width="600"  cellspacing="0" cellpadding="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px 0 10px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/email_template.jpg"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 30px 10px 30px;" bgcolor="#ffffff">
+                                  <table border="0" width="auto" cellspacing="0" cellpadding="0" align="center">
+                                      <tbody>
+                                          <tr>
+                                              <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullNameFromId(data['user_id'])},</td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This email is to notify that your payment is declined. To keep your license alive, please follow the instructions below to update your payment details.
+
+</p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 1: Login www.accounts.connectpos.com</p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 2: Under Account menu, select Payment Method</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 3: Create new payment method and click on Save button to update the change.</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 4: Mark as default for the new payment method.</p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Finally, please inform us once you have complete the update.</p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you have any questions, kindly contact us via support@connectpos.com.
+</p></td>
+                                          </tr>
+                                      
+                                          <tr>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px 0px 0px 25px;" align="center" bgcolor="#ffffff"><img src="http://accounts.connectpos.com/assets/img/account/_footer2.png"></td>
                             </tr>
                     </tbody>
                 </table>
@@ -667,4 +958,14 @@ function formatDate(date) {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
+}
+
+function getFullName(username) {
+    const user = Users.collection.findOne({username: username});
+    return getUserName(user);
+}
+
+function getFullNameFromId(userId) {
+    const user = Users.collection.findOne({_id: userId});
+    return getUserName(user);
 }

@@ -6,7 +6,11 @@ export enum USER_EMAIL_TEMPLATE  {
     INVOICE,
     PENDING_USER,
     REJECT_USER,
-    LIST_EXPIRED
+    LIST_EXPIRED,
+    RENEW,
+    SUBMIT_ADDITIONALFEE,
+    INVOICE_FEE,
+    PAYMENT_ERROR
 };
 export interface EmailInterface {
     product_id?: string;

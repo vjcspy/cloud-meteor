@@ -129,7 +129,7 @@ export class LicenseHelper {
         }
     }
 
-    protected getExpiryDate(plan: Plan, pricing: Price, startDate = DateTimeHelper.getCurrentMoment()) {
+    public getExpiryDate(plan: Plan, pricing: Price, startDate = DateTimeHelper.getCurrentMoment()) {
         let expiry_date;
         if (pricing.getPriceType() === Price.TYPE_LIFETIME) {
             expiry_date = DateTimeHelper.getCurrentDate();
