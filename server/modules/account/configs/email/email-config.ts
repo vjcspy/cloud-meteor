@@ -429,13 +429,11 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['shop_owner_username'])},</td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Thank you so much for choosing and using ConnectPOS!</td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">We hope you have enjoyed your experience with us.<br>Your ConnectPOS license will be AUTOMATICALLY renewed on ${formatDate(data['expiry_date'])} for<br><b>$${totals['total']['grand_total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</b>.</p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif;"><p style="color: black">This is an email to notify you that your ConnectPOS license<br>will be AUTOMATICALLY renewed on ${formatDate(data['expiry_date'])} for<br><b>$${totals['total']['grand_total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</b>.</p></td>
-                                          </tr>
-                                          <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you have any questions, kindly contact us via<br>support@connectpos.com</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you want to upgrade your plan to enjoy more awesome features, <br>or should you have any questions, kindly contact us via support@connectpos.com.
+</p></td>
                                           </tr>
                                            <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Many thanks,</span><br>ConnectPOS Team</p></td>
@@ -625,31 +623,19 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['user_name'])},</td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">You've completed your payment for ConnectPOS license.<br>Here are your purchase details:</td>
-                                          </tr>
-                                          <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Product Name: <span style="font-weight: bold"> ${data['product_name']}</span></p></td>
-                                          </tr>
-                                          <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Number: <span style="font-weight: bold">${data['order_number']}</span></p></td>
-                                          </tr>
-                                          <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Transaction Date: <span style="font-weight: bold">${formatDate(data['transaction_date'])}</span></p></td>
-                                          </tr>
-                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Order Status: <span style="font-weight: bold">${data['order_status']}</span></p></td>
-                                          </tr>
-                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Successfully renewed on: <span style="font-weight: bold">${formatDate(data['old_expire_date'])}</span></p></td>
-                                          </tr>
-                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- License is valid through: <span style="font-weight: bold">${formatDate(data['expire_date'])}</span></p></td>
+                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Thank you for your continued investment in ConnectPOS.<br>Your ConnectPOS license has been successfully renewed with the payment details as below:</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing Plan: <span style="font-weight: bold">${data['pricing_plan']}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Price: <span style="font-weight: bold">$${data['price'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Successfully renewed on: <span style="font-weight: bold">${formatDate(data['old_expire_date'])}</span></p></td>
+                                          </tr>
+                                           <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- License is valid through: <span style="font-weight: bold">${formatDate(data['expire_date'])}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Pricing cycle: <span style="font-weight: bold">${data['pricing_cycle']}</span></p></td>
@@ -676,10 +662,10 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_number']}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Please note that this is an automated email.If you<br>have any questions, kindly contact us via<br>support@connectpos.com</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>As always, thank you for your dedication to ConnectPOS.<br>We look forward to helping you achieve your goals!</p></td>
                                           </tr>
                                            <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Many thanks,</span><br>ConnectPOS Team</p></td>
                                           </tr>
                                       </tbody>
                                   </table>
