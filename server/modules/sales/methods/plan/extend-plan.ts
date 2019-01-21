@@ -12,7 +12,7 @@ new ValidatedMethod({
     validate: function () {
     },
     run: function (data: Object) {
-        extendPlan(data);
+        return extendPlan(data);
     }
 });
 export const extendPlan = (data: Object) => {

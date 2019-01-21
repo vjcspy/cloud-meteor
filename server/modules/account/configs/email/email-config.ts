@@ -38,9 +38,9 @@ Accounts.urls.enrollAccount = function (token) {
 function prepareTextEmail(user, status) {
     if (status == "resetpwd") {
         greetVar      = `Dear ${getUserName(user)},`;
-        welcomeMsgVar = "You have recently requested to reset your password.";
-        beforeMsgVar  = "(If clicking the link did not work, try copying and pasting it<br>into your browser)";
-        noteMsgVar    = "If you did not request to reset your password, please disregard<br>this message. This link will automatically expire within 24<br>hours."
+        welcomeMsgVar = "You have recently requested to reset your password.<br> To continue this process, please follow this link:";
+        beforeMsgVar  = "(If clicking the link does not work, try copying and pasting it<br>into your browser)";
+        noteMsgVar    = "If you did not request this, please disregard<br>this message. This link will automatically expire within 24<br>hours."
         regardVar     = "<span style='font-weight: bold'>Many thanks</span>,<br>ConnectPOS Team.";
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "verify") {
@@ -56,7 +56,7 @@ function prepareTextEmail(user, status) {
         followMsgVar  = "ConnectPOS Team.";
     } else if (status == "enroll") {
         greetVar      = `Dear ${getUserName(user)},`;
-        welcomeMsgVar = `Welcome on board! Your ConnectPOS account has been successfully created. Please log in to your account on http://accounts.connectpos.com using the information below:<br>Username: <span style="font-weight: bold">${user['username']}</span>`;
+        welcomeMsgVar = `Welcome on board! Your ConnectPOS account has been successfully created. <br> Please log in to your account on http://accounts.connectpos.com using the information below:<br>Username: <span style="font-weight: bold">${user['username']}</span>`;
         password      = "Please click the following link to set the password for your account:";
         beforeMsgVar  = "After that you can log in to your account on<br>http://accounts.connectpos.com using your username and password.";
         noteMsgVar    = "If you have any questions, kindly contact us via<br>support@connectpos.com";
@@ -433,7 +433,6 @@ export const ExtendEmailTemplate = {
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>If you want to upgrade your plan to enjoy more awesome features, <br>or should you have any questions, kindly contact us via support@connectpos.com.
-</p></td>
                                           </tr>
                                            <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Many thanks,</span><br>ConnectPOS Team</p></td>
@@ -448,7 +447,6 @@ export const ExtendEmailTemplate = {
                     </tbody>
                 </table>
               </td></tr></tbody></table>`,
-
         }
     },
     invoice: (data)=>{
@@ -473,7 +471,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 15px 0 0 0; font-family: Arial, sans-serif;font-size: 20px;color: black">Dear ${getFullName(data['user_name'])},</td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">You've completed your payment for ConnectPOS license.<br>Here are your purchase details:</td>
+                                              <td style="padding: 15px 0 10px 0; font-family: Arial, sans-serif;font-weight: bold; color: black">Thank you for your purchase.<br>This email is to confirm payment for your ConnectPOS license listed as below:</td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Product Name: <span style="font-weight: bold"> ${data['product_name']}</span></p></td>
@@ -518,7 +516,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Grand Total: <span style="font-weight: bold">$${data['totals']['total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
                                           </tr>
                                            <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_number']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_type']} ...${data['card_number']}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Please note that this is an automated email.If you<br>have any questions, kindly contact us via<br>support@connectpos.com</p></td>
@@ -581,7 +579,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Grand Total: <span style="font-weight: bold">$${data['totals']['total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
                                           </tr>
                                            <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_number']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_type']} ...${data['card_number']}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>Please note that this is an automated email.If you<br>have any questions, kindly contact us via<br>support@connectpos.com</p></td>
@@ -659,7 +657,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Grand Total: <span style="font-weight: bold">$${data['totals']['total'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
                                           </tr>
                                            <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_number']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Payment method: <span style="font-weight: bold">${data['card_type']} ...${data['card_number']}</span></p></td>
                                           </tr>
                                           <tr>
                                               <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p>As always, thank you for your dedication to ConnectPOS.<br>We look forward to helping you achieve your goals!</p></td>
@@ -904,7 +902,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 2: Under Account menu, select Payment Method</span></p></td>
                                           </tr>
                                            <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 3: Create new payment method and click on Save button to update the change.</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 3: Create new/update payment information and click on Save button to update the change.</span></p></td>
                                           </tr>
                                            <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 4: Mark as default for the new payment method.</p></td>
@@ -918,7 +916,7 @@ export const ExtendEmailTemplate = {
                                           </tr>
                                       
                                           <tr>
-                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Best regards,</span><br>ConnectPOS Team</p></td>
+                                              <td style="padding: 0 0 0 0; font-family: Arial, sans-serif; color: black"><p><span style="font-weight: bold">Many thanks,</span><br>ConnectPOS Team</p></td>
                                           </tr>
                                       </tbody>
                                   </table>

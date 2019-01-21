@@ -135,13 +135,11 @@ export class Payment extends DataObject {
 
                             _.forEach(listEmails, (email) => {
                                 emailData['email'] = email;
-                                console.log(emailData);
                                 this.user.sendData(emailData, USER_EMAIL_TEMPLATE.PAYMENT_ERROR);
                             });
                         }
-
-                        throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
                     }
+                    throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
                 }
                 case PayResultType.PAY_ERROR:
                     throw new Meteor.Error("payment_pay_error", "There was a problem processing your credit card; please double check your payment information and try again");

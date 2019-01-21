@@ -30,6 +30,7 @@ export class HandleCreateInvoice implements ObserverInterface {
         let user = OM.create<User>(User);
         let emailData;
         const payment_data = JSON.parse(data['invoice']['_data']['payment_data']);
+        console.log(payment_data);
         let listEmails: any[] = [];
         if(BRAINTREE_ENVIROMENT !== 'SANDBOX') {
             var fs = require("fs");
@@ -58,7 +59,8 @@ export class HandleCreateInvoice implements ObserverInterface {
                 fee_name: additionFee.getName(),
                 cost  : additionFee.getCost(),
                 totals: data['totals'],
-                card_number : payment_data.hasOwnProperty('transaction')? payment_data['transaction']['creditCard']['maskedNumber']:"",
+                card_number : payment_data.hasOwnProperty('transaction')? payment_data['transaction']['creditCard']['last4']:"",
+                card_type : payment_data.hasOwnProperty('transaction')? payment_data['transaction']['creditCard']['cardType']:"",
                 transaction_date: data['invoice']['_data']['created_at'],
                 order_number: data['invoice']['_data']['_id'],
                 order_status: 'Complete'
@@ -139,7 +141,8 @@ export class HandleCreateInvoice implements ObserverInterface {
             expire_date: expDate,
             price: price,
             totals: data['totals'],
-            card_number : payment_data.hasOwnProperty('transaction')? payment_data['transaction']['creditCard']['maskedNumber']:"",
+            card_number : payment_data.hasOwnProperty('transaction')? payment_data['transaction']['creditCard']['last4']:"",
+            card_type : payment_data.hasOwnProperty('transaction')? payment_data['transaction']['creditCard']['cardType']:"",
             transaction_date: data['invoice']['_data']['created_at'],
             order_number: data['invoice']['_data']['_id'],
             order_status: 'Complete'
