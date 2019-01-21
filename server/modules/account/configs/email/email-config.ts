@@ -902,7 +902,7 @@ export const ExtendEmailTemplate = {
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 2: Under Account menu, select Payment Method</span></p></td>
                                           </tr>
                                            <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 3: Create new/update payment information and click on Save button to update the change.</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 3: Create new/update payment information and click on Save button to update the changes.</span></p></td>
                                           </tr>
                                            <tr>
                                               <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Step 4: Mark as default for the new payment method.</p></td>
