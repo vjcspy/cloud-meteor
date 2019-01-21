@@ -267,7 +267,7 @@ Accounts.emailTemplates = {
     siteName: Meteor.absoluteUrl().replace(/^https?:\/\//, '').replace(/\/$/, ''),
     resetPassword: {
         subject: function (user) {
-            return "[ConnectPOS] Password Reset Confirmation";
+            return "[ConnectPOS] Reset your password";
         },
         html: buildHtmlResetPW("resetpwd"),
         text: buildEmailText("resetpwd"),
@@ -844,10 +844,13 @@ export const ExtendEmailTemplate = {
 </p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Description: <span style="font-weight: bold">${data['description']}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Cost: <span style="font-weight: bold">$${data['price'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
                                           </tr>
                                           <tr>
-                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Cost: <span style="font-weight: bold">$${data['cost'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Discount: <span style="font-weight: bold">$${data['discount'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 0 0 0 10%; font-family: Arial, sans-serif; color: black"><p>- Grand Total: <span style="font-weight: bold">$${data['cost'].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></p></td>
                                           </tr>
         
                                           <tr>

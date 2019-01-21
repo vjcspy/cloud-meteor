@@ -19,7 +19,12 @@ export const AdditionFeeCollection = CollectionMaker.make<AdditionFeeInterface>(
         type:Number,
         optional: true
     },
+    discount: {
+        type:Number,
+        optional: true
+    },
     cost : Number,
+    price : Number,
     status: Number,
     created_at: {
         type: Date,

@@ -12,6 +12,8 @@ export interface AdditionFeeInterface {
     agency_id?: String,
     rate?: Number,
     cost: Number,
+    discount?: Number,
+    price: Number,
     status: AdditionFeeStatus,
     created_at?: Date,
     updated_at?: Date
