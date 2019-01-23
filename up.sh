@@ -4,6 +4,6 @@
 
 export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587
 export MONGO_URL=mongodb://localhost:27017/cloud1
-export ROOT_URL='http://account.xcloud.smartosc.com'
+export ROOT_URL='http://accounts.product.smartosc.com'
 export PORT=2005
 node buid/bundle/main.js --port 2005

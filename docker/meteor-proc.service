@@ -13,7 +13,7 @@ Restart=always
 LimitNOFILE=65535
 RestartSec=5
 
-Environment=ROOT_URL=http://account.xcloud.smartosc.com
+Environment=ROOT_URL=http://accounts.product.smartosc.com
 Environment=MONGO_URL=mongodb://localhost:27017/cloud1
 Environment=MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587
 #Environment=UNIX_SOCKET_PATH=/tmp/meteor.sock

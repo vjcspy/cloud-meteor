@@ -21,6 +21,12 @@ export class AdditionFee extends  AbstractModel {
     getCost(): number {
         return parseFloat(this.getData('cost'));
     }
+    getPrice(): number {
+        return parseFloat(this.getData('price'));
+    }
+    getDiscount(): number {
+        return parseFloat(this.getData('discount'));
+    }
     getDescription(): string {
         return this.getData('description');
     }

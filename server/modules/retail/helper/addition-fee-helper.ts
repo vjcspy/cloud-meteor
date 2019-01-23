@@ -21,12 +21,20 @@ export class AdditionFeeHelper {
             credit_balance = userCredit.getBalance();
         }
         let grand_total = 0;
+        if (!isNaN(additionFee.getPrice())) {
+            grand_total = parseFloat(additionFee.getData('price'));
+        }
+        let sub_total = 0;
         if (!isNaN(additionFee.getCost())) {
-            grand_total = parseFloat(additionFee.getData('cost'));
+            sub_total = parseFloat(additionFee.getData('cost'));
         }
         let discount_amount = 0;
-        let credit_spent = Math.min(grand_total, credit_balance);
-        let total        = grand_total - credit_spent;
+
+        if (!isNaN(additionFee.getDiscount())) {
+            discount_amount = parseFloat(additionFee.getData('discount'));
+        }
+        let credit_spent = Math.min(sub_total, credit_balance);
+        let total        = sub_total - credit_spent;
         
         return {
             credit_spent,

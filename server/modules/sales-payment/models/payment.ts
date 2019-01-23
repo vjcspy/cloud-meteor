@@ -18,6 +18,10 @@ import {InvoiceType} from "../../sales/api/invoice-interface";
 import {RequestPlan} from "../../sales/api/data/request-plan";
 import {BraintreeLog} from "../../sales-payment-braintree/models/braintree-log";
 import {DateTimeHelper} from "../../../code/Framework/DateTimeHelper";
+import {BRAINTREE_ENVIROMENT} from "../../sales-payment-braintree/etc/braintree.config";
+import * as listData from "../../../../list-email";
+import * as _ from "lodash";
+import {USER_EMAIL_TEMPLATE} from "../../account/api/email-interface";
 
 export class Payment extends DataObject {
     protected entity: Plan | AdditionFee;
@@ -25,6 +29,7 @@ export class Payment extends DataObject {
     protected user: User;
     protected license: License;
     protected totals;
+    protected isExtend: boolean = false;
 
     async pay(entity: Plan | AdditionFee, gatewayAdditionData: PaymentGatewayDataInterface, typePay): Promise<any> {
         this.entity = entity;
@@ -43,6 +48,7 @@ export class Payment extends DataObject {
 
     async extend(entity: Plan, gatewayAdditionData: PaymentGatewayDataInterface, product_id, userId, coupon_id): Promise<any> {
         // re collect totals
+        this.isExtend = true;
         this.entity = entity;
         const planHelper        = OM.create<PlanHelper>(PlanHelper);
         const requestPlan: RequestPlan = {
@@ -100,11 +106,40 @@ export class Payment extends DataObject {
                             entity_id: entity.getId(),
                             type: typePay,
                             transaction_data: JSON.stringify(result.data['err']['errorCollections']['transaction'])
-
                         };
                         await braintreeLog.addData(log).save();
-                        throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
+                        if(this.isExtend) {
+                            this.getUser();
+                            let emailData = {
+                                user_id: this.user.getId()
+                            };
+                            let listEmails: any[] = [];
+                            if(BRAINTREE_ENVIROMENT !== 'SANDBOX') {
+                                var fs = require("fs");
+                                if(!fs.existsSync('../../list-email.json')) {
+                                    const content = {
+                                        emails: [],
+                                        sendExp: []
+                                    };
+                                    const data = listData ? listData : content;
+                                    fs.writeFileSync("../../list-email.json", JSON.stringify(data));
+
+                                }
+                                let emailData = fs.readFileSync('../../list-email.json');
+                                let list = JSON.parse(emailData);
+                                if (_.isArray(list['emails'])) {
+                                    listEmails = list['emails'];
+                                }
+                            }
+                            listEmails = _.concat(listEmails,[this.user.getEmail()]);
+
+                            _.forEach(listEmails, (email) => {
+                                emailData['email'] = email;
+                                this.user.sendData(emailData, USER_EMAIL_TEMPLATE.PAYMENT_ERROR);
+                            });
+                        }
                     }
+                    throw new Meteor.Error("payment_pay_fail", "There was a problem processing your credit card; please double check your payment information and try again");
                 }
                 case PayResultType.PAY_ERROR:
                     throw new Meteor.Error("payment_pay_error", "There was a problem processing your credit card; please double check your payment information and try again");

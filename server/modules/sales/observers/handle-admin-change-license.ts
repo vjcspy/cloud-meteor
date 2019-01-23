@@ -12,6 +12,7 @@ import {PlanCalculation} from "../models/totals/plan-calculation";
 import {Price} from "../../retail/models/price";
 import {Payment} from "../../sales-payment/models/payment";
 import {InvoiceType} from "../api/invoice-interface";
+import {updateExpireDate} from "../../retail/jobs/update-expire-date";
 
 export class HandleAdminChangeLicense implements ObserverInterface {
     observe(dataObject: DataObject): any {
@@ -109,6 +110,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
             }
         });
         license1.setData('has_product',licenseHasProducts).save();
+        updateExpireDate();
         return undefined;
     }
 
