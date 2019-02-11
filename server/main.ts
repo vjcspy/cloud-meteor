@@ -12,7 +12,7 @@ Meteor.startup(() => {
     Stone.getInstance().bootstrap();
     
     initSupperAdminAccount();
-    startWatchDog();
+    // startWatchDog();
     SyncedCron.start();
     // setInterval(() => {
     //     notifyKeepAlive();
@@ -32,12 +32,14 @@ const initSupperAdminAccount = () => {
                 password: "admin123"
             });
         OM.create<User>(User).load("superadmin", "username").setRoles([Role.SUPERADMIN], Role.GROUP_CLOUD);
-        
+    }
+    
+    if (!su1) {
         Accounts.createUser(
             {
                 username: "khoild1",
                 email: "mr.vjcspysfsfd@gmail.com",
-                password: "536723"
+                password: "admin123"
             });
         OM.create<User>(User).load("khoild1", "username").setRoles([Role.SUPERADMIN], Role.GROUP_CLOUD);
     }
