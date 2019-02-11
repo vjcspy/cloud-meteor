@@ -69,10 +69,10 @@ new ValidatedMethod({
                                     name: "Report",
                                     sections: [
                                         {
-                                            name: "Reports",
+                                            name: "Report",
                                             permissions: [
                                                 {
-                                                    name: "Access to CReport",
+                                                    name: "Access to C-Report",
                                                     permission: "access_to_xreport",
                                                     is_active: false
                                                 },
@@ -135,20 +135,20 @@ new ValidatedMethod({
                                             ]
                                         },
                                         {
-                                            name: "Register",
+                                            name: "Shifts",
                                             permissions: [
                                                 {
-                                                    name: "View Register",
+                                                    name: "View Shifts",
                                                     permission: "view_register",
                                                     is_active: false
                                                 },
                                                 {
-                                                    name: "Open And Close Register",
+                                                    name: "Open And Close Shifts",
                                                     permission: "open_and_close_register",
                                                     is_active: false
                                                 },
                                                 {
-                                                    name: "Make Adjustment On Register",
+                                                    name: "Make Adjustment On Shifts",
                                                     permission: "make_adjustment_on_register",
                                                     is_active: false
                                                 },

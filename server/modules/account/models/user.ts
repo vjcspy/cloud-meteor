@@ -133,6 +133,11 @@ export class User extends AbstractModel {
                  this.saveEmailCollection(data,type);
                 break;
             }
+            case USER_EMAIL_TEMPLATE.RENEW: {
+                 Email.send(ExtendEmailTemplate.renew(data));
+                 this.saveEmailCollection(data,type);
+                break;
+            }
             case USER_EMAIL_TEMPLATE.PENDING_USER: {
                 Email.send(ExtendEmailTemplate.pendingUser(data));
                 this.saveEmailCollection(data,type);
@@ -145,6 +150,21 @@ export class User extends AbstractModel {
             }
             case USER_EMAIL_TEMPLATE.LIST_EXPIRED: {
                 Email.send(ExtendEmailTemplate.listExp(data));
+                this.saveEmailCollection(data,type);
+                break;
+            }
+            case USER_EMAIL_TEMPLATE.SUBMIT_ADDITIONALFEE: {
+                Email.send(ExtendEmailTemplate.submitAdditionalFee(data));
+                this.saveEmailCollection(data, type);
+                break;
+            }
+            case USER_EMAIL_TEMPLATE.INVOICE_FEE: {
+                Email.send(ExtendEmailTemplate.invoiceFee(data));
+                this.saveEmailCollection(data,type);
+                break;
+            }
+            case USER_EMAIL_TEMPLATE.PAYMENT_ERROR: {
+                Email.send(ExtendEmailTemplate.paymentError(data));
                 this.saveEmailCollection(data,type);
                 break;
             }

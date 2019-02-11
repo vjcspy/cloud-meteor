@@ -12,9 +12,9 @@ import {BRAINTREE_ENVIROMENT} from "../../sales-payment-braintree/etc/braintree.
 import * as listData from "../../../../list-email.json";
 
 SyncedCron.add({
-                    name: "update expire date(00:00 everyday)",
+                    name: "update expire date(00:05 everyday)",
                     schedule: function (parser) {
-                        return parser.text(' at 00:00 am');
+                        return parser.text(' at 00:05 am');
                     },
                     job: function () {
                             updateExpireDate();
@@ -70,6 +70,12 @@ SyncedCron.add({
                                     }
                                 }
                             })
+                        } else {
+                            const exist = _.find(listExpires, le => le['license_id'] === l['_id']);
+                            if (exist) {
+                                expire.loadById(exist['_id']);
+                                expire.remove();
+                            }
                         }
                     });
                 };

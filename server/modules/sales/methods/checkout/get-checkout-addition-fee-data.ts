@@ -34,7 +34,7 @@ new ValidatedMethod({
                             } else {
                                 throw new Meteor.Error("can_find_addition_fee");
                             }
-        
+                            console.log(totals);
                             return {payments, totals};
                         }
                     });

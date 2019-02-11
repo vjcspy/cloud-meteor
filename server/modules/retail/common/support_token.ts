@@ -39,10 +39,11 @@ export class SupportToken {
     public static updateCodeLogin(user: any, user_id: string, pin_code: string, bar_code: string, code_information: any) {
         if (user.hasOwnProperty('has_license') && null !== user['has_license'] && user['has_license'].length > 0) {
             const license_id = user['has_license'][0]['license_id'];
-            const licenses = CodeLoginsCollection.find({'license_id': license_id}).fetch();
+            // const licenses = CodeLoginsCollection.find({'license_id': license_id}).fetch();
             const login_code = OM.create<CodeLogin>(CodeLogin);
-            const list_license_duplicate = licenses.filter(temp => ((temp['pin_code'] === pin_code || temp['bar_code'] === bar_code) && (temp['user_id'] !== user_id)));
-            if (null === list_license_duplicate || list_license_duplicate.length === 0) {
+            // const list_license_duplicate = licenses.filter(temp => ((temp['pin_code'] === pin_code || temp['bar_code'] === bar_code) && (temp['user_id'] !== user_id)));
+            // console.log(list_license_duplicate);
+            // if (null === list_license_duplicate || list_license_duplicate.length === 0) {
                 const user_code = login_code.load(user['_id'], 'user_id');
                 if (null !== user_code) {
                     user_code.setData('user_id', user_id)
@@ -79,9 +80,24 @@ export class SupportToken {
                         throw new Meteor.Error(err);
                     });
                 }
+            // } else {
+            //     throw new Meteor.Error('Invalid pin code or barcode. Please try again!');
+            // }
+        }
+    }
+
+    public static checkDuplicate(user, pin_code, bar_code) {
+        if (user.hasOwnProperty('has_license') && null !== user['has_license'] && user['has_license'].length > 0) {
+            const license_id = user['has_license'][0]['license_id'];
+            const licenses = CodeLoginsCollection.find({'license_id': license_id}).fetch();
+            const list_license_duplicate = licenses.filter(temp => (((pin_code !== null ? temp['pin_code'] === pin_code : false) || (bar_code !== null ? temp['bar_code'] === bar_code : false)) && (user['_id'] ? temp['user_id'] !== user['_id'] : true)));
+            if (null === list_license_duplicate || list_license_duplicate.length === 0) {
+                return;
             } else {
                 throw new Meteor.Error('Invalid pin code or barcode. Please try again!');
             }
+        } else {
+            return;
         }
     }
 };

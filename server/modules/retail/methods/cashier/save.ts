@@ -40,10 +40,8 @@ new ValidatedMethod({
                                 code_information = cashierData['code_information'];
                             }
                             //check duplicate pin code barcode
-                            const list_license_duplicate = listCodeLogin.filter(temp => ((temp['pin_code'] === pin_code || temp['bar_code'] === bar_code)));
-                            if (list_license_duplicate && list_license_duplicate.length > 0) {
-                                throw new Meteor.Error('Invalid pin code or barcode. Please try again!');
-                            }
+                            SupportToken.checkDuplicate(cashierData, pin_code, bar_code);
+
                             if (!!cashierData['_id']) {
                                 if (!!cashierData['password']) {
                                     Accounts.setPassword(cashierData['_id'], cashierData['password'], {logout: false});
@@ -80,7 +78,7 @@ new ValidatedMethod({
                                        });
                                    })
                                    .then(() => {
-                                       SupportToken.updateCodeLogin(cashier.getData(),  cashierData['_id'],pin_code,bar_code, code_information);
+                                       SupportToken.updateCodeLogin(cashier.getData(),  cashier.getId(),pin_code,bar_code, code_information);
                                    })
                                    .then(() => {
                                        return defer.resolve();

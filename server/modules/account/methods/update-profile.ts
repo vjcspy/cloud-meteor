@@ -9,6 +9,19 @@ new ValidatedMethod({   name: "accounts.user_update_profile",
                         },
                         run: function (userData: Object) {
                             let defer = $q.defer();
+                            let pin_code = null;
+                            let bar_code = null;
+                            let code_information = null;
+                            if (userData.hasOwnProperty('pin_code') ) {
+                                pin_code = userData['pin_code'];
+                            }
+                            if (userData.hasOwnProperty('bar_code')) {
+                                bar_code = userData['bar_code'];
+                            }
+                            if (userData.hasOwnProperty('code_information')) {
+                                code_information = userData['code_information'];
+                            }
+                            SupportToken.checkDuplicate(userData, pin_code, bar_code);
                             if (!!userData['password']) {
                                 Accounts.setPassword(userData['_id'], userData['password'], {logout: false});
                             }
@@ -24,18 +37,6 @@ new ValidatedMethod({   name: "accounts.user_update_profile",
                                     return defer.resolve();
                                 }).catch((err) => defer.reject(err));
 
-                            let pin_code = null;
-                            let bar_code = null;
-                            let code_information = null;
-                            if (userData.hasOwnProperty('pin_code') ) {
-                                pin_code = userData['pin_code'];
-                            }
-                            if (userData.hasOwnProperty('bar_code')) {
-                                bar_code = userData['bar_code'];
-                            }
-                            if (userData.hasOwnProperty('code_information')) {
-                                code_information = userData['code_information'];
-                            }
                             SupportToken.updateCodeLogin(user.getData(),  userData['_id'],pin_code,bar_code, code_information);
                             return defer.promise;
                         }
