@@ -3,47 +3,21 @@ import {User} from "../models/user";
 import {SupportToken} from "../../retail/common/support_token";
 import * as $q from "q";
 
-new ValidatedMethod({   name: "accounts.user_update_profile",
-                        validate: function () {
-                            if (!this.userId) throw new Meteor.Error('unauthorized','User must be logged-in to edit profile');
-                        },
-                        run: function (userData: Object) {
-                            let defer = $q.defer();
-                            let pin_code = null;
-                            let bar_code = null;
-                            let code_information = null;
-                            if (userData.hasOwnProperty('pin_code') ) {
-                                pin_code = userData['pin_code'];
-                            }
-                            if (userData.hasOwnProperty('bar_code')) {
-                                bar_code = userData['bar_code'];
-                            }
-                            if (userData.hasOwnProperty('code_information')) {
-                                code_information = userData['code_information'];
-                            }
-                            SupportToken.checkDuplicate(userData, pin_code, bar_code);
-                            if (!!userData['password']) {
-                                Accounts.setPassword(userData['_id'], userData['password'], {logout: false});
-                            }
-                            let user = OM.create<User>(User).loadById(this.userId);
-                            user.setData('profile', Object.assign({}, user.getProfile(),
-                                {
-                                    first_name: userData['profile']['first_name'],
-                                    last_name: userData['profile']['last_name'],
-                                    phone: userData['profile']['phone'],
-                                }))
-                                .save()
-                                .then(() => {
-                                    return defer.resolve();
-                                }).catch((err) => defer.reject(err));
-
-                            SupportToken.updateCodeLogin(user.getData(),  userData['_id'],pin_code,bar_code, code_information);
-                            return defer.promise;
-                        }
-                    });
+new ValidatedMethod({
+    name: "accounts.user_update_profile",
+    validate: function () {
+        if (!this.userId) throw new Meteor.Error('unauthorized', 'User must be logged-in to edit profile');
+    },
+    run: function (userData: Object) {
+        const userModel = OM.create<User>(User);
+       return userModel.updateProfile(this.userId,userData);
+    }
+});
 
 DDPRateLimiter.addRule({
-    userId: function () {return true;},
+    userId: function () {
+        return true;
+    },
     type: "method",
     name: "accounts.user_update_profile",
 }, 1, 1000);

@@ -48,7 +48,8 @@ Meteor.publishComposite('users', function (): PublishCompositeConfig<UserInterfa
                             emails: 1,
                             has_license: 1,
                             roles: 1,
-                            username: 1
+                            username: 1,
+                            profile:1
                         }
                     });
                 }
