@@ -3,11 +3,12 @@
   "private": true,
   "scripts": {
     "meteor-client": "meteor-client bundle",
-    "start": "export MONGO_URL=mongodb://localhost:27017/cloud && meteor run --settings server/settings.json --port 2005",
+    "start": "export MONGO_URL=mongodb://database:27017/cloud && meteor --allow-superuser run --settings server/settings.json --port 2005",
     "debug": "export MONGO_URL=mongodb://localhost:27017/cloud && meteor debug",
     "meteor-client:bundle": "meteor-client bundle -c bundler.config.json",
     "meteor": "export MONGO_URL=mongodb://localhost:27017/xcloud && export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587 && export ROOT_URL='https://accounts.connectpos.com/' && export PORT=2005 && meteor run --settings server/settings.json --port 2005",
-    "local": "export MONGO_URL=mongodb://localhost:27017/cloud1 && export MAIL_URL=smtp://bot@smartosc.com:thestar0@smtp.gmail.com:587 && export ROOT_URL='http://cloud.local/' && export PORT=2005 && meteor run --settings server/settings.json --port 2005"
+    "local": "export MONGO_URL=mongodb://localhost:27017/cloud1 && export ROOT_URL='http://cloud.local/' && export PORT=2005 && meteor run --settings server/settings.json --port 2005",
+    "build": "meteor --allow-superuser build dist"
   },
   "dependencies": {
     "@babel/runtime": "^7.2.0",
@@ -24,7 +25,6 @@
     "pm2": "^3.2.4",
     "q": "^1.4.1",
     "rxjs": "^5.1.1",
-    "sd-notify": "^2.5.1",
     "simpl-schema": "^0.2.2",
     "unique-string": "^1.0.0"
   },
