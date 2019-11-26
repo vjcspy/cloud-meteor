@@ -14,5 +14,5 @@ SyncedCron.add({
 
 const deleteClientStorage = () => {
     StoneLogger.info("Clear trash");
-    ClientStoragesCollection.remove({created_at: {$lt: moment(new Date()).subtract(168, 'hours').toDate()}})
+    ClientStoragesCollection.remove({created_at: {$lt: moment(new Date()).subtract(7, 'days').toDate()}})
 };
