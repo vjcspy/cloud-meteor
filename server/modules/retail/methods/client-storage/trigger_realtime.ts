@@ -33,8 +33,7 @@ new ValidatedMethod({
                                             if (licenseInvalid.indexOf(licenseKey) > -1) {
                                                 return;
                                             }
-                                            console.log('here');
-                        
+
                                             if (!licenseModel.getId()) {
                                                 licenseModel.load(licenseKey, 'key');
                                             }
