@@ -263,7 +263,7 @@ function buildEmailText(status) {
 
 
 Accounts.emailTemplates = {
-    from: "no-reply@connectpos.com",
+    from: "no-reply@omnizio.com",
     siteName: Meteor.absoluteUrl().replace(/^https?:\/\//, '').replace(/\/$/, ''),
     resetPassword: {
         subject: function (user) {
