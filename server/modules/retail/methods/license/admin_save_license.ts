@@ -17,7 +17,7 @@ new ValidatedMethod({
                         run: function (data: any) {
                             let defer                                = $q.defer();
                             const {license, licenseHasProduct, user} = data;
-        
+
                             const userModel = OM.create<User>(User);
                             const currentUser = OM.create<User>(User).loadById(this.userId);
 
@@ -32,16 +32,20 @@ new ValidatedMethod({
                                                                               created_by: currentUser.getId()
                                                                           }
                                                                       });
-                                Accounts.sendEnrollmentEmail(newUserId);
+                                try{
+                                    Accounts.sendEnrollmentEmail(newUserId);
+                                }catch (e) {
+                                    console.log(e);
+                                }
                                 userModel.loadById(newUserId);
                             } else {
                                 userModel.loadById(license['shop_owner_id']);
                             }
-        
+
                             const $license = Stone.getInstance().s('$license') as LicenseHelper;
                             $license.saveLicenseByAdmin(license, userModel, licenseHasProduct)
                                     .then(() => defer.resolve(), (err) => defer.reject(err));
-        
+
                             return defer.promise;
                         }
                     });
