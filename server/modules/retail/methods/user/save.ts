@@ -18,7 +18,6 @@ new ValidatedMethod({
         }
     },
     run: function (data: Object) {
-        console.log(data);
         const current_user = OM.create<User>(User).loadById(this.userId);
         let defer = $q.defer();
         let user: User = OM.create<User>(User);
