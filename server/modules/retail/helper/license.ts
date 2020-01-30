@@ -37,7 +37,7 @@ export class LicenseHelper {
         const licenseHelper = OM.create<LicenseHelper>(LicenseHelper);
 
         if (_.size(user.getLicenses()) > 0) {
-            license              = licenseHelper.getLicenseOfUser(user);
+            license = licenseHelper.getLicenseOfUser(user);
             const productLicense = license.getProductLicense(plan.getProductId());
             if (productLicense) {
                 if (productLicense.plan_id === plan.getId()) {
@@ -153,7 +153,7 @@ export class LicenseHelper {
 
         if (_.size(licenses) === 1) {
             const userLicense = _.first(licenses);
-            const license     = OM.create<License>(License);
+            const license = OM.create<License>(License);
             license.loadById(userLicense['license_id']);
 
             if (!license.getId()) {
@@ -216,7 +216,8 @@ export class LicenseHelper {
             await license.addData(_licenseData).save();
             await UserLicense.attach(user, license, User.LICENSE_PERMISSION_OWNER, []);
         } else {
-            license.setData('status', licenseData['status'],);
+            license.setData('status', licenseData['status']);
+            license.setData('shop_owner_username', user.getUsername());
 
             const licenseHasProducts = license.getProducts();
             _.forEach(hasProduct, (_d) => {

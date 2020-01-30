@@ -23,7 +23,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
         let calculator = OM.create<PlanCalculation>(PlanCalculation);
         const user               = OM.create<User>(User);
         let payment = OM.create<Payment>(Payment);
-        user.load(license1.getData('shop_owner_username'), 'username');
+        user.loadById(license1.getData('shop_owner_id'));
     
         _.forEach(licenseHasProducts, (_d) => {
             let newPricing = OM.create<Price>(Price).loadById(_d['pricing_id']);
@@ -36,7 +36,7 @@ export class HandleAdminChangeLicense implements ObserverInterface {
                     cycle: _d['billing_cycle'],
                     num_of_cycle: 1,
                     pricing_id: _d['pricing_id']
-                }
+                };
                 let totals;
                 if (!newPricing.isTrial()) {
                     totals   = calculator.getTotals(requestPlan, _d['product_id'], user.getId(), null);

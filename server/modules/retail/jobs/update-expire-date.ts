@@ -48,7 +48,7 @@ SyncedCron.add({
                                             product_id: h['product_id'],
                                             purchase_date: h['purchase_date'],
                                             expiry_date: h['expiry_date'],
-                                            plan_id: h['plan_id'],
+                                            plan_id: !!h['plan_id'] ? h['plan_id'] : "",
                                             pricing_code: pricing['code'],
                                             pricing_id: pricing['_id']
                                         };
